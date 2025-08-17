@@ -19,7 +19,7 @@ DevicePanelSP::DevicePanelSP(SettingsWindowSP *parent) : DevicePanel(parent) {
   std::vector<std::tuple<QString, QString, QString>> device_btns = {
     {"quietModeBtn", tr("Quiet Mode"), "QuietMode"},
     {"dcamBtn", tr("Driver Camera Preview"), ""},
-    {"retrainingBtn", tr("Training Guide"), ""},
+    {"softRebootBtn", tr("Soft Reboot"), ""},
     {"regulatoryBtn", tr("Regulatory"), ""},
     {"translateBtn", tr("Language"), ""},
     {"resetParams", tr("Reset Settings"), ""},
@@ -49,9 +49,9 @@ DevicePanelSP::DevicePanelSP(SettingsWindowSP *parent) : DevicePanel(parent) {
 
   connect(buttons["quietModeBtn"], &PushButtonSP::clicked, buttons["quietModeBtn"], &PushButtonSP::updateButton);
 
-  connect(buttons["retrainingBtn"], &PushButtonSP::clicked, [=]() {
-    if (ConfirmationDialog::confirm(tr("Are you sure you want to review the training guide?"), tr("Review"), this)) {
-      emit reviewTrainingGuide();
+  connect(buttons["softRebootBtn"], &PushButtonSP::clicked, [=]() {
+    if (ConfirmationDialog::confirm(tr("Click Cancel if a system reset prompt appears."), tr("Soft Reboot"), this)) {
+      system("sudo systemctl restart comma");
     }
   });
 
