@@ -157,24 +157,19 @@ DevicePanelSP::DevicePanelSP(SettingsWindowSP *parent) : DevicePanel(parent) {
 void DevicePanelSP::setOffroadMode() {
   if (!uiState()->engaged()) {
     if (params.getBool("OffroadMode")) {
-      if (ConfirmationDialog::confirm(tr("Are you sure you want to exit Always Offroad mode?"), tr("Confirm"), this)) {
-        // Check engaged again in case it changed while the dialog was open
-        if (!uiState()->engaged()) {
-          params.remove("OffroadMode");
-        }
+      // Check engaged again in case it changed while the dialog was open
+      if (!uiState()->engaged()) {
+        params.remove("OffroadMode");
       }
     } else {
-      if (ConfirmationDialog::confirm(tr("Are you sure you want to enter Always Offroad mode?"), tr("Confirm"), this)) {
-        // Check engaged again in case it changed while the dialog was open
-        if (!uiState()->engaged()) {
-          params.putBool("OffroadMode", true);
-        }
+      // Check engaged again in case it changed while the dialog was open
+      if (!uiState()->engaged()) {
+        params.putBool("OffroadMode", true);
       }
     }
   } else {
     ConfirmationDialog::alert(tr("Disengage to Enter Always Offroad Mode"), this);
   }
-
   updateState();
 }
 
