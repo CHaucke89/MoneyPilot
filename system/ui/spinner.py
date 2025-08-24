@@ -28,7 +28,7 @@ def clamp(value, min_value, max_value):
 class Spinner(Widget):
   def __init__(self):
     super().__init__()
-    self._comma_texture = gui_app_sp.sp_texture("images/spinner_sunnypilot.png", TEXTURE_SIZE, TEXTURE_SIZE)
+    self._comma_texture = gui_app.texture("../../sunnypilot/selfdrive/assets/images/spinner_moneypilot.png", TEXTURE_SIZE, TEXTURE_SIZE)
     self._spinner_texture = gui_app.texture("images/spinner_track.png", TEXTURE_SIZE, TEXTURE_SIZE, alpha_premultiply=True)
     self._rotation = 0.0
     self._progress: int | None = None
@@ -73,12 +73,12 @@ class Spinner(Widget):
       rl.draw_rectangle_rounded(bar, 1, 10, DARKGRAY)
 
       bar.width *= self._progress / 100.0
-      rl.draw_rectangle_rounded(bar, 1, 10, rl.WHITE)
+      rl.draw_rectangle_rounded(bar, 1, 10, rl.ORANGE)
     elif self._wrapped_lines:
       for i, line in enumerate(self._wrapped_lines):
         text_size = measure_text_cached(gui_app.font(), line, FONT_SIZE)
         rl.draw_text_ex(gui_app.font(), line, rl.Vector2(center.x - text_size.x / 2, y_pos + i * LINE_HEIGHT),
-                        FONT_SIZE, 0.0, rl.WHITE)
+                        FONT_SIZE, 0.0, rl.ORANGE)
 
 
 def _read_stdin():
