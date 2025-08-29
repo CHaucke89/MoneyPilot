@@ -20,7 +20,7 @@ void ToggleSP::paintEvent(QPaintEvent *e) {
   p.setRenderHint(QPainter::Antialiasing, true);
 
   // Draw toggle background
-  enabled ? green.setRgb(0x1e79e8) : green.setRgb(0x125db8);
+  enabled ? green.setRgb(0xffa500) : green.setRgb(0xff8c00);
   p.setBrush(on ? green : QColor(0x292929));
   p.drawRoundedRect(QRect(0, 10, width(), _height_rect), _height_rect / 2, _height_rect / 2);
 
