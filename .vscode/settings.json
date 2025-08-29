@@ -23,5 +23,7 @@
     "system/**",
     "third_party/**",
     "tools/**",
-  ]
+  ],
+  "python-envs.defaultEnvManager": "ms-python.python:system",
+  "python-envs.pythonProjects": []
 }
