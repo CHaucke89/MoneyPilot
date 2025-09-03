@@ -4,11 +4,11 @@ from openpilot.common.params import Params
 from openpilot.common.realtime import config_realtime_process
 from openpilot.selfdrive.monitoring.helpers import DriverMonitoring
 
+params = Params()
 
 def dmonitoringd_thread():
   config_realtime_process([0, 1, 2, 3], 5)
 
-  params = Params()
   pm = messaging.PubMaster(['driverMonitoringState'])
   sm = messaging.SubMaster(['driverStateV2', 'liveCalibration', 'carState', 'selfdriveState', 'modelV2',
                             'carControl'], poll='driverStateV2')
@@ -41,7 +41,8 @@ def dmonitoringd_thread():
       params.put_bool_nonblocking("IsRhdDetected", DM.wheel_on_right)
 
 def main():
-  dmonitoringd_thread()
+  if not params.get_bool("DisableDM"):
+    dmonitoringd_thread()
 
 
 if __name__ == '__main__':
