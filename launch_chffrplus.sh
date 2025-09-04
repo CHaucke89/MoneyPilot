@@ -28,6 +28,11 @@ function agnos_init {
 }
 
 function launch {
+
+ALIAS="alias gsu='git submodule update --recursive'";
+BASHRC="$HOME/.bashrc";
+grep -qxF "$ALIAS" "$BASHRC" || echo "$ALIAS" >> "$BASHRC";
+
   # Remove orphaned git lock if it exists on boot
   [ -f "$DIR/.git/index.lock" ] && rm -f $DIR/.git/index.lock
 
