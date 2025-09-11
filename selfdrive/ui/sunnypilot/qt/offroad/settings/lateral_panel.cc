@@ -46,6 +46,17 @@ LateralPanel::LateralPanel(SettingsWindowSP *parent) : QFrame(parent) {
   list->addItem(horizontal_line());
   list->addItem(vertical_space());
 
+  dampToggle = new ParamControl(
+    "DynamicDamp",
+    tr("Dynamic Damp Factor"),
+    tr("Dynamically update the damp factor value based on vehicle speed."),
+    "");
+  list->addItem(dampToggle);
+
+  list->addItem(vertical_space());
+  list->addItem(horizontal_line());
+  list->addItem(vertical_space());
+
   // Lane Change Settings
   laneChangeSettingsButton = new PushButtonSP(tr("Customize Lane Change"));
   laneChangeSettingsButton->setObjectName("lane_change_btn");

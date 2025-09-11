@@ -39,6 +39,7 @@ private:
   bool offroad;
 
   ParamControl *madsToggle;
+  ParamControl *dampToggle;
   PushButtonSP *madsSettingsButton;
   MadsSettings *madsWidget = nullptr;
   PushButtonSP *laneChangeSettingsButton;
