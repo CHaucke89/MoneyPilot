@@ -57,6 +57,17 @@ LateralPanel::LateralPanel(SettingsWindowSP *parent) : QFrame(parent) {
   list->addItem(horizontal_line());
   list->addItem(vertical_space());
 
+  torqueToggle = new ParamControl(
+    "DynamicTorque",
+    tr("Dynamic Torque"),
+    tr("Dynamically update the maximum steering torque and steer deltas based on vehicle speed."),
+    "");
+  list->addItem(torqueToggle);
+
+  list->addItem(vertical_space());
+  list->addItem(horizontal_line());
+  list->addItem(vertical_space());
+
   // Lane Change Settings
   laneChangeSettingsButton = new PushButtonSP(tr("Customize Lane Change"));
   laneChangeSettingsButton->setObjectName("lane_change_btn");
