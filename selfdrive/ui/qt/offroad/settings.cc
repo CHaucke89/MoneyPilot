@@ -130,6 +130,24 @@ TogglesPanel::TogglesPanel(SettingsWindow *parent) : ListWidget(parent) {
     }
   }
 
+  // Add mutual exclusivity for DM toggles
+  auto alwaysOnDMToggle = toggles["AlwaysOnDM"];
+  auto disableDMToggle = toggles["DisableDM"];
+
+  QObject::connect(alwaysOnDMToggle, &ParamControl::toggleFlipped, [=](bool state) {
+    if (state) {
+      params.putBool("DisableDM", false);
+      disableDMToggle->refresh();
+    }
+  });
+
+  QObject::connect(disableDMToggle, &ParamControl::toggleFlipped, [=](bool state) {
+    if (state) {
+      params.putBool("AlwaysOnDM", false);
+      alwaysOnDMToggle->refresh();
+    }
+  });
+
   // Toggles with confirmation dialogs
 #ifndef SUNNYPILOT
   toggles["ExperimentalMode"]->setActiveIcon("../assets/icons/experimental.svg");
