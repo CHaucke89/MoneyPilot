@@ -16,10 +16,6 @@ DeveloperPanel::DeveloperPanel(SettingsWindow *parent) : ListWidget(parent) {
   addItem(new SshToggle());
   addItem(new SshControl());
 
-  dmToggle = new ParamControl("DisableDM", tr("Disable Driver Monitoring"),
-            tr("Leave me alone."), "");
-  addItem(dmToggle);
-
   joystickToggle = new ParamControl("JoystickDebugMode", tr("Joystick Debug Mode"), "", "");
   QObject::connect(joystickToggle, &ParamControl::toggleFlipped, [=](bool state) {
     params.putBool("LongitudinalManeuverMode", false);

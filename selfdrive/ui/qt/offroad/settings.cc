@@ -62,6 +62,13 @@ TogglesPanel::TogglesPanel(SettingsWindow *parent) : ListWidget(parent) {
       false,
     },
     {
+    "DisableDM",
+      tr("Always-Off Driver Monitoring"),
+      tr("Disable driver monitoring even when sunnypilot is engaged."),
+      "../assets/icons/monitoring.png",
+      false,
+    },
+    {
       "RecordFront",
       tr("Record and Upload Driver Camera"),
       tr("Upload data from the driver facing camera and help improve the driver monitoring algorithm."),
