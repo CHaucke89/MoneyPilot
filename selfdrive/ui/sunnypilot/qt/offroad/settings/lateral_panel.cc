@@ -61,7 +61,6 @@ LateralPanel::LateralPanel(SettingsWindowSP *parent) : QFrame(parent) {
 
   list->addItem(vertical_space());
   list->addItem(horizontal_line());
-  list->addItem(vertical_space());
 
   dampToggle = new ParamControl(
     "DynamicDamp",
