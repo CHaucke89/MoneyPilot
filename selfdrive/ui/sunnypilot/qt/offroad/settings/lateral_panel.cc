@@ -21,13 +21,13 @@ LateralPanel::LateralPanel(SettingsWindowSP *parent) : QFrame(parent) {
   // MADS
   madsToggle = new ParamControl(
     "Mads",
-    tr("Modular Assistive Driving System (MADS)"),
-    tr("Enable the beloved MADS feature. Disable toggle to revert back to stock sunnypilot engagement/disengagement."),
+    tr("Independent Lateral Engagement"),
+    tr("Allows independent engagement of lateral control by pressing the LKAS button."),
     "");
   madsToggle->setConfirmation(true, false);
   list->addItem(madsToggle);
 
-  madsSettingsButton = new PushButtonSP(tr("Customize MADS"));
+  madsSettingsButton = new PushButtonSP(tr("Customize Controls"));
   madsSettingsButton->setObjectName("mads_btn");
   connect(madsSettingsButton, &QPushButton::clicked, [=]() {
     sunnypilotScroller->setLastScrollPosition();
@@ -42,30 +42,6 @@ LateralPanel::LateralPanel(SettingsWindowSP *parent) : QFrame(parent) {
   });
   list->addItem(madsSettingsButton);
 
-  list->addItem(vertical_space());
-  list->addItem(horizontal_line());
-  list->addItem(vertical_space());
-
-  dampToggle = new ParamControl(
-    "DynamicDamp",
-    tr("Dynamic Damp Factor"),
-    tr("Dynamically update the damp factor value based on vehicle speed."),
-    "");
-  list->addItem(dampToggle);
-
-  list->addItem(vertical_space());
-  list->addItem(horizontal_line());
-  list->addItem(vertical_space());
-
-  torqueToggle = new ParamControl(
-    "DynamicTorque",
-    tr("Dynamic Torque"),
-    tr("Dynamically update the maximum steering torque and steer deltas based on vehicle speed."),
-    "");
-  list->addItem(torqueToggle);
-
-  list->addItem(vertical_space());
-  list->addItem(horizontal_line());
   list->addItem(vertical_space());
 
   // Lane Change Settings
@@ -83,7 +59,26 @@ LateralPanel::LateralPanel(SettingsWindowSP *parent) : QFrame(parent) {
   });
   list->addItem(laneChangeSettingsButton);
 
-  list->addItem(vertical_space(0));
+  list->addItem(vertical_space());
+  list->addItem(horizontal_line());
+  list->addItem(vertical_space());
+
+  dampToggle = new ParamControl(
+    "DynamicDamp",
+    tr("Dynamic Damp Factor"),
+    tr("Dynamically update the damp factor value based on vehicle speed. Defaults to a value of 100 when disabled."),
+    "");
+  list->addItem(dampToggle);
+
+  list->addItem(horizontal_line());
+
+  torqueToggle = new ParamControl(
+    "DynamicTorque",
+    tr("Dynamic Torque"),
+    tr("Dynamically update the maximum steering torque and steer deltas based on vehicle speed."),
+    "");
+  list->addItem(torqueToggle);
+
   list->addItem(horizontal_line());
 
   // Blinker Pause Lateral Control

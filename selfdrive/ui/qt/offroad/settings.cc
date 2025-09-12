@@ -21,7 +21,7 @@ TogglesPanel::TogglesPanel(SettingsWindow *parent) : ListWidget(parent) {
   std::vector<std::tuple<QString, QString, QString, QString, bool>> toggle_defs{
     {
       "OpenpilotEnabledToggle",
-      tr("Enable sunnypilot"),
+      tr("Enable MoneyPilot"),
       tr("Use the sunnypilot system for adaptive cruise control and lane keep driver assistance. Your attention is required at all times to use this feature."),
       "../assets/icons/chffr_wheel.png",
       true,
@@ -57,14 +57,14 @@ TogglesPanel::TogglesPanel(SettingsWindow *parent) : ListWidget(parent) {
     {
       "AlwaysOnDM",
       tr("Always-On Driver Monitoring"),
-      tr("Enable driver monitoring even when sunnypilot is not engaged."),
+      tr("Enable driver monitoring even when MoneyPilot is not engaged."),
       "../assets/icons/monitoring.png",
       false,
     },
     {
-    "DisableDM",
+      "DisableDM",
       tr("Always-Off Driver Monitoring"),
-      tr("Disable driver monitoring even when sunnypilot is engaged."),
+      tr("Disable driver monitoring even when MoneyPilot is engaged."),
       "../assets/icons/monitoring.png",
       false,
     },
