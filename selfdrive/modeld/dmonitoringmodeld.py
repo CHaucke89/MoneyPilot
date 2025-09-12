@@ -22,6 +22,8 @@ from openpilot.selfdrive.modeld.models.commonmodel_pyx import CLContext, Monitor
 from openpilot.selfdrive.modeld.parse_model_outputs import sigmoid
 from openpilot.selfdrive.modeld.runners.tinygrad_helpers import qcom_tensor_from_opencl_address
 
+from openpilot.common.params import Params
+
 MODEL_WIDTH, MODEL_HEIGHT = DM_INPUT_SIZE
 CALIB_LEN = 3
 FEATURE_LEN = 512
@@ -31,6 +33,7 @@ PROCESS_NAME = "selfdrive.modeld.dmonitoringmodeld"
 SEND_RAW_PRED = os.getenv('SEND_RAW_PRED')
 MODEL_PKL_PATH = Path(__file__).parent / 'models/dmonitoring_model_tinygrad.pkl'
 
+params = Params()
 
 class DriverStateResult(ctypes.Structure):
   _fields_ = [
@@ -94,7 +97,6 @@ class ModelState:
 
     t2 = time.perf_counter()
     return output, t2 - t1
-
 
 def fill_driver_state(msg, ds_result: DriverStateResult):
   msg.faceOrientation = list(ds_result.face_orientation)
@@ -167,7 +169,7 @@ def main():
     pm.send("driverStateV2", get_driverstate_packet(model_output, vipc_client.frame_id, vipc_client.timestamp_sof, t2 - t1, gpu_execution_time))
 
 
-if __name__ == "__main__":
+if __name__ == "__main__" and not params.get_bool("DisableDM"):
   try:
     main()
   except KeyboardInterrupt:

@@ -41,9 +41,8 @@ def dmonitoringd_thread():
       params.put_bool_nonblocking("IsRhdDetected", DM.wheel_on_right)
 
 def main():
-  if not params.get_bool("DisableDM"):
-    dmonitoringd_thread()
+  dmonitoringd_thread()
 
 
-if __name__ == '__main__':
+if __name__ == '__main__' and not params.get_bool("DisableDM"):
   main()
