@@ -132,14 +132,14 @@ void ModelRenderer::drawPath(QPainter &painter, const cereal::ModelDataV2::Reade
 
 void ModelRenderer::updatePathGradient(QLinearGradient &bg) {
   static const QColor throttle_colors[] = {
-      QColor::fromHslF(148. / 360., 0.94, 0.51, 0.4),
-      QColor::fromHslF(112. / 360., 1.0, 0.68, 0.35),
-      QColor::fromHslF(112. / 360., 1.0, 0.68, 0.0)};
+      QColor::fromHslF(30. / 360., 0.94, 0.51, 0.4),
+      QColor::fromHslF(35. / 360., 1.0, 0.68, 0.35),
+      QColor::fromHslF(35. / 360., 1.0, 0.68, 0.0)};
 
   static const QColor no_throttle_colors[] = {
-      QColor::fromHslF(148. / 360., 0.0, 0.95, 0.4),
-      QColor::fromHslF(112. / 360., 0.0, 0.95, 0.35),
-      QColor::fromHslF(112. / 360., 0.0, 0.95, 0.0),
+      QColor::fromHslF(30. / 360., 0.0, 0.95, 0.4),
+      QColor::fromHslF(35. / 360., 0.0, 0.95, 0.35),
+      QColor::fromHslF(35. / 360., 0.0, 0.95, 0.0),
   };
 
   // Transition speed; 0.1 corresponds to 0.5 seconds at UI_FREQ
