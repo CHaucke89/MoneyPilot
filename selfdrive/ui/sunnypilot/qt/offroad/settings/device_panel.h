@@ -26,6 +26,7 @@ public:
   void setOffroadMode();
   void updateState();
   void resetSettings();
+  void softReboot();
 
 private:
   std::map<QString, PushButtonSP*> buttons;

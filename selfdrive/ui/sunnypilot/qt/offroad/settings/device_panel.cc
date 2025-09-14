@@ -10,6 +10,8 @@
 #include "common/watchdog.h"
 #include "selfdrive/ui/qt/qt_window.h"
 
+#include <QThread>
+
 DevicePanelSP::DevicePanelSP(SettingsWindowSP *parent) : DevicePanel(parent) {
   QGridLayout *device_grid_layout = new QGridLayout();
   device_grid_layout->setSpacing(30);
@@ -49,11 +51,7 @@ DevicePanelSP::DevicePanelSP(SettingsWindowSP *parent) : DevicePanel(parent) {
 
   connect(buttons["quietModeBtn"], &PushButtonSP::clicked, buttons["quietModeBtn"], &PushButtonSP::updateButton);
 
-  connect(buttons["softRebootBtn"], &PushButtonSP::clicked, [=]() {
-    if (ConfirmationDialog::confirm(tr("Click Cancel if a system reset prompt appears."), tr("Soft Reboot"), this)) {
-      system("sudo systemctl restart comma");
-    }
-  });
+  connect(buttons["softRebootBtn"], &PushButtonSP::clicked, this, &DevicePanelSP::softReboot);
 
   if (Hardware::TICI()) {
     connect(buttons["regulatoryBtn"], &PushButtonSP::clicked, [=]() {
@@ -98,7 +96,7 @@ DevicePanelSP::DevicePanelSP(SettingsWindowSP *parent) : DevicePanel(parent) {
   });
 
   addItem(interactivityTimeout);
-  
+
   // Brightness
   brightness = new Brightness();
   connect(brightness, &OptionControlSP::updateLabels, brightness, &Brightness::refresh);
@@ -184,6 +182,14 @@ void DevicePanelSP::resetSettings() {
       Hardware::reboot();
     }
   }
+}
+
+void DevicePanelSP::softReboot() {
+  system("echo '894000.i2c' | sudo tee /sys/bus/platform/drivers/i2c_geni/unbind");
+  QThread::msleep(500);
+  system("echo '894000.i2c' | sudo tee /sys/bus/platform/drivers/i2c_geni/bind");
+  QThread::msleep(500);
+  system("sudo systemctl restart comma");
 }
 
 void DevicePanelSP::showEvent(QShowEvent *event) {
