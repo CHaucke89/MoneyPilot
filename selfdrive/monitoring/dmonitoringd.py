@@ -7,7 +7,8 @@ from openpilot.selfdrive.monitoring.helpers import DriverMonitoring
 params = Params()
 
 def dmonitoringd_thread():
-  config_realtime_process([0, 1, 2, 3], 5)
+  if not params.get_bool("DisableDM"):
+    config_realtime_process([0, 1, 2, 3], 5)
 
   pm = messaging.PubMaster(['driverMonitoringState'])
   sm = messaging.SubMaster(['driverStateV2', 'liveCalibration', 'carState', 'selfdriveState', 'modelV2',
@@ -44,5 +45,5 @@ def main():
   dmonitoringd_thread()
 
 
-if __name__ == '__main__' and not params.get_bool("DisableDM"):
+if __name__ == '__main__':
   main()

@@ -130,7 +130,8 @@ def get_driverstate_packet(model_output: np.ndarray, frame_id: int, location_ts:
 
 
 def main():
-  config_realtime_process(7, 5)
+  if not params.get_bool("DisableDM"):
+    config_realtime_process(7, 5)
 
   cl_context = CLContext()
   model = ModelState(cl_context)
@@ -169,7 +170,7 @@ def main():
     pm.send("driverStateV2", get_driverstate_packet(model_output, vipc_client.frame_id, vipc_client.timestamp_sof, t2 - t1, gpu_execution_time))
 
 
-if __name__ == "__main__" and not params.get_bool("DisableDM"):
+if __name__ == "__main__":
   try:
     main()
   except KeyboardInterrupt:
