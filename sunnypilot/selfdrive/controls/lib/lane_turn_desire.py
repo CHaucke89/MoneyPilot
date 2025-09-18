@@ -9,7 +9,7 @@ from cereal import custom
 from openpilot.common.constants import CV
 from openpilot.common.params import Params
 
-LANE_CHANGE_SPEED_MIN = 20 * CV.MPH_TO_MS
+LANE_CHANGE_SPEED_MIN = 25 * CV.MPH_TO_MS
 
 
 class LaneTurnController:
