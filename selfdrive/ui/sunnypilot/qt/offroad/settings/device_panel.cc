@@ -11,6 +11,7 @@
 #include "selfdrive/ui/qt/qt_window.h"
 
 #include <QThread>
+#include <QProcess>
 
 DevicePanelSP::DevicePanelSP(SettingsWindowSP *parent) : DevicePanel(parent) {
   QGridLayout *device_grid_layout = new QGridLayout();
@@ -185,11 +186,22 @@ void DevicePanelSP::resetSettings() {
 }
 
 void DevicePanelSP::softReboot() {
-  system("echo '894000.i2c' | sudo tee /sys/bus/platform/drivers/i2c_geni/unbind");
-  QThread::msleep(500);
-  system("echo '894000.i2c' | sudo tee /sys/bus/platform/drivers/i2c_geni/bind");
-  QThread::msleep(500);
-  system("sudo systemctl restart comma");
+  QProcess process;
+
+  // Unbind the touchscreen from the i2c driver
+  process.start("bash", QStringList() << "-c" << "echo '894000.i2c' | sudo tee /sys/bus/platform/drivers/i2c_geni/unbind");
+  process.waitForFinished();
+  printf("Unbind exit status: %d\n", process.exitCode());
+
+  // Then bind again to clear touch_count
+  process.start("bash", QStringList() << "-c" << "echo '894000.i2c' | sudo tee /sys/bus/platform/drivers/i2c_geni/bind");
+  process.waitForFinished();
+  printf("Bind exit status: %d\n", process.exitCode());
+
+  // Restart comma service
+  process.start("sudo", QStringList() << "systemctl" << "restart" << "comma");
+  process.waitForFinished();
+  printf("Restart comma service exit status: %d\n", process.exitCode());
 }
 
 void DevicePanelSP::showEvent(QShowEvent *event) {
