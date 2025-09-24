@@ -12,6 +12,9 @@
 
 #include <QThread>
 #include <QProcess>
+#include <QFile>
+#include <QTextStream>
+#include <QDateTime>
 
 DevicePanelSP::DevicePanelSP(SettingsWindowSP *parent) : DevicePanel(parent) {
   QGridLayout *device_grid_layout = new QGridLayout();
@@ -192,16 +195,37 @@ void DevicePanelSP::softReboot() {
   process.start("bash", QStringList() << "-c" << "echo '894000.i2c' | sudo tee /sys/bus/platform/drivers/i2c_geni/unbind");
   process.waitForFinished();
   printf("Unbind exit status: %d\n", process.exitCode());
+  {
+    QFile logFile("/tmp/soft_reboot.log");
+    if (logFile.open(QIODevice::Append | QIODevice::Text)) {
+      QTextStream out(&logFile);
+      out << QDateTime::currentDateTime().toString(Qt::ISODate) << " Unbind exit status: " << process.exitCode() << "\n";
+    }
+  }
 
   // Then bind again to clear touch_count
   process.start("bash", QStringList() << "-c" << "echo '894000.i2c' | sudo tee /sys/bus/platform/drivers/i2c_geni/bind");
   process.waitForFinished();
   printf("Bind exit status: %d\n", process.exitCode());
+  {
+    QFile logFile("/tmp/soft_reboot.log");
+    if (logFile.open(QIODevice::Append | QIODevice::Text)) {
+      QTextStream out(&logFile);
+      out << QDateTime::currentDateTime().toString(Qt::ISODate) << " Bind exit status: " << process.exitCode() << "\n";
+    }
+  }
 
   // Restart comma service
   process.start("sudo", QStringList() << "systemctl" << "restart" << "comma");
   process.waitForFinished();
   printf("Restart comma service exit status: %d\n", process.exitCode());
+  {
+    QFile logFile("/tmp/soft_reboot.log");
+    if (logFile.open(QIODevice::Append | QIODevice::Text)) {
+      QTextStream out(&logFile);
+      out << QDateTime::currentDateTime().toString(Qt::ISODate) << " Restart comma service exit status: " << process.exitCode() << "\n";
+    }
+  }
 }
 
 void DevicePanelSP::showEvent(QShowEvent *event) {
