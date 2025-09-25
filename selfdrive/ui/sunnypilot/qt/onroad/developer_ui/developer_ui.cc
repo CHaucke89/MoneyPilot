@@ -25,7 +25,7 @@ UiElement DeveloperUi::getDRel(bool lead_status, float lead_d_rel) {
     }
   }
 
-  return UiElement(value, "REL DIST", "m", color);
+  return UiElement(value * METER_TO_FOOT, "REL DIST", "ft", color);
 }
 
 // Add Relative Velocity vs Primary Lead Car
@@ -198,7 +198,7 @@ UiElement DeveloperUi::getAltitude(float gps_accuracy, float altitude) {
   QString value = (gps_accuracy != 0.00) ? QString::number(altitude, 'f', 1) : "-";
   QColor color = QColor(255, 255, 255, 255);
 
-  return UiElement(value, "ALT.", "m", color);
+  return UiElement(value * METER_TO_FOOT, "ALT.", "ft", color);
 }
 
 // Add Actuators Output
