@@ -15,7 +15,7 @@
 // Unit: Meters
 UiElement DeveloperUi::getDRel(bool lead_status, float lead_d_rel) {
   bool use_imperial = Params().getBool("UseImperial");
-  QString value = lead_status ? QString::number((use_imperial ? lead_d_rel * METER_TO_FOOT : lead_d_rel), 'f', 0) : "-";
+  QString value = lead_status ? QString::number(use_imperial ? lead_d_rel * METER_TO_FOOT, 'f', 0 : lead_d_rel, 'f', 1) : "-";
   QColor color = QColor(255, 255, 255, 255);
 
   if (lead_status) {
@@ -198,7 +198,7 @@ UiElement DeveloperUi::getBearingDeg(float bearing_accuracy_deg, float bearing_d
 // Unit: Meters
 UiElement DeveloperUi::getAltitude(float gps_accuracy, float altitude) {
   bool use_imperial = Params().getBool("UseImperial");
-  QString value = (gps_accuracy != 0.00) ? QString::number((use_imperial ? altitude * METER_TO_FOOT : altitude), 'f', 1) : "-";
+  QString value = (gps_accuracy != 0.00) ? QString::number(use_imperial ? altitude * METER_TO_FOOT, 'f', 0 : altitude, 'f', 1) : "-";
   QColor color = QColor(255, 255, 255, 255);
 
   return UiElement(value, "ALT.", use_imperial ? "ft" : "m", color);

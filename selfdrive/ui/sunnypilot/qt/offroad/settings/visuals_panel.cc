@@ -142,8 +142,6 @@ void VisualsPanel::paramsRefresh() {
   }
   if (dev_ui_settings) {
     dev_ui_settings->refresh();
-  }
-  if (use_imperial_toggle) {
     use_imperial_toggle->refresh();
   }
 }
