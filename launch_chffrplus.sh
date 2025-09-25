@@ -29,10 +29,11 @@ function agnos_init {
 
 function launch {
 
-ALIASES="alias gsu='git submodule update --recursive'
-alias rh='git reset --hard origin/MoneyPilot'";
-
 BASHRC="$HOME/.bashrc";
+ALIASES="alias gsu='git submodule update --recursive'
+alias rh='git reset --hard origin/MoneyPilot'
+alias rb='sudo reboot'
+alias sc='scons -u -j8'";
 
 grep -qxF "$ALIASES" "$BASHRC" || echo "$ALIASES" >> "$BASHRC";
 
