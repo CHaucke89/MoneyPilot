@@ -115,6 +115,13 @@ VisualsPanel::VisualsPanel(QWidget *parent) : QWidget(parent) {
     380);
   list->addItem(dev_ui_settings);
 
+  // UseImperial toggle - positioned below Developer UI setting
+  use_imperial_toggle = new ParamControlSP("UseImperial", tr("Use Imperial Values"), tr("Use feet rather than meters in the Developer UI."), "", this);
+  use_imperial_toggle->setEnabled(params.getBool("DevUIInfo" != 0);
+
+  list->addItem(use_imperial_toggle);
+  param_watcher->addParam("UseImperial");
+
   sunnypilotScroller = new ScrollViewSP(list, this);
   vlayout->addWidget(sunnypilotScroller);
 
@@ -135,5 +142,8 @@ void VisualsPanel::paramsRefresh() {
   }
   if (dev_ui_settings) {
     dev_ui_settings->refresh();
+  }
+  if (use_imperial_toggle) {
+    use_imperial_toggle->refresh();
   }
 }

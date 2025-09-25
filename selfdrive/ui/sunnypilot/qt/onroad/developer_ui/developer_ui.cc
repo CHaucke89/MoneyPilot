@@ -6,6 +6,7 @@
  */
 #include <cmath>
 
+#include "common/params.h"
 #include "common/util.h"
 #include "selfdrive/ui/sunnypilot/qt/onroad/developer_ui/developer_ui.h"
 
@@ -13,7 +14,8 @@
 // Add Relative Distance to Primary Lead Car
 // Unit: Meters
 UiElement DeveloperUi::getDRel(bool lead_status, float lead_d_rel) {
-  QString value = lead_status ? QString::number(lead_d_rel * METER_TO_FOOT, 'f', 0) : "-";
+  bool use_imperial = Params().getBool("UseImperial");
+  QString value = lead_status ? QString::number((use_imperial ? lead_d_rel * METER_TO_FOOT : lead_d_rel), 'f', 0) : "-";
   QColor color = QColor(255, 255, 255, 255);
 
   if (lead_status) {
@@ -25,7 +27,7 @@ UiElement DeveloperUi::getDRel(bool lead_status, float lead_d_rel) {
     }
   }
 
-  return UiElement(value, "REL DIST", "ft", color);
+  return UiElement(value, "REL DIST", use_imperial ? "ft" : "m", color);
 }
 
 // Add Relative Velocity vs Primary Lead Car
@@ -195,10 +197,11 @@ UiElement DeveloperUi::getBearingDeg(float bearing_accuracy_deg, float bearing_d
 // Add Altitude of Current Location
 // Unit: Meters
 UiElement DeveloperUi::getAltitude(float gps_accuracy, float altitude) {
-  QString value = (gps_accuracy != 0.00) ? QString::number(altitude * METER_TO_FOOT, 'f', 1) : "-";
+  bool use_imperial = Params().getBool("UseImperial");
+  QString value = (gps_accuracy != 0.00) ? QString::number((use_imperial ? altitude * METER_TO_FOOT : altitude), 'f', 1) : "-";
   QColor color = QColor(255, 255, 255, 255);
 
-  return UiElement(value, "ALT.", "ft", color);
+  return UiElement(value, "ALT.", use_imperial ? "ft" : "m", color);
 }
 
 // Add Actuators Output

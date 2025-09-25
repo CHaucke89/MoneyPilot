@@ -247,4 +247,5 @@ inline static std::unordered_map<std::string, ParamKeyAttributes> keys = {
     {"DisableDM", {PERSISTENT | BACKUP, BOOL, "1"}},
     {"DynamicDamp", {PERSISTENT | BACKUP, BOOL, "1"}},
     {"DynamicTorque", {PERSISTENT | BACKUP, BOOL, "1"}},
+    {"UseImperial", {PERSISTENT | BACKUP, BOOL, "1"}},
 };
