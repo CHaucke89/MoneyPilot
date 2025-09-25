@@ -31,9 +31,12 @@ function launch {
 
 BASHRC="$HOME/.bashrc";
 ALIASES="alias gsu='git submodule update --recursive'
-alias rh='git reset --hard origin/MoneyPilot'
+alias gp='git pull'
+alias grh='git reset --hard origin/MoneyPilot'
 alias rb='sudo reboot'
-alias sc='scons -u -j8'";
+alias sc='scons -u -j8'
+alias update='gp && gsu && sc && rb'
+alias fupdate='grh && gsu && sc && rb'";
 
 grep -qxF "$ALIASES" "$BASHRC" || echo "$ALIASES" >> "$BASHRC";
 
