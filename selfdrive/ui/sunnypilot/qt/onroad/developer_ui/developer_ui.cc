@@ -111,10 +111,11 @@ UiElement DeveloperUi::getMemoryUsagePercent(int memory_usage_percent) {
 // Add Vehicle Current Acceleration
 // Unit: m/s²
 UiElement DeveloperUi::getAEgo(float a_ego) {
-  QString value = QString::number(a_ego, 'f', 1);
+  bool use_imperial = Params().getBool("UseImperial");
+  QString value = QString::number(a_ego * (use_imperial ? METER_TO_FOOT : 1), 'f', 1);
   QColor color = QColor(255, 255, 255, 255);
 
-  return UiElement(value, "ACC.", "m/s²", color);
+  return UiElement(value, "ACC.", use_imperial ? "ft/s²" : "m/s²", color);
 }
 
 // Add Relative Velocity to Primary Lead Car
