@@ -70,11 +70,12 @@ UiElement DeveloperUi::getSteeringAngleDeg(float angle_steers, bool lat_active, 
 // Unit: m/s²
 UiElement DeveloperUi::getActualLateralAccel(float curvature, float v_ego, float roll, bool lat_active, bool steer_override) {
   double actualLateralAccel = (curvature * pow(v_ego, 2)) - (roll * 9.81);
+  bool use_imperial = Params().getBool("UseImperial");
 
-  QString value = QString::number(actualLateralAccel, 'f', 2);
+  QString value = QString::number(actualLateralAccel * (use_imperial ? METER_TO_FOOT : 1), 'f', 2);
   QColor color = lat_active ? (steer_override ? QColor(0x91, 0x9b, 0x95, 0xff) : QColor(0, 255, 0, 255)) : QColor(255, 255, 255, 255);
 
-  return UiElement(value, "ACTUAL L.A.", "m/s²", color);
+  return UiElement(value, "ACTUAL L.A.", use_imperial ? "ft/s²" : "m/s²", color);
 }
 
 // Add Desired Steering Angle when using PID
@@ -147,10 +148,11 @@ UiElement DeveloperUi::getFrictionCoefficientFiltered(float friction_coefficient
 // Add Lateral Acceleration Factor Raw from torqued
 // Unit: m/s²
 UiElement DeveloperUi::getLatAccelFactorFiltered(float lat_accel_factor_filtered, bool live_valid) {
-  QString value = QString::number(lat_accel_factor_filtered, 'f', 3);
+  bool use_imperial = Params().getBool("UseImperial");
+  QString value = QString::number(lat_accel_factor_filtered * (use_imperial ? METER_TO_FOOT : 1), 'f', 3);
   QColor color = live_valid ? QColor(0, 255, 0, 255) : QColor(255, 255, 255, 255);
 
-  return UiElement(value, "L.A.", "m/s²", color);
+  return UiElement(value, "L.A.", use_imperial ? "ft/s²" : "m/s²", color);
 }
 
 // Add Steering Torque from Car EPS
@@ -212,6 +214,7 @@ UiElement DeveloperUi::getActuatorsOutputLateral(cereal::CarParams::SteerControl
   QString label;
   QString value;
   QString unit;
+  bool use_imperial = Params().getBool("UseImperial");
 
   if (steerControlType == cereal::CarParams::SteerControlType::ANGLE) {
     label = "DESIRED STEER";
@@ -219,8 +222,8 @@ UiElement DeveloperUi::getActuatorsOutputLateral(cereal::CarParams::SteerControl
   } else {
     label = "DESIRED L.A.";
     double desiredLateralAccel = (desiredCurvature * pow(v_ego, 2)) - (roll * 9.81);
-    value = QString::number(desiredLateralAccel, 'f', 2);
-    unit = "m/s²";
+    value = QString::number(desiredLateralAccel * (use_imperial ? METER_TO_FOOT : 1), 'f', 2);
+    unit = use_imperial ? "ft/s²" : "m/s²";
   }
 
   value = lat_active ? value : "-";
