@@ -30,13 +30,14 @@ function agnos_init {
 function launch {
 
 BASHRC="$HOME/.bashrc";
-ALIASES="alias gsu='git submodule update --recursive'
+ALIASES="alias gf='git fetch'
+alias gsu='git submodule update --recursive'
 alias gp='git pull'
 alias grh='git reset --hard origin/MoneyPilot'
 alias rb='sudo reboot'
 alias sc='scons -u -j8'
 alias update='gp && gsu && sc && rb'
-alias fupdate='grh && gsu && sc && rb'";
+alias fupdate='gf && grh && gsu && sc && rb'";
 
 grep -qxF "$ALIASES" "$BASHRC" || echo "$ALIASES" >> "$BASHRC";
 
