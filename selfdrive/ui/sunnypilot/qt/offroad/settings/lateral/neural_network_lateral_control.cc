@@ -8,7 +8,7 @@
 #include "selfdrive/ui/sunnypilot/qt/offroad/settings/lateral/neural_network_lateral_control.h"
 
 NeuralNetworkLateralControl::NeuralNetworkLateralControl() :
-  ParamControl("NeuralNetworkLateralControl", tr("Neural Network Lateral Control (NNLC)"),  "", "") {
+  ParamControl("NeuralNetworkLateralControl", tr("Neural Network Feed Forward (NNFF)"),  "", "") {
   setConfirmation(true, false);
   updateToggle(offroad);
 }
@@ -41,21 +41,15 @@ void NeuralNetworkLateralControl::updateToggle(bool _offroad) {
       if (nn_model_name.isEmpty()) {
         setDescription(nnffDescriptionBuilder(statusInitText));
       } else if (nn_model_name == "MOCK") {
-        setDescription(nnffDescriptionBuilder(
-          notLoadedText + "<br>" + buildSupportText(SUPPORT_DONATE_LOGS)
-        ));
+        setDescription(nnffDescriptionBuilder(notLoadedText));
       } else {
         QString statusText = loadedText + " | " + STATUS_MATCH + " = " + nn_fuzzy + " | " + nn_model_name;
-        QString explanationText = EXPLANATION_MATCH + " " + buildSupportText(SUPPORT_ISSUES);
-        setDescription(nnffDescriptionBuilder(statusText + "<br><br>" + explanationText));
+
+        setDescription(nnffDescriptionBuilder(statusText + "<br><br>"));
       }
     }
   } else {
     setDescription(nnffDescriptionBuilder(statusInitText));
-  }
-
-  if (getDescription() != getBaseDescription()) {
-    showDescription();
   }
 
   bool enforce_torque_toggle = params.getBool("EnforceTorqueControl");

@@ -36,27 +36,13 @@ private:
   const QString STATUS_MATCH_FUZZY = tr("Fuzzy");
 
   // Explanations
-  const QString EXPLANATION_MATCH = tr("Match: \"Exact\" is ideal, but \"Fuzzy\" is fine too.");
-  const QString EXPLANATION_FEATURE = tr("Formerly known as <b>\"NNFF\"</b>, this replaces the lateral <b>\"torque\"</b> controller, "
-                                            "with one using a neural network trained on each car's (actually, each separate EPS firmware) driving data for increased controls accuracy.");
-
-  // Support information
-  const QString SUPPORT_CHANNEL = "<font color='white'><b>#tuning-nnlc</b></font>";
-  const QString SUPPORT_REACH_OUT = tr("Reach out to the sunnypilot team in the following channel at the sunnypilot Discord server");
-  const QString SUPPORT_FEEDBACK = tr("with feedback, or to provide log data for your car if your car is currently unsupported:");
-  const QString SUPPORT_ISSUES = tr("if there are any issues:");
-  const QString SUPPORT_DONATE_LOGS = tr("and donate logs to get NNLC loaded for your car:");
-
-  // Description builders
-  QString buildSupportText(const QString& context) const {
-    return SUPPORT_REACH_OUT + " " + context + " " + SUPPORT_CHANNEL;
-  }
+  const QString EXPLANATION_FEATURE = tr("Use NNFF rather than the stock torque controller.");
 
   QString nnffDescriptionBuilder(const QString &custom_description) const {
     return "<b>" + custom_description + "</b><br><br>" + getBaseDescription();
   }
 
   QString getBaseDescription() const {
-    return EXPLANATION_FEATURE + "<br><br>" + buildSupportText(SUPPORT_FEEDBACK);
+    return EXPLANATION_FEATURE + "<br><br>";
   }
 };
