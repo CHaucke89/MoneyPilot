@@ -45,7 +45,7 @@ void NeuralNetworkLateralControl::updateToggle(bool _offroad) {
       } else {
         QString statusText = loadedText + " | " + STATUS_MATCH + " = " + nn_fuzzy + " | " + nn_model_name;
 
-        setDescription(nnffDescriptionBuilder(statusText + "<br><br>"));
+        setDescription(nnffDescriptionBuilder(statusText + "<br>"));
       }
     }
   } else {
