@@ -25,8 +25,8 @@ const QMap<QString, QString> Brightness::brightness_options = {
 
 Brightness::Brightness() : OptionControlSP(
   "Brightness",
-  tr("Global Brightness"),
-  tr("Overrides the brightness of the device. This applies to both onroad and offroad screens. "),
+  tr("Brightness"),
+  tr("Overrides the brightness of the device."),
   "../assets/offroad/icon_blank.png",
   {0, 11}, 1, true, &brightness_options) {
 
