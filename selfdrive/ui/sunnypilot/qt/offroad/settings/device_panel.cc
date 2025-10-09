@@ -252,13 +252,6 @@ void DevicePanelSP::updateState() {
   }
   toggleDeviceBootMode->setDescription(deviceSleepModeDescription(currStatus));
 
-  QString timeoutValue = QString::fromStdString(params.get("InteractivityTimeout"));
-  if (timeoutValue == "0" || timeoutValue.isEmpty()) {
-    interactivityTimeout->setLabel("Default");
-  } else {
-    interactivityTimeout->setLabel(timeoutValue + "s");
-  }
-
   if (offroad and not offroad_mode_param) {
     power_group_layout->insertWidget(0, offroadBtn, 0, Qt::AlignHCenter);
   } else {
