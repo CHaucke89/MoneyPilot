@@ -24,7 +24,7 @@ public:
   explicit DevicePanelSP(SettingsWindowSP *parent = 0);
   void showEvent(QShowEvent *event) override;
   void setOffroadMode();
-  void updateState();
+  void updateState(bool _offroad);
   void resetSettings();
   void softReboot();
 
@@ -33,10 +33,10 @@ private:
   PushButtonSP *offroadBtn;
   MaxTimeOffroad *maxTimeOffroad;
   ButtonParamControlSP *toggleDeviceBootMode;
-  Brightness *brightness;
-  OptionControlSP *interactivityTimeout;
   QVBoxLayout *power_group_layout;
   bool offroad;
+
+  std::vector<PushButtonSP*> always_enabled_btns = {};
 
   const QString alwaysOffroadStyle = R"(
     PushButtonSP {
