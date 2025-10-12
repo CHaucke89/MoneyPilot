@@ -41,6 +41,7 @@ private:
   ParamControl *madsToggle;
   ParamControl *dampToggle;
   ParamControl *torqueToggle;
+  ParamControl *deltasToggle;
   PushButtonSP *madsSettingsButton;
   MadsSettings *madsWidget = nullptr;
   PushButtonSP *laneChangeSettingsButton;

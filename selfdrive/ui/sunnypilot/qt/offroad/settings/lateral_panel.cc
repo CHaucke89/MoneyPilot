@@ -80,6 +80,15 @@ LateralPanel::LateralPanel(SettingsWindowSP *parent) : QFrame(parent) {
 
   list->addItem(horizontal_line());
 
+  deltasToggle = new ParamControl(
+    "DynamicDeltas",
+    tr("Dynamic Steering Deltas"),
+    tr("Dynamically update steer delta up and down values based on vehicle speed."),
+    "");
+  list->addItem(deltasToggle);
+
+  list->addItem(horizontal_line());
+
   // Blinker Pause Lateral Control
   blinkerPauseLateralSettings = new BlinkerPauseLateralSettings(
     "BlinkerPauseLateralControl",
