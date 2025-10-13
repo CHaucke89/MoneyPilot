@@ -168,44 +168,21 @@ void DevicePanelSP::resetSettings() {
   }
 }
 
+// Override the touchscreen's touch_count with a fake one to prevent system reset prompt
 void DevicePanelSP::softReboot() {
+  QFile touchCountFile("/data/touch_count");
+  if (!touchCountFile.exists()) {
+    if (touchCountFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
+      QTextStream out(&touchCountFile);
+      out << "0";
+      touchCountFile.close();
+    }
+  }
+
   QProcess process;
-
-  // Unbind the touchscreen from the i2c driver
-  process.start("bash", QStringList() << "-c" << "echo '894000.i2c' | sudo tee /sys/bus/platform/drivers/i2c_geni/unbind");
+  process.start("sudo", QStringList() << "mount" << "-n" << "--bind" << "-o" << "ro" << "/data/touch_count" << "/sys/bus/i2c/devices/2-0017/touch_count");
   process.waitForFinished();
-  printf("Unbind exit status: %d\n", process.exitCode());
-  {
-    QFile logFile("/tmp/soft_reboot.log");
-    if (logFile.open(QIODevice::Append | QIODevice::Text)) {
-      QTextStream out(&logFile);
-      out << QDateTime::currentDateTime().toString(Qt::ISODate) << " Unbind exit status: " << process.exitCode() << "\n";
-    }
-  }
-
-  // Then bind again to clear touch_count
-  process.start("bash", QStringList() << "-c" << "echo '894000.i2c' | sudo tee /sys/bus/platform/drivers/i2c_geni/bind");
-  process.waitForFinished();
-  printf("Bind exit status: %d\n", process.exitCode());
-  {
-    QFile logFile("/tmp/soft_reboot.log");
-    if (logFile.open(QIODevice::Append | QIODevice::Text)) {
-      QTextStream out(&logFile);
-      out << QDateTime::currentDateTime().toString(Qt::ISODate) << " Bind exit status: " << process.exitCode() << "\n";
-    }
-  }
-
-  // Restart comma service
   process.start("sudo", QStringList() << "systemctl" << "restart" << "comma");
-  process.waitForFinished();
-  printf("Restart comma service exit status: %d\n", process.exitCode());
-  {
-    QFile logFile("/tmp/soft_reboot.log");
-    if (logFile.open(QIODevice::Append | QIODevice::Text)) {
-      QTextStream out(&logFile);
-      out << QDateTime::currentDateTime().toString(Qt::ISODate) << " Restart comma service exit status: " << process.exitCode() << "\n";
-    }
-  }
 }
 
 void DevicePanelSP::showEvent(QShowEvent *event) {
