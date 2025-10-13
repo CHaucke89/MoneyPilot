@@ -182,7 +182,7 @@ void DevicePanelSP::softReboot() {
   QProcess process;
   process.start("sudo", QStringList() << "mount" << "-n" << "--bind" << "-o" << "ro" << "/data/touch_count" << "/sys/bus/i2c/devices/2-0017/touch_count");
   process.waitForFinished();
-  process.start("sudo", QStringList() << "systemctl" << "restart" << "comma");
+  QProcess::startDetached("sudo", QStringList() << "systemctl" << "restart" << "comma");
 }
 
 void DevicePanelSP::showEvent(QShowEvent *event) {
