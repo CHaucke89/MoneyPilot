@@ -14,7 +14,8 @@
 // Add Relative Distance to Primary Lead Car
 // Unit: Meters
 UiElement DeveloperUi::getDRel(bool lead_status, float lead_d_rel) {
-  bool use_imperial = Params().getBool("UseImperial");
+  auto *s = uiState();
+  bool use_imperial = s->scene.use_imperial;
   QString value = lead_status ? QString::number(lead_d_rel * (use_imperial ? METER_TO_FOOT : 1), 'f', 0) : "-";
   QColor color = QColor(255, 255, 255, 255);
 
@@ -70,7 +71,8 @@ UiElement DeveloperUi::getSteeringAngleDeg(float angle_steers, bool lat_active, 
 // Unit: m/s²
 UiElement DeveloperUi::getActualLateralAccel(float curvature, float v_ego, float roll, bool lat_active, bool steer_override) {
   double actualLateralAccel = (curvature * pow(v_ego, 2)) - (roll * 9.81);
-  bool use_imperial = Params().getBool("UseImperial");
+  auto *s = uiState();
+  bool use_imperial = s->scene.use_imperial;
 
   QString value = QString::number(actualLateralAccel * (use_imperial ? METER_TO_FOOT : 1), 'f', 2);
   QColor color = lat_active ? (steer_override ? QColor(0x91, 0x9b, 0x95, 0xff) : QColor(0, 255, 0, 255)) : QColor(255, 255, 255, 255);
@@ -111,7 +113,8 @@ UiElement DeveloperUi::getMemoryUsagePercent(int memory_usage_percent) {
 // Add Vehicle Current Acceleration
 // Unit: m/s²
 UiElement DeveloperUi::getAEgo(float a_ego) {
-  bool use_imperial = Params().getBool("UseImperial");
+  auto *s = uiState();
+  bool use_imperial = s->scene.use_imperial;
   QString value = QString::number(a_ego * (use_imperial ? METER_TO_FOOT : 1), 'f', 1);
   QColor color = QColor(255, 255, 255, 255);
 
@@ -149,7 +152,8 @@ UiElement DeveloperUi::getFrictionCoefficientFiltered(float friction_coefficient
 // Add Lateral Acceleration Factor Raw from torqued
 // Unit: m/s²
 UiElement DeveloperUi::getLatAccelFactorFiltered(float lat_accel_factor_filtered, bool live_valid) {
-  bool use_imperial = Params().getBool("UseImperial");
+  auto *s = uiState();
+  bool use_imperial = s->scene.use_imperial;
   QString value = QString::number(lat_accel_factor_filtered * (use_imperial ? METER_TO_FOOT : 1), 'f', 3);
   QColor color = live_valid ? QColor(0, 255, 0, 255) : QColor(255, 255, 255, 255);
 
@@ -200,7 +204,8 @@ UiElement DeveloperUi::getBearingDeg(float bearing_accuracy_deg, float bearing_d
 // Add Altitude of Current Location
 // Unit: Meters
 UiElement DeveloperUi::getAltitude(float gps_accuracy, float altitude) {
-  bool use_imperial = Params().getBool("UseImperial");
+  auto *s = uiState();
+  bool use_imperial = s->scene.use_imperial;
   QString value = (gps_accuracy != 0.00) ? QString::number(altitude * (use_imperial ? METER_TO_FOOT : 1), 'f', 1) : "-";
   QColor color = QColor(255, 255, 255, 255);
 
@@ -215,7 +220,8 @@ UiElement DeveloperUi::getActuatorsOutputLateral(cereal::CarParams::SteerControl
   QString label;
   QString value;
   QString unit;
-  bool use_imperial = Params().getBool("UseImperial");
+  auto *s = uiState();
+  bool use_imperial = s->scene.use_imperial;
 
   if (steerControlType == cereal::CarParams::SteerControlType::ANGLE) {
     label = "DESIRED STEER";
