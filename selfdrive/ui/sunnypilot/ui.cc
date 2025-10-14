@@ -76,7 +76,6 @@ void ui_update_params_sp(UIStateSP *s) {
   s->scene.chevron_info = std::atoi(params.get("ChevronInfo").c_str());
   s->scene.blindspot_ui = params.getBool("BlindSpot");
   s->scene.rainbow_mode = params.getBool("RainbowMode");
-  s->scene.use_imperial = params.getBool("UseImperial");
 }
 
 void UIStateSP::reset_onroad_sleep_timer(OnroadTimerStatusToggle toggleTimerStatus) {
