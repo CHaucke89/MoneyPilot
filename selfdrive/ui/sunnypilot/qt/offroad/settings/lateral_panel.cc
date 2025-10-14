@@ -65,7 +65,7 @@ LateralPanel::LateralPanel(SettingsWindowSP *parent) : QFrame(parent) {
   dampToggle = new ParamControl(
     "DynamicDamp",
     tr("Dynamic Damp Factor"),
-    tr("Dynamically update the damp factor value based on vehicle speed. Defaults to a value of 100 when disabled."),
+    tr("Dynamically adjust the damp factor value based on vehicle speed. Defaults to a value of 100 when disabled."),
     "");
   list->addItem(dampToggle);
 
@@ -74,7 +74,7 @@ LateralPanel::LateralPanel(SettingsWindowSP *parent) : QFrame(parent) {
   torqueToggle = new ParamControl(
     "DynamicTorque",
     tr("Dynamic Torque"),
-    tr("Dynamically update the maximum steering torque and steer deltas based on vehicle speed."),
+    tr("Dynamically adjust the maximum steering torque based on vehicle speed."),
     "");
   list->addItem(torqueToggle);
 
@@ -83,7 +83,7 @@ LateralPanel::LateralPanel(SettingsWindowSP *parent) : QFrame(parent) {
   deltasToggle = new ParamControl(
     "DynamicDeltas",
     tr("Dynamic Steering Deltas"),
-    tr("Dynamically update steer delta up and down values based on vehicle speed."),
+    tr("Dynamically adjust the steer delta up and down values based on vehicle speed."),
     "");
   list->addItem(deltasToggle);
 
