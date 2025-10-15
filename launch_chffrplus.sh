@@ -45,9 +45,9 @@ grep -qxF "$ALIASES" "$BASHRC" || echo "$ALIASES" >> "$BASHRC";
   [ -f "$DIR/.git/index.lock" ] && rm -f $DIR/.git/index.lock
 
   # Check for fake touch count bind mount and unmount if exists
-  if grep -q "*/touch_count" /etc/mtab; then
-    echo "Unmounting /data/touch_count from /sys/class/input/input2/device/touch_count"
-    sudo umount /sys/class/input/input2/device/touch_count
+  if grep -q "/dev/sda12 /sys/devices/platform/soc/894000.i2c/i2c-2/2-0017/touch_count" /etc/mtab; then
+    echo "Unmounting fake touch_count"
+    sudo umount /sys/devices/platform/soc/894000.i2c/i2c-2/2-0017/touch_count
   fi
 
   # Check to see if there's a valid overlay-based update available. Conditions
