@@ -44,6 +44,12 @@ grep -qxF "$ALIASES" "$BASHRC" || echo "$ALIASES" >> "$BASHRC";
   # Remove orphaned git lock if it exists on boot
   [ -f "$DIR/.git/index.lock" ] && rm -f $DIR/.git/index.lock
 
+  # Check for fake touch count bind mount and unmount if exists
+  if grep -q "/data/touch_count" /etc/mtab; then
+    echo "Unmounting /data/touch_count from /sys/class/input/input2/device/touch_count"
+    sudo umount /sys/class/input/input2/device/touch_count
+  fi
+
   # Check to see if there's a valid overlay-based update available. Conditions
   # are as follows:
   #

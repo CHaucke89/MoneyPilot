@@ -174,13 +174,13 @@ void DevicePanelSP::softReboot() {
   if (!touchCountFile.exists()) {
     if (touchCountFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
       QTextStream out(&touchCountFile);
-      out << "0";
+      out << "0" << "\n";
       touchCountFile.close();
     }
   }
 
   QProcess process;
-  process.start("sudo", QStringList() << "mount" << "-n" << "--bind" << "-o" << "ro" << "/data/touch_count" << "/sys/class/input/input2/device/touch_count");
+  process.start("sudo", QStringList() << "mount" << "--bind" << "-o" << "ro" << "/data/touch_count" << "/sys/class/input/input2/device/touch_count");
   process.waitForFinished();
   QProcess::startDetached("sudo", QStringList() << "systemctl" << "restart" << "comma");
 }
