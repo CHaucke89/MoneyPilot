@@ -44,10 +44,16 @@ function launch {
   # Remove orphaned git lock if it exists on boot
   [ -f "$DIR/.git/index.lock" ] && rm -f $DIR/.git/index.lock
 
-  # Check for fake touch count bind mount and unmount if exists
-  if grep -q "/dev/sda12 /sys/devices/platform/soc/894000.i2c/i2c-2/2-0017/touch_count" /etc/mtab; then
-    echo "Unmounting fake touch_count"
-    sudo umount /sys/devices/platform/soc/894000.i2c/i2c-2/2-0017/touch_count
+  # Mount fake touch_count on launch to avoid system reset prompt with soft reboot.
+  # Bind mount does not persist across reboots, so default behavior is preserved with a standard reboot.
+  if ! grep -q "/dev/sda12 /sys/devices/platform/soc/894000.i2c/i2c-2/2-0017/touch_count" /etc/mtab; then
+    echo "touch_count entry not found in mtab"
+    if [ ! -f "/data/touch_count" ]; then
+      echo "Dummy touch_count not found, creating"
+      echo -e "0\n" > /data/touch_count
+    fi
+    echo "Bind mounting dummy touch_count"
+    sudo mount --bind -o ro /data/touch_count /sys/devices/platform/soc/894000.i2c/i2c-2/2-0017/touch_count
   fi
 
   # Check to see if there's a valid overlay-based update available. Conditions

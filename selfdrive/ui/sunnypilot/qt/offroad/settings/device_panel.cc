@@ -168,21 +168,7 @@ void DevicePanelSP::resetSettings() {
   }
 }
 
-// Override the touchscreen's touch_count with a fake one to prevent system reset prompt
 void DevicePanelSP::softReboot() {
-  QFile touchCountFile("/data/touch_count");
-  if (!touchCountFile.exists()) {
-    if (touchCountFile.open(QIODevice::WriteOnly | QIODevice::Text)) {
-      QTextStream out(&touchCountFile);
-      out << "0";
-      touchCountFile.close();
-    }
-  }
-
-  QProcess process;
-  printf("Binding /data/touch_count\n");
-  process.start("sudo", QStringList() << "mount" << "--bind" << "-o" << "ro" << "/data/touch_count" << "/sys/devices/platform/soc/894000.i2c/i2c-2/2-0017/touch_count");
-  process.waitForFinished();
   QProcess::startDetached("sudo", QStringList() << "systemctl" << "restart" << "comma");
 }
 
