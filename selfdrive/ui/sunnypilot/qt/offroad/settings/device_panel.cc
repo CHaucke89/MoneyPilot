@@ -26,7 +26,7 @@ DevicePanelSP::DevicePanelSP(SettingsWindowSP *parent) : DevicePanel(parent) {
     {"quietModeBtn", tr("Quiet Mode"), "QuietMode"},
     {"dcamBtn", tr("Driver Camera Preview"), ""},
     {"softRebootBtn", tr("Soft Reboot"), ""},
-    {"buildBtn", tr("Build MoneyPilot"), ""},
+    {"regulatoryBtn", tr("Regulatory"), ""},
     {"translateBtn", tr("Language"), ""},
     {"resetParams", tr("Reset Settings"), ""},
     {"onroadUploadsBtn", tr("Onroad Uploads"), "OnroadUploads"}
@@ -34,7 +34,7 @@ DevicePanelSP::DevicePanelSP(SettingsWindowSP *parent) : DevicePanel(parent) {
 
   int row = 0, col = 0;
   for (const auto &[id, text, param] : device_btns) {
-    if (id == "buildBtn" && !Hardware::TICI()) {
+    if (id == "regulatoryBtn" && !Hardware::TICI()) {
       continue;
     }
 
@@ -59,10 +59,9 @@ DevicePanelSP::DevicePanelSP(SettingsWindowSP *parent) : DevicePanel(parent) {
   connect(buttons["softRebootBtn"], &PushButtonSP::clicked, this, &DevicePanelSP::softReboot);
 
   if (Hardware::TICI()) {
-    connect(buttons["buildBtn"], &PushButtonSP::clicked, [=]() {
-      QProcess process;
-      process.start("python", QStringList() << "system/manager/build.py");
-      process.waitForFinished();
+    connect(buttons["regulatoryBtn"], &PushButtonSP::clicked, [=]() {
+      const std::string txt = util::read_file("../assets/offroad/fcc.html");
+      ConfirmationDialog::rich(QString::fromStdString(txt), this);
     });
   }
 
