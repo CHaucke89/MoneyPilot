@@ -35,8 +35,10 @@ function launch {
   alias gp='git pull'
   alias grh='git reset --hard origin/MoneyPilot'
   alias rb='sudo reboot'
+  alias sr='sudo systemctl restart comma'
   alias sc='scons -u -j8'
   alias update='gp && gsu && sc && rb'
+  alias supdate='gp && gsu && sc && sr'
   alias fupdate='gf && grh && gsu && sc && rb'";
 
   grep -qxF "$ALIASES" "$BASHRC" || echo "$ALIASES" >> "$BASHRC";
