@@ -48,7 +48,8 @@ function launch {
 
   # Mount fake touch_count on launch to avoid system reset prompt with soft reboot.
   # Bind mount does not persist across reboots, so default behavior is preserved with a standard reboot.
-  if ! grep -q "/dev/sda12 /sys/devices/platform/soc/894000.i2c/i2c-2/2-0017/touch_count" /etc/mtab; then
+  if ! grep -q "/dev/sda12 /sys/
+  /platform/soc/894000.i2c/i2c-2/2-0017/touch_count" /etc/mtab; then
     echo "touch_count entry not found in mtab"
     if [ ! -f "/data/touch_count" ]; then
       echo "Dummy touch_count not found, creating"
