@@ -29,7 +29,7 @@ function agnos_init {
 
 function launch {
 
-  BASHRC="$HOME/.bashrc";
+  BASH_ALIASES="$HOME/.bash_aliases";
   ALIASES="alias gf='git fetch'
   alias gsu='git submodule update --recursive'
   alias gp='git pull'
@@ -41,7 +41,7 @@ function launch {
   alias supdate='gp && gsu && sc && sr'
   alias fupdate='gf && grh && gsu && sc && rb'";
 
-  grep -qxF "$ALIASES" "$BASHRC" || echo "$ALIASES" >> "$BASHRC";
+  grep -qxF "$ALIASES" "$BASH_ALIASES" || echo "$ALIASES" > "$BASH_ALIASES";
 
   # Remove orphaned git lock if it exists on boot
   [ -f "$DIR/.git/index.lock" ] && rm -f $DIR/.git/index.lock
