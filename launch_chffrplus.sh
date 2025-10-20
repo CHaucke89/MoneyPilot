@@ -39,7 +39,9 @@ function launch {
   alias sc='scons -u -j8'
   alias update='gp && gsu && sc && rb'
   alias supdate='gp && gsu && sc && sr'
-  alias fupdate='gf && grh && gsu && sc && rb'";
+  alias fupdate='gf && grh && gsu && sc && rb'
+  alias ta='tmux a'
+  alias srta='sr && ta'";
 
   grep -qxF "$ALIASES" "$BASH_ALIASES" || echo "$ALIASES" > "$BASH_ALIASES";
 
