@@ -55,7 +55,7 @@ function launch {
     echo "touch_count entry not found in mtab"
     if [ ! -f "/data/touch_count" ]; then
       echo "Dummy touch_count not found, creating"
-      echo -e "0\n" > /data/touch_count
+      echo -e "0" > /data/touch_count
     fi
     echo "Bind mounting dummy touch_count"
     sudo mount --bind -o ro /data/touch_count /sys/devices/platform/soc/894000.i2c/i2c-2/2-0017/touch_count
