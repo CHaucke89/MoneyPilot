@@ -232,3 +232,11 @@ UiElement DeveloperUi::getActuatorsOutputLateral(cereal::CarParams::SteerControl
 
   return UiElement(value, label, unit, color);
 }
+
+// Add Driver Only HVAC Mode Status
+UiElement DeveloperUi::getDriverOnly(bool driver_only) {
+  QString value = driver_only ? "ON" : "OFF";
+  QColor color = driver_only ? QColor(0, 255, 0, 255) : QColor(255, 255, 255, 255);
+
+  return UiElement(value, "DRIVER ONLY", "", color);
+}

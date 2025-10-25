@@ -149,6 +149,7 @@ void HudRendererSP::updateState(const UIState &s) {
   rightBlinkerOn = car_state.getRightBlinker();
   leftBlindspot = car_state.getLeftBlindspot();
   rightBlindspot = car_state.getRightBlindspot();
+  driverOnly = car_state.getDriverOnly();
 
   speedCluster = car_state.getCruiseState().getSpeedCluster() * speedConv;
 
@@ -285,6 +286,9 @@ void HudRendererSP::draw(QPainter &p, const QRect &surface_rect) {
     if (showTurnSignals) {
       drawBlinker(p, surface_rect);
     }
+
+    // Driver Only HVAC Indicator
+    drawDriverOnly(p, surface_rect);
   }
 
   p.restore();
@@ -440,6 +444,9 @@ void HudRendererSP::drawBottomDevUI(QPainter &p, int x, int y) {
 
   UiElement altitudeElement = DeveloperUi::getAltitude(gpsAccuracy, altitude);
   rw += drawBottomDevUIElement(p, rw, y, altitudeElement.value, altitudeElement.label, altitudeElement.units, altitudeElement.color);
+
+  UiElement driverOnlyElement = DeveloperUi::getDriverOnly(driverOnly);
+  rw += drawBottomDevUIElement(p, rw, y, driverOnlyElement.value, driverOnlyElement.label, driverOnlyElement.units, driverOnlyElement.color);
 }
 
 void HudRendererSP::drawSpeedLimitSigns(QPainter &p, QRect &sign_rect) {
@@ -884,4 +891,33 @@ void HudRendererSP::drawBlinker(QPainter &p, const QRect &surface_rect) {
   }
 
   p.restore();
+}
+
+void HudRendererSP::drawDriverOnly(QPainter &p, const QRect &surface_rect) {
+  // Display driver only mode indicator in bottom-left corner
+  QString text = driverOnly ? tr("DRIVER ONLY: ON") : tr("DRIVER ONLY: OFF");
+  QColor bgColor = driverOnly ? QColor(0, 150, 0, 180) : QColor(100, 100, 100, 150);
+  QColor textColor = QColor(255, 255, 255, 255);
+
+  // Measure text to size container
+  p.setFont(InterFont(40, QFont::DemiBold));
+  QFontMetrics fm(p.font());
+
+  int text_width = fm.horizontalAdvance(text);
+  int padding = 30;
+  int rect_width = text_width + padding;
+  int rect_height = 50;
+
+  // Position in bottom-left corner
+  int margin = 20;
+  QRect indicator_rect(margin, surface_rect.height() - rect_height - margin, rect_width, rect_height);
+
+  // Draw background
+  p.setPen(Qt::NoPen);
+  p.setBrush(bgColor);
+  p.drawRoundedRect(indicator_rect, 10, 10);
+
+  // Draw text
+  p.setPen(textColor);
+  p.drawText(indicator_rect, Qt::AlignCenter, text);
 }
