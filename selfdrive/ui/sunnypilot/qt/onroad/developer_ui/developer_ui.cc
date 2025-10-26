@@ -137,7 +137,7 @@ UiElement DeveloperUi::getVEgoLead(bool lead_status, float lead_v_rel, float v_e
   return UiElement(value, "L.S.", speed_unit, color);
 }
 
-// Add Friction Coefficient Raw from torqued
+// Add Friction Coefficient Filtered from torqued
 // Unit: None
 UiElement DeveloperUi::getFrictionCoefficientFiltered(float friction_coefficient_filtered, bool live_valid) {
   QString value = QString::number(friction_coefficient_filtered, 'f', 3);
@@ -146,7 +146,7 @@ UiElement DeveloperUi::getFrictionCoefficientFiltered(float friction_coefficient
   return UiElement(value, "FRIC.", "", color);
 }
 
-// Add Lateral Acceleration Factor Raw from torqued
+// Add Lateral Acceleration Factor Filtered from torqued
 // Unit: m/s²
 UiElement DeveloperUi::getLatAccelFactorFiltered(float lat_accel_factor_filtered, bool live_valid) {
   bool use_imperial = Params().getBool("UseImperial");
