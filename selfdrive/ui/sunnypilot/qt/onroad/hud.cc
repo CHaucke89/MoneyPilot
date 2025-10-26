@@ -446,7 +446,7 @@ void HudRendererSP::drawBottomDevUI(QPainter &p, int x, int y) {
   rw += drawBottomDevUIElement(p, rw, y, altitudeElement.value, altitudeElement.label, altitudeElement.units, altitudeElement.color);
 
   UiElement driverOnlyElement = DeveloperUi::getDriverOnly(driverOnly);
-  rw += drawBottomDevUIElement(p, rw, y - 25, driverOnlyElement.value, driverOnlyElement.label, driverOnlyElement.units, driverOnlyElement.color);
+  rw += drawBottomDevUIElement(p, rw, y - 250, driverOnlyElement.value, driverOnlyElement.label, driverOnlyElement.units, driverOnlyElement.color);
 }
 
 void HudRendererSP::drawSpeedLimitSigns(QPainter &p, QRect &sign_rect) {
