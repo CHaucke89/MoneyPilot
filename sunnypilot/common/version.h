@@ -1,1 +1,1 @@
-#define MONEYPILOT_VERSION "v69s"
+#define MONEYPILOT_VERSION "v69"
