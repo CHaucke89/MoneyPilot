@@ -55,12 +55,28 @@ void HudRenderer::draw(QPainter &p, const QRect &surface_rect) {
 #endif
 
   p.restore();
+  current_frame++;
 }
 
 void HudRenderer::drawSetSpeed(QPainter &p, const QRect &surface_rect) {
   // Draw outer box + border to contain set speed
   const QSize default_size = {172, 204};
   QSize set_speed_size = is_metric ? QSize(200, 204) : default_size;
+  
+  // Check if set_speed is 69 and record the frame
+  bool is_speed_69 = is_cruise_set && std::nearbyint(set_speed) == 69;
+  if (is_speed_69) {
+    speed_69_frame = current_frame;
+  }
+  
+  // Check if we're within 1 second (20 frames at UI_FREQ=20Hz) of set_speed being 69
+  bool show_69_effect = speed_69_frame >= 0 && (current_frame - speed_69_frame) < 20;
+  
+  // Double the size if showing 69 effect
+  if (show_69_effect) {
+    set_speed_size = set_speed_size * 2;
+  }
+  
   QRect set_speed_rect(QPoint(60 + (default_size.width() - set_speed_size.width()) / 2, 45), set_speed_size);
 
   // Draw set speed box
@@ -71,6 +87,7 @@ void HudRenderer::drawSetSpeed(QPainter &p, const QRect &surface_rect) {
   // Colors based on status
   QColor max_color = QColor(0xa6, 0xa6, 0xa6, 0xff);
   QColor set_speed_color = QColor(0x72, 0x72, 0x72, 0xff);
+  QColor set_speed_color_69 = QColor(0xff, 0x69, 0xb4, 0xff);
   if (is_cruise_set) {
     set_speed_color = QColor(255, 255, 255);
     if (status == STATUS_DISENGAGED) {
@@ -81,6 +98,11 @@ void HudRenderer::drawSetSpeed(QPainter &p, const QRect &surface_rect) {
       max_color = QColor(0x80, 0xd8, 0xa6, 0xff);
     }
   }
+  
+  // Change color to bright pink if showing 69 effect
+  if (show_69_effect) {
+    set_speed_color = set_speed_color_69;
+  }
 
   // Draw "MAX" text
   p.setFont(InterFont(40, QFont::DemiBold));
@@ -89,7 +111,8 @@ void HudRenderer::drawSetSpeed(QPainter &p, const QRect &surface_rect) {
 
   // Draw set speed
   QString setSpeedStr = is_cruise_set ? QString::number(std::nearbyint(set_speed)) : "–";
-  p.setFont(InterFont(90, QFont::Bold));
+  int speed_font_size = show_69_effect ? 180 : 90;
+  p.setFont(InterFont(speed_font_size, QFont::Bold));
   p.setPen(set_speed_color);
   p.drawText(set_speed_rect.adjusted(0, 77, 0, 0), Qt::AlignTop | Qt::AlignHCenter, setSpeedStr);
 }

@@ -29,4 +29,6 @@ protected:
   bool is_metric = false;
   bool v_ego_cluster_seen = false;
   int status = STATUS_DISENGAGED;
+  int speed_69_frame = -1;
+  int current_frame = 0;
 };
