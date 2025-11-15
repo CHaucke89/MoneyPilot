@@ -4,8 +4,8 @@
 #include <QTimer>
 #include <QTranslator>
 
-#include "selfdrive/ui/qt/frame_streamer.h"
-#include "selfdrive/ui/qt/touch_injector.h"
+#include "selfdrive/ui/frame_streamer.h"
+#include "selfdrive/ui/touch_injector.h"
 #include "selfdrive/ui/qt/util.h"
 #include "selfdrive/ui/qt/window.h"
 #include "system/hardware/hw.h"
