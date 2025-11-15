@@ -19,6 +19,7 @@ private:
   ParamControlSP *enableCopyparty;
   ParamControlSP *enableGithubRunner;
   ButtonControlSP *errorLogBtn;
+  ButtonControlSP *clearLogBtn;
   ParamControlSP *prebuiltToggle;
   Params params;
   ParamControlSP *showAdvancedControls;

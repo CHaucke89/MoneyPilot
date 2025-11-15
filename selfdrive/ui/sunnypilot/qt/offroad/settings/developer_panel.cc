@@ -55,6 +55,13 @@ DeveloperPanelSP::DeveloperPanelSP(SettingsWindow *parent) : DeveloperPanel(pare
   });
   addItem(errorLogBtn);
 
+  clearLogBtn = new ButtonControlSP(tr("Clear Log"), tr("CLEAR"), tr("Clear the error log for sunnypilot crashes."));
+  connect(clearLogBtn, &ButtonControlSP::clicked, [=]() {
+    QFile::remove("/data/community/crashes/error.log");
+    errorLogBtn->refresh();
+  });
+  addItem(clearLogBtn);
+
   QObject::connect(uiState(), &UIState::offroadTransition, this, &DeveloperPanelSP::updateToggles);
 }
 
@@ -78,6 +85,7 @@ void DeveloperPanelSP::updateToggles(bool offroad) {
 
   enableGithubRunner->setVisible(!is_release);
   errorLogBtn->setVisible(!is_release);
+  clearLogBtn->setVisible(!is_release);
   showAdvancedControls->setEnabled(true);
 
   joystickToggle->setVisible(!is_release);
