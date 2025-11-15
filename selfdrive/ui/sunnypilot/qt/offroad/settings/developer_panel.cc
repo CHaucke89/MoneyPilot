@@ -58,7 +58,6 @@ DeveloperPanelSP::DeveloperPanelSP(SettingsWindow *parent) : DeveloperPanel(pare
   clearLogBtn = new ButtonControlSP(tr("Clear Log"), tr("CLEAR"), tr("Clear the error log for sunnypilot crashes."));
   connect(clearLogBtn, &ButtonControlSP::clicked, [=]() {
     QFile::remove("/data/community/crashes/error.log");
-    errorLogBtn->refresh();
   });
   addItem(clearLogBtn);
 
