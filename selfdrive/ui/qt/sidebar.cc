@@ -1,6 +1,7 @@
 #include "selfdrive/ui/qt/sidebar.h"
 
 #include <QMouseEvent>
+#include <QFile>
 
 #include "selfdrive/ui/qt/util.h"
 
@@ -40,10 +41,15 @@ Sidebar::Sidebar(QWidget *parent) : QFrame(parent), onroad(false), flag_pressed(
   QObject::connect(uiState(), &UIState::uiUpdate, this, &Sidebar::updateState);
 
   pm = std::make_unique<PubMaster>(std::vector<const char*>{"bookmarkButton"});
+
+  QFile bl("/sys/class/backlight/panel0-backlight/bl_power");
 }
 
 void Sidebar::mousePressEvent(QMouseEvent *event) {
   if (onroad && home_btn.contains(event->pos())) {
+    flag_pressed = true;
+    update();
+  } else if (!onroad && home_btn.contains(event->pos())) {
     flag_pressed = true;
     update();
   } else if (settings_btn.contains(event->pos())) {
@@ -64,6 +70,10 @@ void Sidebar::mouseReleaseEvent(QMouseEvent *event) {
     MessageBuilder msg;
     msg.initEvent().initBookmarkButton();
     pm->send("bookmarkButton", msg);
+  } else if (!onroad && home_btn.contains(event->pos())) {
+    bl.open(QIODevice::WriteOnly);
+    bl.write("4");
+    bl.close();
   } else if (settings_btn.contains(event->pos())) {
     emit openSettings();
   } else if (recording_audio && mic_indicator_btn.contains(event->pos())) {
