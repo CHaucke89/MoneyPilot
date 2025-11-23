@@ -243,5 +243,12 @@ class TogglesLayout(Widget):
     if self._toggle_defs[param][3]:
       self._params.put_bool("OnroadCycleRequested", True)
 
+    if param == "AlwaysOnDM" and state:
+      self._params.put_bool("DisableDM", False)
+      self._toggles["DisableDM"].action_item.set_state(False)
+    elif param == "DisableDM" and state:
+      self._params.put_bool("AlwaysOnDM", False)
+      self._toggles["AlwaysOnDM"].action_item.set_state(False)
+
   def _set_longitudinal_personality(self, button_index: int):
     self._params.put("LongitudinalPersonality", button_index)
