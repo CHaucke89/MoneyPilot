@@ -59,5 +59,5 @@ class PrimeWidget(Widget):
     y = rect.y + 40
 
     font = gui_app.font(FontWeight.BOLD)
-    rl.draw_text_ex(font, tr("✓ SUBSCRIBED"), rl.Vector2(x, y), 41, 0, rl.Color(134, 255, 78, 255))
-    rl.draw_text_ex(font, tr("comma prime"), rl.Vector2(x, y + 61), 75, 0, rl.WHITE)
+    rl.draw_text_ex(font, tr("$ $ $"), rl.Vector2(x, y), 41, 0, rl.Color(34, 255, 78, 255))
+    rl.draw_text_ex(font, tr("No idea what to put here"), rl.Vector2(x, y + 61), 75, 0, rl.WHITE)
