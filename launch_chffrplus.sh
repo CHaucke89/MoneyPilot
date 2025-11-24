@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+TOUCH_COUNT="/sys/devices/platform/soc/894000.i2c/i2c-2/2-0017/touch_count"
+FAKE_TOUCH_COUNT="/data/touch_count"
+
 
 source "$DIR/launch_env.sh"
 
@@ -43,20 +46,21 @@ function launch {
   alias ta='tmux a'
   alias srta='sr && ta'";
 
-  # Mount fake touch_count on launch to avoid system reset prompt with soft reboot.
+  grep -qxF "$ALIASES" "$BASH_ALIASES" || echo "$ALIASES" > "$BASH_ALIASES";
+
+  # Mount fake touch_count on launch to avoid system reset prompt with soft reboot.t
   # Bind mount does not persist across reboots, so default behavior is preserved with a standard reboot.
-  # (Screen taps to trigger a system reset during boot is completely unaffected.)
-  if ! grep -q "/dev/sda12 /sys/
-  /platform/soc/894000.i2c/i2c-2/2-0017/touch_count" /etc/mtab; then
+  if ! grep -q "/dev/sda12 $TOUCH_COUNT" /etc/mtab; then
     echo "touch_count entry not found in mtab"
-    if [ ! -f "/data/touch_count" ]; then
+    if [ ! -f "$FAKE_TOUCH_COUNT" ]; then
       echo "Dummy touch_count not found, creating"
-      echo -e "0" > /data/touch_count
+      echo -e "0" > $FAKE_TOUCH_COUNT
     fi
     echo "Bind mounting dummy touch_count"
-    sudo mount --bind -o ro /data/touch_count /sys/devices/platform/soc/894000.i2c/i2c-2/2-0017/touch_count
+    sudo mount --bind -o ro $FAKE_TOUCH_COUNT $TOUCH_COUNT
+  else
+    echo "touch_count entry found in mtab, skipping bind mount"
   fi
-
 
   # Remove orphaned git lock if it exists on boot
   [ -f "$DIR/.git/index.lock" ] && rm -f $DIR/.git/index.lock
