@@ -29,6 +29,20 @@ function agnos_init {
 
 function launch {
 
+  BASH_ALIASES="$HOME/.bash_aliases";
+  ALIASES="alias gf='git fetch'
+  alias gsu='git submodule update --recursive'
+  alias gp='git pull'
+  alias grh='git reset --hard origin/MoneyPilot'
+  alias rb='sudo reboot'
+  alias sr='sudo systemctl restart comma'
+  alias sc='scons -u -j8'
+  alias update='gp && gsu && rb'
+  alias supdate='gp && gsu && sr'
+  alias fupdate='gf && grh && gsu && rb'
+  alias ta='tmux a'
+  alias srta='sr && ta'";
+
   # Mount fake touch_count on launch to avoid system reset prompt with soft reboot.
   # Bind mount does not persist across reboots, so default behavior is preserved with a standard reboot.
   # (Screen taps to trigger a system reset during boot is completely unaffected.)
