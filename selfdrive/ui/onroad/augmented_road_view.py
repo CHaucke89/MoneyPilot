@@ -22,8 +22,9 @@ DEFAULT_DEVICE_CAMERA = DEVICE_CAMERAS["tici", "ar0231"]
 
 BORDER_COLORS = {
   UIStatus.DISENGAGED: rl.Color(0x12, 0x28, 0x39, 0xFF),  # Blue for disengaged state
+  UIStatus.LATERAL_ENGAGED: rl.Color(0xE6, 0xB3, 0xFF, 0xFF),  # Lavender for lateral only
   UIStatus.OVERRIDE: rl.Color(0x89, 0x92, 0x8D, 0xFF),  # Gray for override state
-  UIStatus.ENGAGED: rl.Color(0x16, 0x7F, 0x40, 0xFF),  # Green for engaged state
+  UIStatus.ENGAGED: rl.Color(0xFF, 0xA5, 0x00, 0xFF),  # Orange for fully engaged state
 }
 
 WIDE_CAM_MAX_SPEED = 10.0  # m/s (22 mph)

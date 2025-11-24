@@ -37,9 +37,11 @@ class FontSizes:
 class Colors:
   white: rl.Color = rl.WHITE
   disengaged: rl.Color = rl.Color(145, 155, 149, 255)
+  lateral_engaged: rl.Color = rl.Color(204, 153, 255, 255)
   override: rl.Color = rl.Color(145, 155, 149, 255)  # Added
   engaged: rl.Color = rl.Color(128, 216, 166, 255)
   disengaged_bg: rl.Color = rl.Color(0, 0, 0, 153)
+  lateral_engaged_bg: rl.Color = rl.Color(204, 153, 255, 153)
   override_bg: rl.Color = rl.Color(145, 155, 149, 204)
   engaged_bg: rl.Color = rl.Color(128, 216, 166, 204)
   grey: rl.Color = rl.Color(166, 166, 166, 255)
@@ -140,6 +142,8 @@ class HudRenderer(Widget):
       set_speed_color = COLORS.white
       if ui_state.status == UIStatus.ENGAGED:
         max_color = COLORS.engaged
+      elif ui_state.status == UIStatus.LATERAL_ENGAGED:
+        max_color = COLORS.lateral_engaged
       elif ui_state.status == UIStatus.DISENGAGED:
         max_color = COLORS.disengaged
       elif ui_state.status == UIStatus.OVERRIDE:

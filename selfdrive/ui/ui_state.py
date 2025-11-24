@@ -17,6 +17,7 @@ BACKLIGHT_OFFROAD = 65 if HARDWARE.get_device_type() == "mici" else 50
 
 class UIStatus(Enum):
   DISENGAGED = "disengaged"
+  LATERAL_ENGAGED = "lateral_engaged"
   ENGAGED = "engaged"
   OVERRIDE = "override"
 
@@ -44,6 +45,7 @@ class UIState:
         "carParams",
         "driverMonitoringState",
         "carState",
+        "carControl",
         "driverStateV2",
         "roadCameraState",
         "wideRoadCameraState",
@@ -149,8 +151,13 @@ class UIState:
 
       if state in (log.SelfdriveState.OpenpilotState.preEnabled, log.SelfdriveState.OpenpilotState.overriding):
         self.status = UIStatus.OVERRIDE
+      elif ss.enabled:
+        self.status = UIStatus.ENGAGED
+      elif self.sm.updated["carControl"] and self.sm["carControl"].latActive:
+        # Lateral control only
+        self.status = UIStatus.LATERAL_ENGAGED
       else:
-        self.status = UIStatus.ENGAGED if ss.enabled else UIStatus.DISENGAGED
+        self.status = UIStatus.DISENGAGED
 
     # Check for engagement state changes
     if self.engaged != self._engaged_prev:
