@@ -127,11 +127,19 @@ class FrequencyTracker:
     if self.avg_dt.count == 0:
       return False
 
-    avg_freq = 1.0 / self.avg_dt.get_average()
+    avg_dt = self.avg_dt.get_average()
+    if avg_dt <= 0:
+      return False
+
+    avg_freq = 1.0 / avg_dt
     if self.min_freq <= avg_freq <= self.max_freq:
       return True
 
-    avg_freq_recent = 1.0 / self.recent_avg_dt.get_average()
+    recent_avg_dt = self.recent_avg_dt.get_average()
+    if recent_avg_dt <= 0:
+      return False
+
+    avg_freq_recent = 1.0 / recent_avg_dt
     return self.min_freq <= avg_freq_recent <= self.max_freq
 
 
