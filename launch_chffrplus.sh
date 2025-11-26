@@ -37,16 +37,11 @@ function launch {
   alias rb='sudo reboot'
   alias sr='sudo systemctl restart comma'
   alias sc='scons -u -j8'
-  alias update='gp && gsu && sc && rb'
-  alias supdate='gp && gsu && sc && sr'
-  alias fupdate='gf && grh && gsu && sc && rb'
+  alias update='gp && gsu && rb'
+  alias supdate='gp && gsu && sr'
+  alias fupdate='gf && grh && gsu && rb'
   alias ta='tmux a'
   alias srta='sr && ta'";
-
-  grep -qxF "$ALIASES" "$BASH_ALIASES" || echo "$ALIASES" > "$BASH_ALIASES";
-
-  # Remove orphaned git lock if it exists on boot
-  [ -f "$DIR/.git/index.lock" ] && rm -f $DIR/.git/index.lock
 
   # Mount fake touch_count on launch to avoid system reset prompt with soft reboot.
   # Bind mount does not persist across reboots, so default behavior is preserved with a standard reboot.
