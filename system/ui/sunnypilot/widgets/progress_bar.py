@@ -16,10 +16,10 @@ class ProgressBarAction(ItemAction):
     self.progress = 0.0
     self.text = ""
     self.show_progress = False
-    self.text_color = rl.GRAY
+    self.text_color = rl.ORANGE
     self._font = gui_app.font(FontWeight.NORMAL)
 
-  def update(self, progress, text, show_progress=False, text_color=rl.GRAY):
+  def update(self, progress, text, show_progress=False, text_color=rl.ORANGE):
     self.progress = progress
     self.text = text
     self.show_progress = show_progress
