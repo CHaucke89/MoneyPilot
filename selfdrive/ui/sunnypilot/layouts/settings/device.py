@@ -84,15 +84,13 @@ class DeviceLayoutSP(DeviceLayout):
     self._dcam_btn = self._quiet_mode_and_dcam.action_item.right_button
     self._dcam_btn.set_button_style(ButtonStyle.NORMAL)
 
-    self._reg_and_training = dual_button_item(
-      left_text=lambda: tr("Regulatory"),
-      left_callback=self._on_regulatory,
-      right_text=lambda: tr("Training Guide"),
-      right_callback=self._on_review_training_guide
+    self._soft_reboot_btn = dual_button_item(
+      left_text=lambda: tr("Soft Reboot"),
+      left_callback=self._soft_reboot_prompt,
+      right_text="",
+      right_callback=None
     )
-    self._reg_btn = self._reg_and_training.action_item.left_button
-    self._training_btn = self._reg_and_training.action_item.right_button
-    self._training_btn.set_button_style(ButtonStyle.NORMAL)
+    self._soft_reboot_btn.action_item.right_button.set_visible(False)
 
     self._onroad_uploads_and_reset = dual_button_item(
       left_text=lambda: tr("Onroad Uploads"),
@@ -122,10 +120,12 @@ class DeviceLayoutSP(DeviceLayout):
       self._max_time_offroad,
       LineSeparator(),
       self._quiet_mode_and_dcam,
-      self._reg_and_training,
       self._onroad_uploads_and_reset,
       LineSeparator(),
+      self._soft_reboot_btn,
+      LineSeparator(),
     ]
+
 
     self._power_buttons = dual_button_item(
       left_text=lambda: tr("Reboot"),
