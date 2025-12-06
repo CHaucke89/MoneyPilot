@@ -232,10 +232,9 @@ class DeviceLayoutSP(DeviceLayout):
 
     # Offroad only buttons
     self._dcam_btn.set_enabled(ui_state.is_offroad())
-    self._reg_btn.set_enabled(ui_state.is_offroad())
-    self._training_btn.set_enabled(ui_state.is_offroad())
     self._reset_settings_btn.set_enabled(ui_state.is_offroad())
 
     # Always enabled buttons
     self._reboot_btn.set_visible(True)
     self._power_btn.set_visible(True)
+    self._soft_reboot_btn.set_visible(True)
