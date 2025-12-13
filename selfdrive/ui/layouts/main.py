@@ -12,7 +12,8 @@ from openpilot.selfdrive.ui.layouts.onboarding import OnboardingWindow
 
 if gui_app.sunnypilot_ui():
   from openpilot.selfdrive.ui.sunnypilot.layouts.settings.settings import SettingsLayoutSP as SettingsLayout
-
+  from openpilot.selfdrive.ui.layouts.settings import settings as OP
+  PanelType = OP.PanelType
 
 class MainState(IntEnum):
   HOME = 0
@@ -56,7 +57,7 @@ class MainLayout(Widget):
                                 open_settings=lambda: self.open_settings(PanelType.TOGGLES))
     self._layouts[MainState.HOME]._setup_widget.set_open_settings_callback(lambda: self.open_settings(PanelType.FIREHOSE))
     if gui_app.sunnypilot_ui():
-      self._layouts[MainState.HOME]._setup_widget.set_open_models_callback(lambda: self.open_settings(PanelType.MODELS))
+      self._layouts[MainState.HOME]._model_widget.set_open_models_callback(lambda: self.open_settings(PanelType.MODELS))
     self._layouts[MainState.HOME].set_settings_callback(lambda: self.open_settings(PanelType.TOGGLES))
     self._layouts[MainState.SETTINGS].set_callbacks(on_close=self._set_mode_for_state)
     self._layouts[MainState.ONROAD].set_click_callback(self._on_onroad_clicked)
