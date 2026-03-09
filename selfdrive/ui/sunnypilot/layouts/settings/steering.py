@@ -141,6 +141,8 @@ class SteeringLayout(Widget):
     else:
       self._mads_toggle.set_description(f"<b>{self._mads_check_compat_desc}</b><br><br>{self._mads_base_desc}")
 
+    self._dynamic_torque_toggle.action_item.set_visible(torque_allowed)
+    self._dynamic_delta_toggle.action_item.set_visible(torque_allowed)
     self._mads_toggle.action_item.set_enabled(ui_state.is_offroad())
     self._mads_settings_button.action_item.set_enabled(ui_state.is_offroad() and self._mads_toggle.action_item.get_state())
     self._blinker_control_options.set_visible(self._blinker_control_toggle.action_item.get_state())
