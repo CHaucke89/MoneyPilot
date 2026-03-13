@@ -4,6 +4,7 @@ Copyright (c) 2021-, Haibin Wen, sunnypilot, and a number of other contributors.
 This file is part of sunnypilot and is licensed under the MIT License.
 See the LICENSE.md file in the root directory for more details.
 """
+
 import datetime
 import os
 from pathlib import Path
@@ -88,16 +89,15 @@ class DeveloperLayoutSP(DeveloperLayout):
     dialog = HtmlModalSP(text=text, callback=lambda result: self._on_error_log_closed(result, os.path.exists(self.error_log_path)))
     gui_app.push_widget(dialog)
 
-  def _perform_reboot(self, result):
+  def _perform_soft_reboot(self, result):
     if result == DialogResult.CONFIRM:
       ui_state.params.put_bool("DoSoftReboot", True)
 
   def _on_konik_toggled(self, result):
-    dialog = ConfirmDialog(tr("Soft reboot required for changes to take effect. Soft reboot now?"), tr("Soft Reboot"))
-    gui_app.set_modal_overlay(dialog, callback=self._perform_reboot)
+    dialog = ConfirmDialog(tr("Soft reboot required for changes to take effect. Soft reboot now?"), tr("Soft Reboot"), callback=self._perform_soft_reboot)
+    gui_app.push_widget(dialog)
 
   def _update_state(self):
-    disable_updates = ui_state.params.get_bool("DisableUpdates")
     show_advanced = ui_state.params.get_bool("ShowAdvancedControls")
 
     if (prebuilt_file := os.path.exists(PREBUILT_PATH)) != ui_state.params.get_bool("QuickBootToggle"):
@@ -105,13 +105,14 @@ class DeveloperLayoutSP(DeveloperLayout):
       self.prebuilt_toggle.action_item.set_state(prebuilt_file)
 
     self.prebuilt_toggle.set_visible(show_advanced and not (self._is_release_branch or self._is_development_branch))
-    self.prebuilt_toggle.action_item.set_enabled(disable_updates)
+    self.prebuilt_toggle.action_item.set_enabled(True)
 
-    if disable_updates:
-      self.prebuilt_toggle.set_description(tr("When toggled on, this creates a prebuilt file to allow accelerated boot times. When toggled off, it " +
-                                              "removes the prebuilt file so compilation of locally edited cpp files can be made."))
-    else:
-      self.prebuilt_toggle.set_description(tr("Quickboot mode requires updates to be disabled.<br>Enable 'Disable Updates' in the Software panel first."))
+    self.prebuilt_toggle.set_description(
+      tr(
+        "When toggled on, this creates a prebuilt file to allow accelerated boot times. When toggled off, it "
+        + "removes the prebuilt file so compilation of locally edited cpp files can be made."
+      )
+    )
 
     self.enable_copyparty_toggle.set_visible(show_advanced)
     self.enable_github_runner_toggle.set_visible(show_advanced and not self._is_release_branch)
