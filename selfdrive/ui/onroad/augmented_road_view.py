@@ -116,6 +116,10 @@ class AugmentedRoadView(CameraView, AugmentedRoadViewSP):
     msg.uiDebug.drawTimeMillis = (time.monotonic() - start_draw) * 1000
     self._pm.send('uiDebug', msg)
 
+  def set_torque_settings_callback(self, callback) -> None:
+    if hasattr(self._hud_renderer, 'set_torque_settings_callback'):
+      self._hud_renderer.set_torque_settings_callback(callback)
+
   def _handle_mouse_press(self, _):
     if not self._hud_renderer.user_interacting() and self._click_callback is not None:
       self._click_callback()

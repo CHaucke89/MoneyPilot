@@ -135,6 +135,9 @@ class SteeringLayout(Widget):
     ]
     return items
 
+  def open_torque_panel(self):
+    self._set_current_panel(PanelType.TORQUE_CONTROL)
+
   def _set_current_panel(self, panel: PanelType):
     self._current_panel = panel
 

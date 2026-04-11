@@ -8,6 +8,7 @@ import pyray as rl
 
 from openpilot.common.constants import CV
 from openpilot.selfdrive.ui.mici.onroad.torque_bar import TorqueBar
+from openpilot.selfdrive.ui.sunnypilot.onroad.torque_button import TorqueButton
 from openpilot.selfdrive.ui.sunnypilot.onroad.developer_ui import DeveloperUiRenderer, DeveloperUiState, get_bottom_dev_ui_offset
 from openpilot.selfdrive.ui.sunnypilot.onroad.road_name import RoadNameRenderer
 from openpilot.selfdrive.ui.sunnypilot.onroad.rocket_fuel import RocketFuel
@@ -37,12 +38,19 @@ class HudRendererSP(HudRenderer):
     self.circular_alerts_renderer = CircularAlertsRenderer()
     self.speed_renderer = SpeedRenderer()
     self._torque_bar = TorqueBar(scale=3.0, always=True)
+    self._torque_button = TorqueButton(UI_CONFIG.button_size, UI_CONFIG.wheel_icon_size)
 
     self.pcm_cruise_speed: bool = True
     self.show_icbm_status: bool = False
     self.icbm_active_counter: int = 0
     self.speed_cluster: float = 0.0
     self.speed_conv: float = CV.MS_TO_KPH if ui_state.is_metric else CV.MS_TO_MPH
+
+  def set_torque_settings_callback(self, callback) -> None:
+    self._torque_button.set_callback(callback)
+
+  def user_interacting(self) -> bool:
+    return super().user_interacting() or self._torque_button.is_pressed
 
   def _update_state(self) -> None:
     if ui_state.sm.recv_frame["carState"] < ui_state.started_frame:
@@ -130,6 +138,11 @@ class HudRendererSP(HudRenderer):
 
   def _render(self, rect: rl.Rectangle) -> None:
     super()._render(rect)
+
+    button_x = rect.x + rect.width - UI_CONFIG.border_size - UI_CONFIG.button_size
+    button_y = rect.y + UI_CONFIG.border_size
+    torque_x = button_x - UI_CONFIG.border_size - UI_CONFIG.button_size
+    self._torque_button.render(rl.Rectangle(torque_x, button_y, UI_CONFIG.button_size, UI_CONFIG.button_size))
 
     if ui_state.torque_bar:
       torque_rect = rect
