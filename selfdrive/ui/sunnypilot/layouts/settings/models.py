@@ -78,11 +78,11 @@ class ModelsLayout(Widget):
     self.camera_offset = option_item_sp(tr("Camera Offset"), "CameraOffset", -35, 35,
                                                   tr("Adjust camera offset to keep vehicle centered."),
                                                   1, None, True, "", style.BUTTON_ACTION_WIDTH, None, True,
-                                                  lambda v: f"{v / 100:.2f}m")
+                                                  lambda v: f"{v / 100:.2f} m")
 
     self.plan_plus = option_item_sp(tr("Plan Plus Control"), "PlanplusControl", 0, 200,
                                                   tr("Adjust model recentering strength."),
-                                                  1, None, True, "", style.BUTTON_ACTION_WIDTH, None, True,
+                                                  5, None, True, "", style.BUTTON_ACTION_WIDTH, None, True,
                                                   lambda v: f"{v / 100:.2f}")
 
     self.lane_turn_value_control = option_item_sp(tr("Adjust Lane Turn Speed"), "LaneTurnValue", 500, 2000,
