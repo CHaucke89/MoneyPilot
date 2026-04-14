@@ -30,5 +30,4 @@ class TorqueButton(Widget):
     center_y = int(self._rect.y + self._rect.height // 2)
 
     self._white_color.a = 180 if self.is_pressed else 255
-    rl.draw_circle(center_x, center_y, self._rect.width / 2, self._black_bg)
     rl.draw_texture_ex(self._icon, rl.Vector2(center_x - self._icon.width / 2, center_y - self._icon.height / 2), 0.0, 1.0, self._white_color)
