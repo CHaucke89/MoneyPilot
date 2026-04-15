@@ -256,7 +256,7 @@ class ModelsLayout(Widget):
     self._handle_bundle_download_progress()
     active_name = self.model_manager.activeBundle.internalName if self.model_manager and self.model_manager.activeBundle.ref else f"{DEFAULT_MODEL} (Default)"
     self.current_model_item.action_item.set_value(active_name)
-
+    self.camera_offset.set_visible(ui_state.params.get("ModelManager_ActiveBundle") is not None)
     if not ui_state.is_offroad():
       self.current_model_item.action_item.set_enabled(False)
       self.current_model_item.set_description(tr("Only available when vehicle is off, or always offroad mode is on"))
