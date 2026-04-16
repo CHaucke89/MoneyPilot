@@ -187,6 +187,7 @@ class ModelsLayout(Widget):
 
   @staticmethod
   def _show_reset_params_dialog():
+    return
     def _callback(response):
       if response == DialogResult.CONFIRM:
         ui_state.params.remove("CalibrationParams")
