@@ -78,18 +78,18 @@ class ModelsLayout(Widget):
     self.camera_offset = option_item_sp(tr("Camera Offset"), "CameraOffset", -35, 35,
                                                   tr("Adjust camera offset to keep vehicle centered."),
                                                   1, None, True, "", style.BUTTON_ACTION_WIDTH, None, True,
-                                                  lambda v: f"{v / 100:.2f} m", False, True)
+                                                  lambda v: f"{v / 100:.2f} m", True, True)
 
     self.plan_plus = option_item_sp(tr("Plan Plus Control"), "PlanplusControl", 0, 200,
                                                   tr("Adjust model recentering strength."),
                                                   5, None, True, "", style.BUTTON_ACTION_WIDTH, None, True,
-                                                  lambda v: f"{v / 100:.2f}", False, True)
+                                                  lambda v: f"{v / 100:.2f}", True, True)
 
     self.lane_turn_value_control = option_item_sp(tr("Adjust Lane Turn Speed"), "LaneTurnValue", 500, 2000,
                                                   tr("Set the maximum speed for lane turn desires. Default is 19 mph."),
                                                   int(round(100 / CV.MPH_TO_KPH)), None, True, "", style.BUTTON_ACTION_WIDTH, None, True,
                                                   lambda v: f"{int(round(v / 100 * (CV.MPH_TO_KPH if ui_state.is_metric else 1)))}" +
-                                                            f" {'km/h' if ui_state.is_metric else 'mph'}")
+                                                            f" {'km/h' if ui_state.is_metric else 'mph'}", True, True)
 
     self.lane_turn_desire_toggle = toggle_item_sp(tr("Use Lane Turn Desires"),
                                                   tr("If you're driving at 20 mph (32 km/h) or below and have your blinker on," +
@@ -99,7 +99,7 @@ class ModelsLayout(Widget):
 
     self.delay_control = option_item_sp(tr("Adjust Software Delay"), "LagdToggleDelay", 5, 50,
                                         tr("Adjust the software delay when Live Learning Steer Delay is toggled off. The default software delay value is 0.2"),
-                                        1, None, True, "", style.BUTTON_ACTION_WIDTH, None, True, lambda v: f"{v / 100:.2f}s")
+                                        1, None, True, "", style.BUTTON_ACTION_WIDTH, None, True, lambda v: f"{v / 100:.2f}s", True, True)
 
     self.lagd_toggle = toggle_item_sp(tr("Live Learning Steer Delay"), "", param="LagdToggle")
 
