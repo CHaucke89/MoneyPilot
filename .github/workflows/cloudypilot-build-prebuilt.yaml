@@ -11,8 +11,6 @@ env:
   SOURCE_BRANCH: "${{ github.ref_name }}"
 
 on:
-  push:
-    branches: [ master ]
   workflow_dispatch:
 
 jobs:
