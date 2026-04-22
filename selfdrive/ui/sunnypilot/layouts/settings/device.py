@@ -65,7 +65,8 @@ class DeviceLayoutSP(DeviceLayout):
       label_width=360,
       use_float_scaling=False,
       inline=True,
-      label_callback=self._update_max_time_offroad_label
+      label_callback=self._update_max_time_offroad_label,
+      reset_enabled=True
     )
 
     self._low_voltage_shutdown = option_item_sp(
@@ -82,7 +83,8 @@ class DeviceLayoutSP(DeviceLayout):
       label_width=360,
       use_float_scaling=True,
       inline=True,
-      label_callback=self._update_low_voltage_shutdown_label
+      label_callback=self._update_low_voltage_shutdown_label,
+      reset_enabled=True
     )
 
     self._device_wake_mode = multiple_button_item_sp(
