@@ -1,7 +1,7 @@
 name: cloudypilot prebuilt action
 
 env:
-  BUILD_DIR: "/data/openpilot"
+  BUILD_DIR: "/data/cloudypilot"
   OUTPUT_DIR: ${{ github.workspace }}/output
   CI_DIR: ${{ github.workspace }}/release/ci
   SCONS_CACHE_DIR: ${{ github.workspace }}/release/ci/scons_cache
