@@ -1,0 +1,181 @@
+name: cloudypilot prebuilt action
+
+env:
+  BUILD_DIR: "/data/openpilot"
+  OUTPUT_DIR: ${{ github.workspace }}/output
+  CI_DIR: ${{ github.workspace }}/release/ci
+  SCONS_CACHE_DIR: ${{ github.workspace }}/release/ci/scons_cache
+  PUBLIC_REPO_URL: "https://github.com/CHaucke89/cloudypilot"
+
+  STAGING_SOURCE_BRANCH: 'master'
+  SOURCE_BRANCH: "${{ github.ref_name }}"
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    concurrency:
+      group: build-${{ github.ref_name }}
+      cancel-in-progress: false
+    runs-on: [self-hosted, tici]
+    outputs:
+      new_branch: ${{ steps.set-env.outputs.new_branch }}
+      version: ${{ steps.set-env.outputs.version }}
+      extra_version_identifier: ${{ steps.set-env.outputs.extra_version_identifier }}
+      commit_sha: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          ref: ${{ env.SOURCE_BRANCH }}
+      - run: git lfs pull
+
+      - name: Cache SCons
+        uses: actions/cache@v4
+        with:
+          path: ${{ env.SCONS_CACHE_DIR }}
+          key: scons-${{ runner.os }}-${{ runner.arch }}-${{ env.SOURCE_BRANCH }}-${{ github.sha }}
+          restore-keys: |
+            scons-${{ runner.os }}-${{ runner.arch }}-${{ env.SOURCE_BRANCH }}
+            scons-${{ runner.os }}-${{ runner.arch }}-${{ env.STAGING_SOURCE_BRANCH }}
+            scons-${{ runner.os }}-${{ runner.arch }}
+
+      - name: Set environment variables
+        id: set-env
+        run: |
+          BUILD="$(date '+%Y.%m.%d')-${{ github.run_number }}"
+          echo "new_branch=${{ env.SOURCE_BRANCH }}-prebuilt" >> $GITHUB_OUTPUT
+          echo "version=$BUILD" >> $GITHUB_OUTPUT
+          echo "extra_version_identifier=cloudypilot" >> $GITHUB_OUTPUT
+          echo "commit_sha=${{ github.sha }}" >> $GITHUB_OUTPUT
+
+          source /etc/profile
+          export UV_PROJECT_ENVIRONMENT=${HOME}/venv
+          export VIRTUAL_ENV=$UV_PROJECT_ENVIRONMENT
+          printenv >> $GITHUB_ENV
+          if [[ "${{ runner.debug }}" == "1" ]]; then
+            cat $GITHUB_OUTPUT
+          fi
+
+      - name: Setup build environment
+        run: |
+          mkdir -p "${BUILD_DIR}/"
+          sudo find $BUILD_DIR/ -mindepth 1 -delete
+          echo "Starting build stage..."
+          echo "BUILD_DIR: ${BUILD_DIR}"
+          echo "CI_DIR: ${CI_DIR}"
+          echo "VERSION: ${{ steps.set-env.outputs.version }}"
+          echo "UV_PROJECT_ENVIRONMENT: ${UV_PROJECT_ENVIRONMENT}"
+          echo "VIRTUAL_ENV: ${VIRTUAL_ENV}"
+          echo "-------"
+          if [[ "${{ runner.debug }}" == "1" ]]; then
+            printenv
+          fi
+          PYTHONPATH=$PYTHONPATH:${{ github.workspace }}/ ${{ github.workspace }}/scripts/manage-powersave.py --disable
+
+      - name: Build Main Project
+        run: |
+          export PYTHONPATH="$BUILD_DIR"
+          ./release/release_files.py | sort | uniq | rsync -rRl${RUNNER_DEBUG:+v} --files-from=- . $BUILD_DIR/
+          cd $BUILD_DIR
+          sed -i '/from .board.jungle import PandaJungle, PandaJungleDFU/s/^/#/' panda/__init__.py
+          echo "Building sunnypilot's modeld_v2..."
+          scons -j$(nproc) cache_dir=${{ env.SCONS_CACHE_DIR }} --minimal sunnypilot/modeld_v2
+          echo "Building sunnypilot's locationd..."
+          scons -j2 cache_dir=${{ env.SCONS_CACHE_DIR }} --minimal sunnypilot/selfdrive/locationd
+          echo "Building openpilot's locationd..."
+          scons -j1 cache_dir=${{ env.SCONS_CACHE_DIR }} --minimal selfdrive/locationd
+          echo "Building rest of cloudypilot..."
+          scons -j$(nproc) cache_dir=${{ env.SCONS_CACHE_DIR }} --minimal
+          touch ${BUILD_DIR}/prebuilt
+          if [[ "${{ runner.debug }}" == "1" ]]; then
+            ls -la ${BUILD_DIR}
+          fi
+
+      - name: Prepare Output
+        run: |
+          sudo rm -rf ${OUTPUT_DIR}
+          mkdir -p ${OUTPUT_DIR}
+          rsync -am${RUNNER_DEBUG:+v} \
+            --exclude='.sconsign.dblite' \
+            --exclude='*.a' \
+            --exclude='*.o' \
+            --exclude='*.os' \
+            --exclude='*.pyc' \
+            --exclude='moc_*' \
+            --exclude='__pycache__' \
+            --exclude='Jenkinsfile' \
+            --exclude='**/release/' \
+            --exclude='**/.github/' \
+            --exclude='**/selfdrive/ui/replay/' \
+            --exclude='**/__pycache__/' \
+            --exclude='${{ env.SCONS_CACHE_DIR }}' \
+            --exclude='**/.git/' \
+            --exclude='**/SConstruct' \
+            --exclude='**/SConscript' \
+            --exclude='**/.venv/' \
+            --exclude='selfdrive/modeld/models/driving_vision.onnx' \
+            --exclude='selfdrive/modeld/models/driving_policy.onnx' \
+            --exclude='third_party/*x86*' \
+            --exclude='third_party/*Darwin*' \
+            --delete-excluded \
+            --chown=comma:comma \
+            ${BUILD_DIR}/ ${OUTPUT_DIR}/
+
+      - name: 'Tar.gz files'
+        run: |
+          tar czf prebuilt.tar.gz -C ${{ env.OUTPUT_DIR }} .
+          ls -la prebuilt.tar.gz
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v4
+        with:
+          name: prebuilt
+          path: prebuilt.tar.gz
+
+      - name: Re-enable powersave
+        if: always()
+        run: |
+          PYTHONPATH=$PYTHONPATH:${{ github.workspace }}/ ${{ github.workspace }}/scripts/manage-powersave.py --enable
+
+  publish:
+    needs: [ build ]
+    runs-on: ubuntu-24.04
+    concurrency:
+      group: publish-${{ github.ref_name }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: prebuilt
+
+      - name: Untar prebuilt
+        run: |
+          mkdir -p ${{ env.OUTPUT_DIR }}
+          tar xzf prebuilt.tar.gz -C ${{ env.OUTPUT_DIR }}
+
+      - name: Configure Git
+        run: |
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "github-actions[bot]"
+
+      - name: Publish to Public Repository
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo '${{ toJSON(needs.build.outputs) }}'
+          ls -la ${{ env.OUTPUT_DIR }}
+
+          ${{ env.CI_DIR }}/publish.sh \
+            "${{ github.workspace }}" \
+            "${{ env.OUTPUT_DIR }}" \
+            "${{ needs.build.outputs.new_branch }}" \
+            "${{ needs.build.outputs.version }}" \
+            "https://x-access-token:${{ github.token }}@github.com/CHaucke89/cloudypilot.git" \
+            "${{ needs.build.outputs.extra_version_identifier }}"
