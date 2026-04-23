@@ -1,4 +1,4 @@
-name: cloudypilot prebuilt action
+name: build on device
 
 env:
   BUILD_DIR: "/data/cloudypilot"
