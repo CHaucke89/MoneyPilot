@@ -8,7 +8,7 @@ jobs:
   build___nightly:
     name: build __nightly
     runs-on: ubuntu-latest
-    if: github.repository == 'sunnypilot/sunnypilot'
+    if: github.repository == 'CHaucke89/cloudypilot'
     permissions:
       checks: read
       contents: write
@@ -21,7 +21,7 @@ jobs:
         wait-interval: 30
         running-workflow-name: 'build __nightly'
         repo-token: ${{ secrets.GITHUB_TOKEN }}
-        check-regexp: ^((?!.*(build prebuilt|create badges).*).)*$
+        check-regexp: ^((?!.*(build prebuilt|build on device|create badges).*).)*$
     - uses: actions/checkout@v4
       with:
         submodules: true
