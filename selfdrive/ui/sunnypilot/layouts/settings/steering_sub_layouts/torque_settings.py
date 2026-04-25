@@ -86,9 +86,7 @@ class TorqueSettingsLayout(Widget):
       max_value=500,
       value_change_step=1,
       label_callback=(lambda x: f"{x/100} m/s^2"),
-      use_float_scaling=True,
-      inline=True,
-      reset_enabled=True
+      use_float_scaling=True
     )
 
     self._torque_friction = option_item_sp(
@@ -99,9 +97,7 @@ class TorqueSettingsLayout(Widget):
       max_value=100,
       value_change_step=1,
       label_callback=(lambda x: f"{x/100}"),
-      use_float_scaling=True,
-      inline=True,
-      reset_enabled=True
+      use_float_scaling=True
     )
 
     items = [
