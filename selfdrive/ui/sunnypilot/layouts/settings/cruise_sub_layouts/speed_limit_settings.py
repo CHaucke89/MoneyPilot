@@ -84,8 +84,6 @@ class SpeedLimitSettingsLayout(Widget):
       max_value=30,
       description=self._get_offset_description,
       label_callback=self._get_offset_label,
-      inline=True,
-      reset_enabled=True
     )
 
     items = [
