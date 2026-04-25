@@ -43,7 +43,9 @@ class LaneChangeSettingsLayout(Widget):
                       f"0.5 {tr('s')}" if x == 2 else
                       f"1 {tr('s')}" if x == 3 else
                       f"2 {tr('s')}" if x == 4 else
-                      f"3 {tr('s')}")
+                      f"3 {tr('s')}"),
+      inline=True,
+      reset_enabled=True
     )
     self._bsm_delay = toggle_item_sp(
       param="AutoLaneChangeBsmDelay",

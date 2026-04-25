@@ -67,14 +67,14 @@ class CruiseLayout(Widget):
       title=tr("Short Press Increment"),
       param="CustomAccShortPressIncrement",
       min_value=1, max_value=10, value_change_step=1,
-      inline=True)
+      inline=True, reset_enabled=True)
 
     self.custom_acc_long_increment = option_item_sp(
       title=tr("Long Press Increment"),
       param="CustomAccLongPressIncrement",
       value_map={1: 1, 2: 5, 3: 10},
       min_value=1, max_value=3, value_change_step=1,
-      inline=True)
+      inline=True, reset_enabled=True)
 
     self.sla_settings_button = simple_button_item_sp(
       button_text=lambda: tr("Speed Limit"),
