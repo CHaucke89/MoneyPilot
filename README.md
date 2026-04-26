@@ -1,30 +1,35 @@
-## THIS IS AN "UNSAFE" FORK AND WILL GET YOUR DEVICE BANNED FROM COMMA'S SERVERS
-### This fork is strictly a personal project and is not endorsed by or associated with sunnypilot or its developers in any way
-This is a personal fork of [sunnypilot](https://github.com/sunnypilot/sunnypilot) specifically made for my Kia EV6 that very much falls under the [Bad/Unsafe Forks category](https://github.com/commaai/openpilot/wiki/Forks#badunsafe-forks). If you do not want to be banned from comma connect, do NOT use this with uploads enabled and be sure to delete all rlogs before switching back to a safe fork and re-enabling uploads. If you do not use comma connect or use an alternative like konik.ai, then you have nothing to worry about...except your life while letting this fork operate a motor vehicle with you in it.
+### THIS IS AN "UNSAFE" FORK THAT COULD GET YOUR DEVICE BANNED FROM COMMA'S SERVERS
+#### This fork is strictly a personal project and is not endorsed by or associated with sunnypilot or its developers in any way
+This is a personal project based on [sunnypilot](https://github.com/sunnypilot/sunnypilot) specifically made for my Kia EV6 that very much falls under the [Bad/Unsafe Forks category](https://github.com/commaai/openpilot/wiki/Forks#badunsafe-forks). If you do not want to be banned from comma connect, do NOT use this fork with uploads enabled. Be sure to delete all driving logs before switching back to a "safe" fork and reenabling uploads. If you do not use comma connect or use an alternative like stable.konik.ai, then you have nothing to worry about...except your life while letting this fork operate a motor vehicle with you in it.
 
 Just kidding, it's not that bad.
 Some of the additional features and/or changes in no particular order:
 
-### Toggles:
+#### Toggles:
 - Always-Off Driver Monitoring (mutually exclusive with Always-On Driver Monitoring) - used for testing purposes only. **Please do not drive with driver monitoring disabled.**
-- Dynamic "damp factor" when using stock longitudinal control
+- Dynamic damping factor when using stock longitudinal control
 - Dynamic maximum steering torque & steer deltas
+- Torqued speed dependent self-tune by [zephleggett](https://github.com/zephleggett) - learns separate lateral acceleration factor and friction coefficient values for different speed ranges
 - Use Imperial units (feet) in the on-road developer UI rather than SI units (meters)
+- Permanent seatbelt latch - allows engaging while the driver's seatbelt is unlatched
+- Steering Arc - background fade effect is broken out to its own toggle
+- Konik API toggle - use the stable.konik.ai API rather than connect.comma.ai
 - Modified torque tune logic - Offline and Live tuning can be enabled or disabled independent of one another
   - Live tuning can be enabled or disabled and values can be modified while onroad
   - Live tuning can be enabled or disabled regardless of automatic self tune being enabled
 
-### Other Stuff:
+#### Other Stuff:
 - Increased default maximum steering torque
 - Increased default steer delta values
 - Current active model widget on home screen with a button to open the Models settings page
 - Current branch widget on home screen with a button to open the Software settings page
 - Enter/Exit Always Offroad Mode widget on home screen
-- Various UI changes, mainly colors
-- Git LFS removed/not used (all files are present in the repo)
+- Torque settings button on the onroad screen (brings you to the torque params steering sub-menu)
+- "Soft" reboot - most standard reboots are replaced with soft reboots (```sudo systemctl restart comma```) and a Soft Reboot button is added to the Device settings page
+- Many UI changes
 - Any branch may be broken at any time - this is a free time hobby and only meant for myself, but as an avid supporter of open source software, it doesn't feel right to make this repo private.
 
-If you decide to install this, you do so at your own risk!
+Install at your own risk! Feel free to reach out if you have any issues or questions. It may take some time for me to respond, but I will as soon as I can.
 
 
 # Licensing
