@@ -38,15 +38,15 @@ function launch {
   alias gsu='git submodule update --recursive'
   alias gp='git pull'
   alias grh='git reset --hard'
-  alias grhm='git reset --hard origin/master'
   alias rb='sudo reboot'
   alias sr='sudo systemctl restart comma'
   alias sc='scons -u -j8'
   alias update='gp && gsu && rb'
   alias supdate='gp && gsu && sr'
-  alias fupdate='gf && grh && gsu && rb'
   alias ta='tmux a'
-  alias srta='sr && sleep 2 && ta'";
+  alias srta='sr && sleep 2 && ta'
+  alias runner='sudo systemctl start actions.runner.CHaucke89-cloudypilot.comma-c14b0a0e'
+  alias stoprunner='sudo systemctl stop actions.runner.CHaucke89-cloudypilot.comma-c14b0a0e'";
 
   grep -qxF "$ALIASES" "$BASH_ALIASES" || echo "$ALIASES" > "$BASH_ALIASES";
 
