@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Define the service name
-SERVICE_NAME="actions.runner.cloudypilot.$(uname -n)"
+SERVICE_NAME="actions.runner.CHaucke89-cloudypilot.$(uname -n)"
 
 # Function to control the service
 control_service() {
