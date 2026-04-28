@@ -7,6 +7,7 @@ See the LICENSE.md file in the root directory for more details.
 import pyray as rl
 from dataclasses import dataclass
 
+from openpilot.selfdrive.ui.ui_state import ui_state
 from openpilot.common.constants import CV
 from openpilot.selfdrive.ui.ui_state import ui_state
 from openpilot.system.ui.lib.text_measure import measure_text_cached
@@ -251,8 +252,14 @@ class FrictionCoefficientElement:
       return UiElement(f"{ui_state.torque_override_friction:.3f}", "FRIC.", self.unit, rl.WHITE)
 
     ltp = sm['liveTorqueParameters']
-    value = f"{ltp.frictionCoefficientFiltered:.3f}"
-    color = rl.Color(0, 255, 0, 255) if ltp.liveValid else rl.WHITE
+    friction_coef = ltp.frictionCoefficientFiltered
+    live_valid = ltp.liveValid
+
+    if ui_state.params.get_bool("TorqueParamsOverrideEnabled"):
+      friction_coef = float(ui_state.params.get("TorqueParamsOverrideFriction", return_default=True))
+
+    value = f"{friction_coef:.3f}"
+    color = rl.Color(0, 255, 0, 255) if live_valid else rl.WHITE
     return UiElement(value, "FRIC.", self.unit, color)
 
 
@@ -265,8 +272,14 @@ class LatAccelFactorElement:
       return UiElement(f"{ui_state.torque_override_lat_accel_factor:.3f}", "L.A.F.", self.unit, rl.WHITE)
 
     ltp = sm['liveTorqueParameters']
-    value = f"{ltp.latAccelFactorFiltered:.3f}"
-    color = rl.Color(0, 255, 0, 255) if ltp.liveValid else rl.WHITE
+    lat_accel_factor = ltp.latAccelFactorFiltered
+    live_valid = ltp.liveValid
+
+    if ui_state.params.get_bool("TorqueParamsOverrideEnabled"):
+      lat_accel_factor = float(ui_state.params.get("TorqueParamsOverrideLatAccelFactor", return_default=True))
+
+    value = f"{lat_accel_factor:.3f}"
+    color = rl.Color(0, 255, 0, 255) if live_valid else rl.WHITE
     return UiElement(value, "L.A.F.", self.unit, color)
 
 
