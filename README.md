@@ -1,6 +1,6 @@
-### THIS IS AN "UNSAFE" FORK THAT COULD GET YOUR DEVICE BANNED FROM COMMA'S SERVERS
-#### This fork is strictly a personal project and is not endorsed by or associated with sunnypilot or its developers in any way
-This is a personal project based on [sunnypilot](https://github.com/sunnypilot/sunnypilot) specifically made for my Kia EV6 that very much falls under the [Bad/Unsafe Forks category](https://github.com/commaai/openpilot/wiki/Forks#badunsafe-forks). If you do not want to be banned from comma connect, do NOT use this fork with uploads enabled. Be sure to delete all driving logs before switching back to a "safe" fork and reenabling uploads. If you do not use comma connect or use an alternative like stable.konik.ai, then you have nothing to worry about...except your life while letting this fork operate a motor vehicle with you in it.
+### THIS IS AN "UNSAFE" FORK OF SUNNYPILOT/OPENPILOT THAT COULD GET YOUR DEVICE BANNED FROM COMMA'S SERVERS
+#### Cloudypilot is strictly a personal project and is not associated with sunnypilot or endorsed by its developers in any way
+Cloudypilot is a personal project built on [sunnypilot](https://github.com/sunnypilot/sunnypilot) specifically made for my Kia EV6 that very much falls under the [Bad/Unsafe Forks category](https://github.com/commaai/openpilot/wiki/Forks#badunsafe-forks). If you do not want to be banned from comma connect, do NOT use this fork with uploads enabled. Be sure to delete all driving logs before switching back to a "safe" fork and reenabling uploads. If you do not use comma connect or use an alternative like stable.konik.ai, then you have nothing to worry about...except your life while letting this fork operate a motor vehicle with you in it.
 
 Just kidding, it's not that bad.
 Some of the additional features and/or changes in no particular order:
