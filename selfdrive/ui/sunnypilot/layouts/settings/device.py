@@ -127,6 +127,14 @@ class DeviceLayoutSP(DeviceLayout):
       right_callback=self._reset_settings
     )
 
+    self._disable_uploads_btn = dual_button_item_sp(
+      left_text=lambda: tr("Disable Uploads"),
+      left_callback=lambda: ui_state.params.put_bool("DisableUploads", not ui_state.params.get_bool("DisableUploads")),
+      right_text="",
+      right_callback=None
+    )
+    self._disable_uploads_btn.action_item.right_button.set_visible(False)
+
     self._power_buttons = dual_button_item_sp(
       left_text=lambda: tr("Reboot"),
       right_text=lambda: tr("Power Off"),
@@ -154,6 +162,7 @@ class DeviceLayoutSP(DeviceLayout):
       self._quiet_mode_and_dcam,
       self._reg_and_training,
       self._onroad_uploads_and_reset_settings,
+      self._disable_uploads_btn,
       Spacer(10),
       LineSeparator(),
       self._soft_reboot_btn,
@@ -248,6 +257,11 @@ class DeviceLayoutSP(DeviceLayout):
     # Onroad Uploads
     self._onroad_uploads_and_reset_settings.action_item.left_button.set_button_style(
       ButtonStyle.PRIMARY if ui_state.params.get_bool("OnroadUploads") else ButtonStyle.NORMAL
+    )
+
+    # Disable Uploads
+    self._disable_uploads_btn.action_item.left_button.set_button_style(
+      ButtonStyle.DANGER if ui_state.params.get_bool("DisableUploads") else ButtonStyle.NORMAL
     )
 
     # Offroad only buttons
