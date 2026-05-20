@@ -286,6 +286,7 @@ inline static std::unordered_map<std::string, ParamKeyAttributes> keys = {
 
     // cloudypilot params
     {"AlwaysOffDM", {PERSISTENT | BACKUP, BOOL, "1"}},
+    {"DisableUploads", {PERSISTENT | BACKUP, BOOL, "0"}},
     {"DoSoftReboot", {CLEAR_ON_MANAGER_START, BOOL}},
     {"DynamicDampFactor", {PERSISTENT | BACKUP, BOOL, "1"}},
     {"DynamicDeltas", {PERSISTENT | BACKUP, BOOL, "1"}},
