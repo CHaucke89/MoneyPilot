@@ -219,7 +219,7 @@ class DeviceLayoutSP(DeviceLayout):
   def _delete_driving_logs():
     def _do_delete(result: int):
       if result == DialogResult.CONFIRM:
-        for path in glob.glob("/data/media/0/realdata/*/rlog.zst"):
+        for path in glob.glob("/data/media/0/realdata/*/*log.zst"):
           os.remove(path)
 
     gui_app.push_widget(ConfirmDialog(
