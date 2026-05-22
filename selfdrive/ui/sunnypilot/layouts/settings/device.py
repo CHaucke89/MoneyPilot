@@ -4,6 +4,9 @@ Copyright (c) 2021-, Haibin Wen, sunnypilot, and a number of other contributors.
 This file is part of sunnypilot and is licensed under the MIT License.
 See the LICENSE.md file in the root directory for more details.
 """
+import glob
+import os
+
 from openpilot.selfdrive.ui.layouts.settings.device import DeviceLayout
 from openpilot.selfdrive.ui.onroad.driver_camera_dialog import DriverCameraDialog
 from openpilot.selfdrive.ui.ui_state import ui_state
@@ -135,6 +138,14 @@ class DeviceLayoutSP(DeviceLayout):
     )
     self._disable_uploads_btn.action_item.right_button.set_visible(False)
 
+    self._delete_driving_logs_btn = dual_button_item_sp(
+      left_text=lambda: tr("Delete Driving Logs"),
+      left_callback=self._delete_driving_logs,
+      right_text="",
+      right_callback=None
+    )
+    self._delete_driving_logs_btn.action_item.right_button.set_visible(False)
+
     self._power_buttons = dual_button_item_sp(
       left_text=lambda: tr("Reboot"),
       right_text=lambda: tr("Power Off"),
@@ -163,6 +174,7 @@ class DeviceLayoutSP(DeviceLayout):
       self._reg_and_training,
       self._onroad_uploads_and_reset_settings,
       self._disable_uploads_btn,
+      self._delete_driving_logs_btn,
       Spacer(10),
       LineSeparator(),
       self._soft_reboot_btn,
@@ -201,6 +213,18 @@ class DeviceLayoutSP(DeviceLayout):
     gui_app.push_widget(ConfirmDialog(
       text=tr("Are you sure you want to reset all sunnypilot settings to default? Once the settings are reset, there is no going back."),
       confirm_text=tr("Reset"), callback=_second_confirm
+    ))
+
+  @staticmethod
+  def _delete_driving_logs():
+    def _do_delete(result: int):
+      if result == DialogResult.CONFIRM:
+        for path in glob.glob("/data/media/0/realdata/*/rlog.zst"):
+          os.remove(path)
+
+    gui_app.push_widget(ConfirmDialog(
+      text=tr("Are you sure you want to delete all driving logs? This cannot be undone."),
+      confirm_text=tr("Delete"), callback=_do_delete
     ))
 
   @staticmethod
