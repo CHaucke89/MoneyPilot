@@ -198,6 +198,10 @@ class Car:
     CS, CS_SP = self.CI.update(can_list)
     CS_SP = convert_to_capnp(CS_SP)
 
+    for e in CS.buttonEvents:
+      if e.type == car.CarState.ButtonEvent.Type.altButton2 and e.pressed:
+        self.params.put_bool_nonblocking("OffroadMode", not self.params.get_bool("OffroadMode"))
+
     # Update radar tracks from CAN
     RD: structs.RadarDataT | None = self.RI.update(can_list)
 
