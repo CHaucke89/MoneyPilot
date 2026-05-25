@@ -200,7 +200,7 @@ class Car:
 
     for e in CS.buttonEvents:
       if e.type == car.CarState.ButtonEvent.Type.altButton2 and e.pressed:
-        self.params.put_bool_nonblocking("OffroadMode", not self.params.get_bool("OffroadMode"))
+        self.params.put_bool_nonblocking("TorqueParamsOverrideEnabled", not self.params.get_bool("TorqueParamsOverrideEnabled"))
 
     # Update radar tracks from CAN
     RD: structs.RadarDataT | None = self.RI.update(can_list)
