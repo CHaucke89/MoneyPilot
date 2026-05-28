@@ -31,8 +31,7 @@ function agnos_init {
   fi
 }
 
-function launch {
-
+function setup_aliases {
   BASH_ALIASES="$HOME/.bash_aliases";
   ALIASES="alias gf='git fetch'
   alias gsu='git submodule update --recursive'
@@ -44,26 +43,28 @@ function launch {
   alias update='gp && gsu && rb'
   alias supdate='gp && gsu && sr'
   alias ta='tmux a'
-  alias srta='sr && sleep 2 && ta'
-  alias runner='sudo systemctl start actions.runner.CHaucke89-cloudypilot.comma-c14b0a0e'
-  alias stoprunner='sudo systemctl stop actions.runner.CHaucke89-cloudypilot.comma-c14b0a0e'";
+  alias srta='sr && sleep 2 && ta'";
 
   grep -qxF "$ALIASES" "$BASH_ALIASES" || echo "$ALIASES" > "$BASH_ALIASES";
+}
 
-  # Mount fake touch_count on launch to avoid system reset prompt with soft reboot.
-  # Bind mount does not persist across reboots, so default behavior is preserved with a standard reboot.
-  if ! grep -q "/dev/sda12 $TOUCH_COUNT" /etc/mtab; then
-    echo "touch_count entry not found in mtab"
-    if [ ! -f "$FAKE_TOUCH_COUNT" ]; then
-      echo "Dummy touch_count not found, creating"
-      echo -n "0" > $FAKE_TOUCH_COUNT
+function override_touch_count {
+    # Mount fake touch_count on launch to avoid system reset prompt with soft reboot.
+    # Bind mount does not persist across reboots, so default behavior is preserved with a standard reboot.
+    if ! grep -q "/dev/sda12 $TOUCH_COUNT" /etc/mtab; then
+      echo "touch_count entry not found in mtab"
+      if [ ! -f "$FAKE_TOUCH_COUNT" ]; then
+        echo "Dummy touch_count not found, creating"
+        echo -n "0" > $FAKE_TOUCH_COUNT
+      fi
+      echo "Bind mounting dummy touch_count"
+      sudo mount --bind -o ro $FAKE_TOUCH_COUNT $TOUCH_COUNT
+    else
+      echo "touch_count entry found in mtab, skipping bind mount"
     fi
-    echo "Bind mounting dummy touch_count"
-    sudo mount --bind -o ro $FAKE_TOUCH_COUNT $TOUCH_COUNT
-  else
-    echo "touch_count entry found in mtab, skipping bind mount"
-  fi
+}
 
+function launch {
   # Remove orphaned git lock if it exists on boot
   [ -f "$DIR/.git/index.lock" ] && rm -f $DIR/.git/index.lock
 
@@ -124,4 +125,6 @@ function launch {
   while true; do sleep 1; done
 }
 
+setup_aliases
+override_touch_count
 launch
