@@ -284,6 +284,8 @@ inline static std::unordered_map<std::string, ParamKeyAttributes> keys = {
 
     // cloudypilot params
     {"CommaDongleId", {PERSISTENT, STRING}},
+    {"DynamicDeltas", {PERSISTENT, INT, "0"}},
+    {"DynamicTorque", {PERSISTENT, INT, "0"}},
     {"KonikApi", {PERSISTENT | BACKUP, BOOL, "0"}},
     {"KonikDongleId", {PERSISTENT, STRING}},
 };
