@@ -12,6 +12,7 @@ Quick start:
 * set `MAGIC_DEBUG=1` to show every dropped frames (only on device)
 * set `RECORD=1` to record the screen, output defaults to `output.mp4` but can be set with `RECORD_OUTPUT`
 * set `SUNNYPILOT_UI=0` to run the stock UI instead of the sunnypilot UI
+* set `CLOUDYPILOT_UI=0` to run the sunnypilot UI instead of the cloudypilot UI (also set the previous env var to run the stock UI)
 * https://www.raylib.com/cheatsheet/cheatsheet.html
 * https://electronstudio.github.io/raylib-python-cffi/README.html#quickstart
 
