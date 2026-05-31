@@ -58,6 +58,16 @@ class SteeringLayout(Widget):
       button_width=800,
       callback=lambda: self._set_current_panel(PanelType.LANE_CHANGE)
     )
+    self._dynamic_torque_toggle = toggle_item_sp(
+      param="DynamicTorque",
+      title=lambda: tr("Dynamic Torque"),
+      description=lambda: tr("Automatically adjust maximum steering torque based on vehicle speed.")
+    )
+    self._dynamic_delta_toggle = toggle_item_sp(
+      param="DynamicDeltas",
+      title=lambda: tr("Dynamic Steer Deltas"),
+      description=lambda: tr("Automatically adjust the rate torque is applied based on vehicle speed.")
+    )
     self._blinker_control_toggle = toggle_item_sp(
       param="BlinkerPauseLateralControl",
       description=lambda: tr("Pause lateral control with blinker when traveling below the desired speed selected."),
@@ -103,6 +113,9 @@ class SteeringLayout(Widget):
       LineSeparatorSP(40),
       self._lane_change_settings_button,
       LineSeparatorSP(40),
+      self._dynamic_torque_toggle,
+      self._dynamic_delta_toggle,
+      LineSeparatorSP(40),
       self._blinker_control_toggle,
       self._blinker_control_options,
       self._blinker_reengage_delay,
@@ -127,6 +140,8 @@ class SteeringLayout(Widget):
     else:
       self._mads_toggle.set_description(f"<b>{self._mads_check_compat_desc}</b><br><br>{self._mads_base_desc}")
 
+    self._dynamic_torque_toggle.action_item.set_visible(torque_allowed)
+    self._dynamic_delta_toggle.action_item.set_visible(torque_allowed)
     self._mads_toggle.action_item.set_enabled(ui_state.is_offroad())
     self._mads_settings_button.action_item.set_enabled(ui_state.is_offroad() and self._mads_toggle.action_item.get_state())
     self._blinker_control_options.set_visible(self._blinker_control_toggle.action_item.get_state())
