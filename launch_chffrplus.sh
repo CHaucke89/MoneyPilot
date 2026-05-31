@@ -28,6 +28,23 @@ function agnos_init {
   fi
 }
 
+function setup_aliases {
+  BASH_ALIASES="$HOME/.bash_aliases";
+  ALIASES="alias gf='git fetch'
+  alias gsu='git submodule update --recursive'
+  alias gp='git pull'
+  alias grh='git reset --hard'
+  alias rb='sudo reboot'
+  alias sr='sudo systemctl restart comma'
+  alias sc='scons -u -j8'
+  alias update='gp && gsu && rb'
+  alias supdate='gp && gsu && sr'
+  alias ta='tmux a'
+  alias srta='sr && sleep 2 && ta'";
+
+  grep -qxF "$ALIASES" "$BASH_ALIASES" || echo "$ALIASES" > "$BASH_ALIASES";
+}
+
 function launch {
   # Remove orphaned git lock if it exists on boot
   [ -f "$DIR/.git/index.lock" ] && rm -f $DIR/.git/index.lock
@@ -97,4 +114,5 @@ function launch {
   while true; do sleep 1; done
 }
 
+setup_aliases
 launch
