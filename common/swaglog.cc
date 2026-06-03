@@ -17,6 +17,8 @@
 
 #include "sunnypilot/common/version.h"
 
+#include "cloudypilot/common/version.h"
+
 class SwaglogState {
 public:
   SwaglogState() {
@@ -58,7 +60,7 @@ public:
     if (char* daemon_name = getenv("MANAGER_DAEMON")) {
       ctx_j["daemon"] = daemon_name;
     }
-    ctx_j["version"] = SUNNYPILOT_VERSION;
+    ctx_j["version"] = CLOUDYPILOT_VERSION;
     ctx_j["dirty"] = !getenv("CLEAN");
     ctx_j["device"] = Hardware::get_name();
   }
