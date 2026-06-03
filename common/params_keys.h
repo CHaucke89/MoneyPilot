@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 #include "cereal/gen/cpp/log.capnp.h"
+#include "common/params.h"
 
 inline static std::unordered_map<std::string, ParamKeyAttributes> keys = {
     {"AccessToken", {CLEAR_ON_MANAGER_START | DONT_LOG, STRING}},
@@ -285,6 +286,7 @@ inline static std::unordered_map<std::string, ParamKeyAttributes> keys = {
     // cloudypilot params
     {"CommaDongleId", {PERSISTENT, STRING}},
     {"DoSoftReboot", {CLEAR_ON_MANAGER_START, BOOL}},
+    {"DynamicDampFactor", {PERSISTENT, BOOL}},
     {"DynamicDeltas", {PERSISTENT, INT, "0"}},
     {"DynamicTorque", {PERSISTENT, INT, "0"}},
     {"KonikApi", {PERSISTENT | BACKUP, BOOL, "0"}},
