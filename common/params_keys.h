@@ -289,4 +289,5 @@ inline static std::unordered_map<std::string, ParamKeyAttributes> keys = {
     {"DynamicTorque", {PERSISTENT, INT, "0"}},
     {"KonikApi", {PERSISTENT | BACKUP, BOOL, "0"}},
     {"KonikDongleId", {PERSISTENT, STRING}},
+    {"TorqueBarFade", {PERSISTENT | BACKUP, BOOL, "1"}},
 };
