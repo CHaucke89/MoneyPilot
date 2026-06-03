@@ -1,6 +1,5 @@
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.device import DeviceLayoutSP
 from openpilot.system.ui.lib.multilang import tr
-from openpilot.system.ui.widgets.scroller_tici import LineSeparator
 from openpilot.system.ui.sunnypilot.widgets.list_view import option_item_sp
 
 class DeviceLayoutCP(DeviceLayoutSP):
@@ -29,7 +28,6 @@ class DeviceLayoutCP(DeviceLayoutSP):
     insert_pos = low_voltage_index + 2
 
     items = items[:insert_pos] + [
-      LineSeparator(height=10),
       self._low_voltage_shutdown,
     ] + items[insert_pos:]
 
