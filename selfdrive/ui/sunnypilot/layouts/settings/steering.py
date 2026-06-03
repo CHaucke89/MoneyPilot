@@ -68,6 +68,11 @@ class SteeringLayout(Widget):
       title=lambda: tr("Dynamic Steer Deltas"),
       description=lambda: tr("Automatically adjust the rate torque is applied based on vehicle speed.")
     )
+    self._dynamic_damp_toggle = toggle_item_sp(
+      param="DynamicDampFactor",
+      title=lambda: tr("Dynamic Damp Factor"),
+      description=lambda: tr("Automatically adjust the damp factor to stabilize the steering wheel when using stock long.")
+    )
     self._blinker_control_toggle = toggle_item_sp(
       param="BlinkerPauseLateralControl",
       description=lambda: tr("Pause lateral control with blinker when traveling below the desired speed selected."),
@@ -115,6 +120,7 @@ class SteeringLayout(Widget):
       LineSeparatorSP(40),
       self._dynamic_torque_toggle,
       self._dynamic_delta_toggle,
+      self._dynamic_damp_toggle,
       LineSeparatorSP(40),
       self._blinker_control_toggle,
       self._blinker_control_options,
