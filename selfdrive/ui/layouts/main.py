@@ -16,6 +16,11 @@ if gui_app.sunnypilot_ui():
   from openpilot.selfdrive.ui.layouts.settings import settings as OP
   PanelType = OP.PanelType
 
+if gui_app.cloudypilot_ui():
+  from openpilot.selfdrive.ui.cloudypilot.layouts.settings.settings import SettingsLayoutCP as SettingsLayout
+  from openpilot.selfdrive.ui.layouts.settings import settings as OP
+  PanelType = OP.PanelType
+
 class MainState(IntEnum):
   HOME = 0
   SETTINGS = 1
