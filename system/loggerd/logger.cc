@@ -13,6 +13,8 @@
 
 #include "sunnypilot/common/version.h"
 
+#include "cloudypilot/common/version.h"
+
 // ***** log metadata *****
 kj::Array<capnp::word> logger_build_init_data() {
   uint64_t wall_time = nanos_since_epoch();
@@ -21,7 +23,7 @@ kj::Array<capnp::word> logger_build_init_data() {
   auto init = msg.initEvent().initInitData();
 
   init.setWallTimeNanos(wall_time);
-  init.setVersion(SUNNYPILOT_VERSION);
+  init.setVersion(CLOUDYPILOT_VERSION);
   init.setDirty(!getenv("CLEAN"));
   init.setDeviceType(Hardware::get_device_type());
 
