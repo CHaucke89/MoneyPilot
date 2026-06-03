@@ -26,7 +26,7 @@ PanelInfo = SP.PanelInfo
 
 class SettingsLayoutCP(SettingsLayoutSP):
   def __init__(self):
-    super().__init__(self)
+    super().__init__()
     self._nav_items: list[Widget] = []
 
     wifi_manager = SP.WifiManager()
