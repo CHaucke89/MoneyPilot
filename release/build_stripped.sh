@@ -25,7 +25,7 @@ cd $TARGET_DIR
 git checkout --orphan tmp
 
 # remove everything except .git
-echo "[-] erasing old sunnypilot T=$SECONDS"
+echo "[-] erasing old cloudypilot T=$SECONDS"
 git submodule deinit -f --all
 git rm -rf --cached .
 find . -maxdepth 1 -not -path './.git' -not -name '.' -not -name '..' -exec rm -rf '{}' \;
@@ -51,7 +51,7 @@ find selfdrive/modeld/models -name '*.onnx' -size +95M -exec ./common/file_chunk
 GIT_HASH=$(git --git-dir=$SOURCE_DIR/.git rev-parse HEAD)
 GIT_COMMIT_DATE=$(git --git-dir=$SOURCE_DIR/.git show --no-patch --format='%ct %ci' HEAD)
 DATETIME=$(date '+%Y-%m-%dT%H:%M:%S')
-VERSION=$(cat $SOURCE_DIR/sunnypilot/common/version.h | awk -F\" '{print $2}')
+VERSION=$(cat $SOURCE_DIR/cloudypilot/common/version.h | awk -F\" '{print $2}')
 
 echo -n "$GIT_HASH" > git_src_commit
 echo -n "$GIT_COMMIT_DATE" > git_src_commit_date
@@ -59,7 +59,7 @@ echo -n "$GIT_COMMIT_DATE" > git_src_commit_date
 echo "[-] committing version $VERSION T=$SECONDS"
 git add -f .
 git status
-git commit -a -m "sunnypilot v$VERSION release
+git commit -a -m "cloudypilot v$VERSION release
 
 date: $DATETIME
 master commit: $GIT_HASH
