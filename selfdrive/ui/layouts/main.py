@@ -62,6 +62,7 @@ class MainLayout(Widget):
     if gui_app.cloudypilot_ui():
       self._layouts[MainState.HOME]._model_widget.set_open_models_callback(lambda: self.open_settings(PanelType.MODELS))
       self._layouts[MainState.HOME]._branch_widget.set_open_software_callback(lambda: self.open_settings(PanelType.SOFTWARE))
+      self._layouts[MainState.ONROAD].set_torque_settings_callback(self._open_torque_settings)
     self._layouts[MainState.HOME].set_settings_callback(lambda: self.open_settings(PanelType.TOGGLES))
     self._layouts[MainState.SETTINGS].set_callbacks(on_close=self._set_mode_for_state)
 
@@ -109,6 +110,11 @@ class MainLayout(Widget):
     self._layouts[MainState.SETTINGS].set_current_panel(panel_type)
     self._set_current_layout(MainState.SETTINGS)
     self._sidebar.set_visible(False)
+
+  def _open_torque_settings(self):
+    steering_instance = self._layouts[MainState.SETTINGS]._panels[OP.PanelType.STEERING].instance
+    self.open_settings(OP.PanelType.STEERING)
+    steering_instance.open_torque_panel()
 
   def _on_settings_clicked(self):
     self.open_settings(PanelType.DEVICE)
