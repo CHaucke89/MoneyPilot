@@ -14,7 +14,8 @@ class OptionControlCP(OptionControlSP):
                use_float_scaling: bool = False, label_callback: Callable[[int], str] | None = None,
                reset_enabled: bool = False):
 
-    super().__init__(param, min_value, max_value)
+    super().__init__(param, min_value, max_value, value_change_step, enabled, on_value_changed,
+                     value_map, label_width, use_float_scaling, label_callback)
     self._reset_enabled = reset_enabled
     self.label_rect = rl.Rectangle(0, 0, 0, 0)
 
