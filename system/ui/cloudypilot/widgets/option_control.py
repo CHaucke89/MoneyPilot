@@ -16,6 +16,19 @@ class OptionControlCP(OptionControlSP):
 
     super().__init__(param, min_value, max_value)
     self._reset_enabled = reset_enabled
+    self.label_rect = rl.Rectangle(0, 0, 0, 0)
+
+  def reset_to_default(self):
+    default = self.params.get_default_value(self.param_key)
+    if default is None:
+      return
+    if self.value_map:
+      for k, v in self.value_map.items():
+        if v == default:
+          self.set_value(int(k))
+          return
+    else:
+      self.set_value(int(float(default) * 100.0) if self.use_float_scaling else int(default))
 
   def _handle_mouse_release(self, mouse_pos: MousePos):
     if self._minus_enabled and rl.check_collision_point_rec(mouse_pos, self.minus_btn_rect):
