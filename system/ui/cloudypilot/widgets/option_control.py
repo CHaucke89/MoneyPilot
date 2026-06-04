@@ -14,7 +14,7 @@ class OptionControlCP(OptionControlSP):
                use_float_scaling: bool = False, label_callback: Callable[[int], str] | None = None,
                reset_enabled: bool = False):
 
-    super().__init__()
+    super().__init__(param, min_value, max_value)
     self._reset_enabled = reset_enabled
 
   def _handle_mouse_release(self, mouse_pos: MousePos):
