@@ -32,9 +32,6 @@ from openpilot.system.ui.sunnypilot.lib.styles import style
 from openpilot.system.ui.widgets import Widget
 from openpilot.system.ui.widgets.scroller_tici import Scroller
 
-if gui_app.cloudypilot_ui():
-  from openpilot.selfdrive.ui.cloudypilot.layouts.settings.models import ModelsLayoutCP as ModelsLayout
-
 # from openpilot.selfdrive.ui.sunnypilot.layouts.settings.navigation import NavigationLayout
 
 OP.PANEL_COLOR = rl.Color(10, 10, 10, 255)
