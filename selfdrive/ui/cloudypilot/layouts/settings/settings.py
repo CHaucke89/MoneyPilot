@@ -18,9 +18,6 @@ from openpilot.selfdrive.ui.sunnypilot.layouts.settings.visuals import VisualsLa
 from openpilot.system.ui.lib.multilang import tr_noop
 from openpilot.system.ui.widgets import Widget
 
-
-ICON_SIZE = 60
-
 PanelInfo = SP.PanelInfo
 
 class SettingsLayoutCP(SettingsLayoutSP):
