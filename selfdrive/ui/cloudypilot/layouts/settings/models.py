@@ -1,7 +1,9 @@
 
-from openpilot.system.ui.lib.multilang import tr
+import time
 import pyray as rl
+from openpilot.system.ui.lib.multilang import tr
 from cereal import custom
+from openpilot.selfdrive.ui.ui_state import device, ui_state
 
 from openpilot.system.ui.cloudypilot.lib.styles import style
 from openpilot.system.ui.cloudypilot.widgets.toggle import ON_COLOR
@@ -31,14 +33,14 @@ class ModelsLayoutCP(ModelsLayout):
     return self.items
 
   def _handle_bundle_download_progress(self):
-    super()._handle_bundle_download_progress()
-
-    # Override with cloudypilot ON_COLOR
     labels = {custom.ModelManagerSP.Model.Type.supercombo: self.supercombo_label,
               custom.ModelManagerSP.Model.Type.vision: self.vision_label,
               custom.ModelManagerSP.Model.Type.policy: self.policy_label,
               custom.ModelManagerSP.Model.Type.offPolicy: self.off_policy_label,
               custom.ModelManagerSP.Model.Type.onPolicy: self.on_policy_label}
+    for label in labels.values():
+      label.set_visible(False)
+    self.cancel_download_item.set_visible(False)
 
     if not self.model_manager or (not self.model_manager.selectedBundle and not self.model_manager.activeBundle):
       return
@@ -49,8 +51,29 @@ class ModelsLayoutCP(ModelsLayout):
     if not bundle:
       return
 
+    self.download_status = bundle.status
+    status_changed = self.prev_download_status != self.download_status
+    self.prev_download_status = self.download_status
+
+    self.cancel_download_item.set_visible(bool(self.model_manager.selectedBundle) and bool(ui_state.params.get("ModelManager_DownloadIndex")))
+
+    if (current_time := time.monotonic()) - self.last_cache_calc_time > 0.5:
+      self.last_cache_calc_time = current_time
+      self.clear_cache_item.action_item.set_value(f"{self.calculate_cache_size():.2f} MB")
+
+    if self.download_status == custom.ModelManagerSP.DownloadStatus.downloading:
+      device._reset_interactive_timeout()
+
     for model in bundle.models:
       if label := labels.get(getattr(model.type, 'raw', model.type)):
+        label.set_visible(True)
         p = model.artifact.downloadProgress
-        if p.status in (custom.ModelManagerSP.DownloadStatus.downloaded, custom.ModelManagerSP.DownloadStatus.cached):
-          label.action_item.color = ON_COLOR
+        text, show, color = f"pending - {bundle.displayName}", False, rl.GRAY
+        if p.status == custom.ModelManagerSP.DownloadStatus.downloading:
+          text, show = f"{int(p.progress)}% - {bundle.displayName}", True
+        elif p.status in (custom.ModelManagerSP.DownloadStatus.downloaded, custom.ModelManagerSP.DownloadStatus.cached):
+          status_text = tr("from cache" if p.status == custom.ModelManagerSP.DownloadStatus.cached else "downloaded")
+          text, color = f"{bundle.displayName} - {status_text if status_changed else tr('ready')}", ON_COLOR
+        elif p.status == custom.ModelManagerSP.DownloadStatus.failed:
+          text, color = f"download failed - {bundle.displayName}", rl.RED
+        label.action_item.update(p.progress, text, show, color)
