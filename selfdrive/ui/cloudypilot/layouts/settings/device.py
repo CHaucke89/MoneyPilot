@@ -1,6 +1,7 @@
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.device import DeviceLayoutSP
 from openpilot.system.ui.lib.multilang import tr
-from openpilot.system.ui.sunnypilot.widgets.list_view import option_item_sp, dual_button_item_sp, LineSeparator
+from openpilot.system.ui.cloudypilot.widgets.list_view import option_item_cp as option_item_sp
+from openpilot.system.ui.sunnypilot.widgets.list_view import dual_button_item_sp, LineSeparator
 
 class DeviceLayoutCP(DeviceLayoutSP):
   def _initialize_items(self):
@@ -20,6 +21,7 @@ class DeviceLayoutCP(DeviceLayoutSP):
       label_width=360,
       use_float_scaling=True,
       inline=True,
+      reset_enabled=True,
       label_callback=self._update_low_voltage_shutdown_label
     )
 
