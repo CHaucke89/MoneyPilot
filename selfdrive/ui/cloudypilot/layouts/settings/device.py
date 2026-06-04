@@ -1,6 +1,6 @@
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.device import DeviceLayoutSP
 from openpilot.system.ui.lib.multilang import tr
-from openpilot.system.ui.sunnypilot.widgets.list_view import option_item_sp
+from openpilot.system.ui.sunnypilot.widgets.list_view import option_item_sp, dual_button_item_sp, LineSeparator
 
 class DeviceLayoutCP(DeviceLayoutSP):
   def _initialize_items(self):
@@ -23,13 +23,24 @@ class DeviceLayoutCP(DeviceLayoutSP):
       label_callback=self._update_low_voltage_shutdown_label
     )
 
-    # Insert into items list
+    self._soft_reboot_btn = dual_button_item_sp(
+      left_text=lambda: tr("Soft Reboot"),
+      left_callback=self._soft_reboot_prompt,
+      right_text="",
+      right_callback=None
+    )
+    self._soft_reboot_btn.action_item.right_button.set_visible(False)
+
+    # Find index of max time offroad and insert directly below
     low_voltage_index = next(i for i, item in enumerate(items) if item is self._max_time_offroad)
     insert_pos = low_voltage_index + 2
 
     items = items[:insert_pos] + [
       self._low_voltage_shutdown,
+      LineSeparator(),
     ] + items[insert_pos:]
+
+    items.append(self._soft_reboot_btn)
 
     return items
 
