@@ -2,6 +2,7 @@
 from openpilot.system.ui.lib.multilang import tr
 
 from openpilot.system.ui.cloudypilot.lib.styles import style
+from openpilot.system.ui.cloudypilot.widgets.toggle import ON_COLOR
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.models import ModelsLayout
 from openpilot.system.ui.sunnypilot.widgets.list_view import option_item_sp, LineSeparatorSP
 
