@@ -3,7 +3,7 @@ from openpilot.system.ui.lib.multilang import tr
 
 from openpilot.system.ui.cloudypilot.lib.styles import style
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.models import ModelsLayout
-from openpilot.system.ui.sunnypilot.widgets.list_view import option_item_sp, LineSeparator
+from openpilot.system.ui.sunnypilot.widgets.list_view import option_item_sp, LineSeparatorSP
 
 
 class ModelsLayoutCP(ModelsLayout):
@@ -16,13 +16,13 @@ class ModelsLayoutCP(ModelsLayout):
                                                   lambda v: f"{v / 100:.2f}m")
 
     camera_offset_index = next(i for i, item in enumerate(self.items) if item is self.clear_cache_item)
-    insert_pos = camera_offset_index + 2
+    insert_pos = camera_offset_index + 1
 
     # Insert camera offset controls directly below clear model cache button
     self.items = self.items[:insert_pos] + [
-      LineSeparator(),
+      LineSeparatorSP(),
       self.camera_offset,
-      LineSeparator(),
+      LineSeparatorSP(),
     ] + self.items[insert_pos:]
 
     return self.items
