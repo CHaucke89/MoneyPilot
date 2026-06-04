@@ -1,5 +1,7 @@
 
 from openpilot.system.ui.lib.multilang import tr
+import pyray as rl
+from cereal import custom
 
 from openpilot.system.ui.cloudypilot.lib.styles import style
 from openpilot.system.ui.cloudypilot.widgets.toggle import ON_COLOR
@@ -27,3 +29,28 @@ class ModelsLayoutCP(ModelsLayout):
     ] + self.items[insert_pos:]
 
     return self.items
+
+  def _handle_bundle_download_progress(self):
+    super()._handle_bundle_download_progress()
+
+    # Override with cloudypilot ON_COLOR
+    labels = {custom.ModelManagerSP.Model.Type.supercombo: self.supercombo_label,
+              custom.ModelManagerSP.Model.Type.vision: self.vision_label,
+              custom.ModelManagerSP.Model.Type.policy: self.policy_label,
+              custom.ModelManagerSP.Model.Type.offPolicy: self.off_policy_label,
+              custom.ModelManagerSP.Model.Type.onPolicy: self.on_policy_label}
+
+    if not self.model_manager or (not self.model_manager.selectedBundle and not self.model_manager.activeBundle):
+      return
+
+    bundle = self.model_manager.selectedBundle if self._is_downloading() or (
+      self.model_manager.selectedBundle and self.model_manager.selectedBundle.status == custom.ModelManagerSP.DownloadStatus.failed
+    ) else self.model_manager.activeBundle
+    if not bundle:
+      return
+
+    for model in bundle.models:
+      if label := labels.get(getattr(model.type, 'raw', model.type)):
+        p = model.artifact.downloadProgress
+        if p.status in (custom.ModelManagerSP.DownloadStatus.downloaded, custom.ModelManagerSP.DownloadStatus.cached):
+          label.action_item.color = ON_COLOR
