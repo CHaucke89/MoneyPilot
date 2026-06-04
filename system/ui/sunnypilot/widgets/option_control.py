@@ -4,8 +4,6 @@ from openpilot.common.params import Params
 from openpilot.system.ui.lib.application import gui_app, FontWeight, MousePos
 from openpilot.system.ui.lib.text_measure import measure_text_cached
 from openpilot.system.ui.sunnypilot.lib.styles import style
-if gui_app.cloudypilot_ui():
-  from openpilot.system.ui.cloudypilot.lib.styles import style
 from openpilot.system.ui.widgets.list_view import ItemAction
 
 # Dimensions and styling constants
@@ -24,8 +22,7 @@ class OptionControlSP(ItemAction):
                on_value_changed: Callable[[int], None] | None = None,
                value_map: dict[int, int] | None = None,
                label_width: int = LABEL_WIDTH,
-               use_float_scaling: bool = False, label_callback: Callable[[int], str] | None = None,
-               reset_enabled: bool = False):
+               use_float_scaling: bool = False, label_callback: Callable[[int], str] | None = None):
 
     super().__init__(enabled=enabled)
     self.params = Params()
@@ -35,7 +32,6 @@ class OptionControlSP(ItemAction):
     self.value_change_step = value_change_step
     self._minus_enabled = enabled
     self._plus_enabled = enabled
-    self._reset_enabled = reset_enabled
     self.on_value_changed = on_value_changed
     self.value_map = value_map
     self.label_width = label_width
@@ -170,5 +166,3 @@ class OptionControlSP(ItemAction):
       new_value = self.current_value + self.value_change_step
       new_value = min(self.max_value, new_value)
       self.set_value(new_value)
-    elif self._reset_enabled and rl.check_collision_point_rec(mouse_pos, self.label_rect):
-      self.reset_to_default()
