@@ -1,7 +1,8 @@
 from collections.abc import Callable
 
 from openpilot.system.ui.sunnypilot.widgets.list_view import ListItemSP
-from openpilot.system.ui.cloudypilot.widgets.option_control import OptionControlCP, LABEL_WIDTH
+from openpilot.system.ui.sunnypilot.widgets.option_control import LABEL_WIDTH
+from openpilot.system.ui.cloudypilot.widgets.option_control import OptionControlCP
 
 
 def option_item_cp(title: str | Callable[[], str], param: str,
