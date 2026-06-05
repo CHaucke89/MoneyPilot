@@ -1,13 +1,13 @@
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.device import DeviceLayoutSP
 from openpilot.system.ui.lib.multilang import tr
-from openpilot.system.ui.cloudypilot.widgets.list_view import option_item_cp as option_item_sp
+from openpilot.system.ui.cloudypilot.widgets.list_view import option_item_cp
 from openpilot.system.ui.sunnypilot.widgets.list_view import dual_button_item_sp, LineSeparator
 
 class DeviceLayoutCP(DeviceLayoutSP):
   def _initialize_items(self):
     items = super()._initialize_items()
 
-    self._low_voltage_shutdown = option_item_sp(
+    self._low_voltage_shutdown = option_item_cp(
       title=lambda: tr("Low Voltage Shutdown"),
       description=lambda: tr("Device will shutdown if car battery reaches set voltage."),
       param="CustomShutdownVoltage",
