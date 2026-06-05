@@ -14,6 +14,7 @@ def option_item_cp(title: str | Callable[[], str], param: str,
                    inline: bool = False, reset_enabled: bool = False) -> ListItemSP:
   action = OptionControlCP(
     param, min_value, max_value, value_change_step,
-    enabled, on_value_changed, value_map, label_width, use_float_scaling, label_callback, reset_enabled,
+    enabled, on_value_changed, value_map, label_width, use_float_scaling, label_callback,
+    reset_enabled=reset_enabled
   )
   return ListItemSP(title=title, description=description, action_item=action, icon=icon, inline=inline)
