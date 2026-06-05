@@ -16,7 +16,13 @@ class DeveloperLayoutCP(DeveloperLayoutSP):
 
     self.konik_toggle = toggle_item_sp(tr("Use Konik API"), tr("Use Konik's API rather than comma's. Requires reboot."), param="KonikApi",
                                        callback=self._on_konik_toggled)
-    self.items.append(self.konik_toggle)
+    konik_index = next(i for i, item in enumerate(self.items) if item is self.prebuilt_toggle)
+    insert_pos = konik_index + 1
+
+    # Insert camera offset controls directly below clear model cache button
+    self.items = self.items[:insert_pos] + [
+      self.konik_toggle,
+    ] + self.items[insert_pos:]
 
     return self.items
 
