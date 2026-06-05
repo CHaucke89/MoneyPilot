@@ -2,7 +2,7 @@ from openpilot.selfdrive.ui.layouts.settings import settings as OP
 from openpilot.selfdrive.ui.layouts.settings.toggles import TogglesLayout
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings import settings as SP
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.cruise import CruiseLayout
-from openpilot.selfdrive.ui.sunnypilot.layouts.settings.developer import DeveloperLayoutSP
+from openpilot.selfdrive.ui.cloudypilot.layouts.settings.developer import DeveloperLayoutCP
 from openpilot.selfdrive.ui.cloudypilot.layouts.settings.device import DeviceLayoutCP
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.display import DisplayLayout
 from openpilot.selfdrive.ui.cloudypilot.layouts.settings.models import ModelsLayoutCP
@@ -31,7 +31,7 @@ class SettingsLayoutCP(SettingsLayoutSP):
     self._panels = {
       OP.PanelType.DEVICE: PanelInfo(tr_noop("Device"), DeviceLayoutCP(), icon="../../sunnypilot/selfdrive/assets/offroad/icon_home.png"),
       OP.PanelType.MODELS: PanelInfo(tr_noop("Models"), ModelsLayoutCP(), icon="../../sunnypilot/selfdrive/assets/offroad/icon_models.png"),
-      OP.PanelType.DEVELOPER: PanelInfo(tr_noop("Developer"), DeveloperLayoutSP(), icon="icons/shell.png"),
+      OP.PanelType.DEVELOPER: PanelInfo(tr_noop("Developer"), DeveloperLayoutCP(), icon="icons/shell.png"),
       OP.PanelType.SOFTWARE: PanelInfo(tr_noop("Software"), SoftwareLayoutSP(), icon="../../sunnypilot/selfdrive/assets/offroad/icon_software.png"),
       OP.PanelType.STEERING: PanelInfo(tr_noop("Steering"), SteeringLayout(), icon="../../sunnypilot/selfdrive/assets/offroad/icon_lateral.png"),
       OP.PanelType.CRUISE: PanelInfo(tr_noop("Cruise"), CruiseLayout(), icon="icons/speed_limit.png"),
