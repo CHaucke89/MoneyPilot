@@ -1,21 +1,12 @@
 import pyray as rl
-from collections.abc import Callable
-from openpilot.system.ui.sunnypilot.widgets.option_control import OptionControlSP, LABEL_WIDTH
+from openpilot.system.ui.sunnypilot.widgets.option_control import OptionControlSP
 from openpilot.system.ui.lib.application import MousePos
 
 
 
 class OptionControlCP(OptionControlSP):
-  def __init__(self, param: str, min_value: int, max_value: int,
-               value_change_step: int = 1, enabled: bool | Callable[[], bool] = True,
-               on_value_changed: Callable[[int], None] | None = None,
-               value_map: dict[int, int] | None = None,
-               label_width: int = LABEL_WIDTH,
-               use_float_scaling: bool = False, label_callback: Callable[[int], str] | None = None,
-               reset_enabled: bool = False):
-
-    super().__init__(param, min_value, max_value, value_change_step, enabled, on_value_changed,
-                     value_map, label_width, use_float_scaling, label_callback)
+  def __init__(self, *args, reset_enabled: bool = False, **kwargs):
+    super().__init__(*args, **kwargs)
     self._reset_enabled = reset_enabled
     self.label_rect = rl.Rectangle(0, 0, 0, 0)
 
