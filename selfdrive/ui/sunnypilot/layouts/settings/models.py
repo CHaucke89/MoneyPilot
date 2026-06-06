@@ -30,6 +30,8 @@ from openpilot.system.ui.sunnypilot.widgets.tree_dialog import TreeOptionDialog,
 if gui_app.sunnypilot_ui():
   from openpilot.system.ui.sunnypilot.widgets.list_view import button_item_sp as button_item
 
+if gui_app.cloudypilot_ui():
+  from openpilot.system.ui.cloudypilot.widgets.toggle import ON_COLOR
 
 class ModelsLayout(Widget):
   def __init__(self):
