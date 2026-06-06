@@ -54,4 +54,9 @@ class VisualsLayoutCP(VisualsLayout):
 
   def _update_state(self):
     super()._update_state()
-    self._toggles["TorqueBarFade"].set_visible(ui_state.params.get_bool("TorqueBar"))
+
+    torque_bar_enabled = ui_state.params.get_bool("TorqueBar")
+    self._toggles["TorqueBarFade"].set_enabled(torque_bar_enabled)
+    self._toggles["TorqueBarFade"].set_visible(torque_bar_enabled)
+    if not torque_bar_enabled:
+      ui_state.params.put_bool("TorqueBarFade", torque_bar_enabled)
