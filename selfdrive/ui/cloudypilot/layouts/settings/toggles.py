@@ -1,7 +1,9 @@
 from openpilot.common.params import UnknownKeyName
 from openpilot.system.ui.widgets.scroller_tici import Scroller
-from openpilot.selfdrive.ui.layouts.settings.toggles import DESCRIPTIONS, TogglesLayout, toggle_item
+from openpilot.selfdrive.ui.layouts.settings.toggles import DESCRIPTIONS, TogglesLayout
 from openpilot.system.ui.lib.multilang import tr, tr_noop
+from openpilot.system.ui.sunnypilot.widgets.list_view import toggle_item_sp as toggle_item
+
 
 
 DESCRIPTIONS |= {
@@ -48,3 +50,14 @@ class TogglesLayoutCP(TogglesLayout):
       self._toggles = new_toggles
 
     self._scroller = Scroller(list(self._toggles.values()), line_separator=True, spacing=0)
+
+  def _toggle_callback(self, state: bool, param: str):
+    # Mutual exclusion to keep DM out of superposition if they're both toggled on :)
+    if param == "AlwaysOnDM" and state:
+      self._params.put_bool("AlwaysOffDM", False)
+      self._toggles["AlwaysOffDM"].action_item.set_state(False)
+    elif param == "AlwaysOffDM" and state:
+      self._params.put_bool("AlwaysOnDM", False)
+      self._toggles["AlwaysOnDM"].action_item.set_state(False)
+
+    super()._toggle_callback(state, param)
