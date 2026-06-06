@@ -14,7 +14,7 @@ from openpilot.selfdrive.ui.sunnypilot.layouts.settings.steering import Steering
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.sunnylink import SunnylinkLayout
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.trips import TripsLayout
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.vehicle import VehicleLayout
-from openpilot.selfdrive.ui.sunnypilot.layouts.settings.visuals import VisualsLayout
+from openpilot.selfdrive.ui.cloudypilot.layouts.settings.visuals import VisualsLayoutCP
 from openpilot.system.ui.lib.multilang import tr_noop
 from openpilot.system.ui.widgets import Widget
 
