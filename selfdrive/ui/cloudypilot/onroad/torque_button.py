@@ -11,7 +11,7 @@ class TorqueButton(Widget):
     self._on_click: Callable | None = None
     self._white_color: rl.Color = rl.Color(255, 255, 255, 255)
     self._black_bg: rl.Color = rl.Color(0, 0, 0, 166)
-    self._icon: rl.Texture = gui_app.texture('../../sunnypilot/selfdrive/assets/offroad/icon_lateral.png', icon_size, icon_size)
+    self._icon: rl.Texture = gui_app.texture('../../selfdrive/assets/icons/menu.png', icon_size, icon_size)
     self._rect = rl.Rectangle(0, 0, button_size, button_size)
 
   def set_rect(self, rect: rl.Rectangle) -> None:
@@ -30,5 +30,4 @@ class TorqueButton(Widget):
     center_y = int(self._rect.y + self._rect.height // 2)
 
     self._white_color.a = 180 if self.is_pressed else 255
-    rl.draw_circle(center_x, center_y, self._rect.width / 2, self._black_bg)
     rl.draw_texture_ex(self._icon, rl.Vector2(center_x - self._icon.width / 2, center_y - self._icon.height / 2), 0.0, 1.0, self._white_color)
