@@ -110,11 +110,6 @@ class AugmentedRoadView(CameraView, AugmentedRoadViewSP):
     # Draw colored border based on driving state
     self._draw_border(rect)
 
-    # publish uiDebug
-    msg = messaging.new_message('uiDebug')
-    msg.uiDebug.drawTimeMillis = (time.monotonic() - start_draw) * 1000
-    self._pm.send('uiDebug', msg)
-
   def set_torque_settings_callback(self, callback) -> None:
     if hasattr(self._hud_renderer, 'set_torque_settings_callback'):
       self._hud_renderer.set_torque_settings_callback(callback)
