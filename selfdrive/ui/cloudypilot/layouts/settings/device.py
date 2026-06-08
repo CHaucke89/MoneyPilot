@@ -1,6 +1,10 @@
+from openpilot.selfdrive.ui.ui_state import ui_state
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.device import DeviceLayoutSP
 from openpilot.system.ui.lib.multilang import tr
+from openpilot.system.ui.lib.application import gui_app
+from openpilot.system.ui.widgets import DialogResult
 from openpilot.system.ui.cloudypilot.widgets.list_view import option_item_cp
+from openpilot.system.ui.widgets.confirm_dialog import ConfirmDialog, alert_dialog
 from openpilot.system.ui.sunnypilot.widgets.list_view import dual_button_item_sp, LineSeparator
 
 class DeviceLayoutCP(DeviceLayoutSP):
@@ -52,3 +56,14 @@ class DeviceLayoutCP(DeviceLayoutSP):
     label += tr(" (Default)") if value == 1180 else ""
     return label
 
+  def _soft_reboot_prompt(self):
+    if ui_state.engaged:
+      gui_app.push_widget(alert_dialog(tr("Disengage to Soft Reboot")))
+      return
+
+    def perform_soft_reboot(result: DialogResult):
+      if not ui_state.engaged and result == DialogResult.CONFIRM:
+        self._params.put_bool_nonblocking("DoSoftReboot", True)
+
+    dialog = ConfirmDialog(tr("Are you sure you want to soft reboot?"), tr("Soft Reboot"), callback=perform_soft_reboot)
+    gui_app.push_widget(dialog)
