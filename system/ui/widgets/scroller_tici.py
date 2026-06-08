@@ -2,10 +2,14 @@ import pyray as rl
 from openpilot.system.ui.lib.scroll_panel import GuiScrollPanel
 from openpilot.system.ui.widgets import Widget
 
+from openpilot.system.ui.lib.application import gui_app
+
 ITEM_SPACING = 40
 LINE_COLOR = rl.GRAY
 LINE_PADDING = 40
 
+if gui_app.cloudypilot_ui():
+  LINE_COLOR = rl.ORANGE
 
 class LineSeparator(Widget):
   def __init__(self, height: int = 1):
