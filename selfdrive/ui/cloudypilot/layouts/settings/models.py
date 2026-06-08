@@ -5,7 +5,6 @@ from openpilot.selfdrive.ui.ui_state import ui_state
 from openpilot.system.ui.cloudypilot.lib.styles import style
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.models import ModelsLayout
 from openpilot.system.ui.cloudypilot.widgets.list_view import option_item_cp
-from openpilot.system.ui.sunnypilot.widgets.list_view import LineSeparatorSP
 
 
 class ModelsLayoutCP(ModelsLayout):
@@ -25,9 +24,7 @@ class ModelsLayoutCP(ModelsLayout):
 
     # Insert camera offset controls directly below clear model cache button
     self.items = self.items[:insert_pos] + [
-      LineSeparatorSP(),
       self.camera_offset,
-      LineSeparatorSP(),
     ] + self.items[insert_pos:]
 
     return self.items
