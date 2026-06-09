@@ -68,8 +68,7 @@ def livestream(started: bool, params: Params, CP: car.CarParams) -> bool:
   return params.get_bool("IsLiveStreaming")
 
 def use_github_runner(started, params, CP: car.CarParams) -> bool:
-  return not PC and params.get_bool("EnableGithubRunner") and (
-    not params.get_bool("NetworkMetered") and not params.get_bool("GithubRunnerSufficientVoltage"))
+  return not PC and params.get_bool("EnableGithubRunner")
 
 def use_copyparty(started, params, CP: car.CarParams) -> bool:
   return bool(params.get_bool("EnableCopyparty"))
