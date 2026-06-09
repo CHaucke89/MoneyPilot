@@ -25,12 +25,13 @@ class TogglesLayoutCP(TogglesLayout):
     insert_below["AlwaysOffDM"] = "AlwaysOnDM"
 
     for param, after in insert_below.items():
-      for param, (title, desc, needs_restart) in self._toggle_defs.items():
+      for param, (title, desc, icon, needs_restart) in self._toggle_defs.items():
         toggle = toggle_item_sp(
           title=title,
           description=desc,
           param=param,
           initial_state=self._params.get_bool(param),
+          icon=icon,
           callback=lambda state, p=param: self._toggle_callback(state, p),
         )
         self._toggles[param] = toggle
