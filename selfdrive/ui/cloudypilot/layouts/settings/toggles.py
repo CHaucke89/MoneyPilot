@@ -21,7 +21,7 @@ class TogglesLayoutCP(TogglesLayout):
     # New toggles go here. Syntax:
     # self._toggle_defs["NewParam"] = (title, desc, needs_restart)
     # insert_below["NewParam"] = "InsertBelowThisParam"
-    self._toggle_defs["AlwaysOffDM"] = (lambda: tr("Always-Off Driver Monitoring"), DESCRIPTIONS["AlwaysOffDM"], False)
+    self._toggle_defs["AlwaysOffDM"] = (lambda: tr("Always-Off Driver Monitoring"), DESCRIPTIONS["AlwaysOffDM"], None, False)
     insert_below["AlwaysOffDM"] = "AlwaysOnDM"
 
     for param, after in insert_below.items():
