@@ -1,40 +1,46 @@
-![](https://user-images.githubusercontent.com/47793918/233812617-beab2e71-57b9-479e-8bff-c3931347ca40.png)
+### THIS IS AN "UNSAFE" FORK OF SUNNYPILOT/OPENPILOT THAT COULD GET YOUR DEVICE BANNED FROM COMMA'S SERVERS
+#### Cloudypilot is strictly a personal project and is not associated with sunnypilot or endorsed by its developers in any way
+Cloudypilot is a fork of [sunnypilot](https://github.com/sunnypilot/sunnypilot) specifically made for my Kia EV6 that very much falls under the [Bad/Unsafe Forks category](https://github.com/commaai/openpilot/wiki/Forks#badunsafe-forks).
+If comma connect is valuable to you, do not run this fork and allow it to upload to comma's servers. If you do install this fork and then switch back to a safe fork, be sure to delete all driving data/logs before connecting to comma connect.
+If you do not use comma connect or use an alternative like stable.konik.ai, then you have nothing to worry about...except your life while letting this fork operate a motor vehicle with you in it.
 
-## 🌞 What is sunnypilot?
-[sunnypilot](https://github.com/sunnyhaibin/sunnypilot) is a fork of comma.ai's openpilot, an open source driver assistance system. sunnypilot offers the user a unique driving experience for over 300+ supported car makes and models with modified behaviors of driving assist engagements. sunnypilot complies with comma.ai's safety rules as accurately as possible.
+Just kidding, it's not that bad.
+Some of the additional features and/or changes in no particular order:
 
-## 💭 Join our Community Forum
-Join the official sunnypilot community forum to stay up to date with all the latest features and be a part of shaping the future of sunnypilot!
-* https://community.sunnypilot.ai/
+#### Toggles:
+- Dynamic damping gain when using stock longitudinal control
+- Dynamic maximum steering torque & steer deltas
+- Torqued speed dependent self-tune by [zephleggett](https://github.com/zephleggett) - learns separate lateral acceleration factor and friction coefficient values for different speed ranges
+- Use Imperial units (feet) in the on-road developer UI rather than SI units (meters)
+- Steering Arc - background fade effect is broken out to its own toggle
+- Konik API toggle - use the stable.konik.ai API rather than connect.comma.ai
+- Always-Off Driver Monitoring - used for testing purposes only. **Please do not drive with driver monitoring disabled.**
+- Permanent seatbelt latch - allows engaging while the driver's seatbelt is unlatched
+- Post-Blinker Delay - delay reengagement of lateral control for 0-10 seconds after the blinker turns off with Pause Lateral Control with Blinker - **this has since been merged into upstream sunnypilot**
 
-## Documentation
-https://docs.sunnypilot.ai/ is your one stop shop for everything from features to installation to FAQ about the sunnypilot
+#### Other Stuff:
+- Increased default maximum steering torque
+- Increased default steer delta values
+- Current active model widget on home screen
+- Current branch widget on home screen
+- Enter/Exit Always Offroad Mode widget on home screen
+- Torque settings button on the onroad screen (brings you to the torque params steering sub-menu)
+- "Soft" reboot - most standard reboots are replaced with soft reboots (```sudo systemctl restart comma```) and a Soft Reboot button is added to the Device settings page
+- Many UI changes
+- Custom low-voltage shutdown value - change the minimum car battery voltage that triggers a device shutdown
 
-## 🚘 Running on a dedicated device in a car
-First, check out this list of items you'll need to [get started](https://community.sunnypilot.ai/t/getting-started-using-sunnypilot-in-your-supported-car/251).
+**Any branch may be broken at any time - this is primarily just for me, but as a big supporter of FOSS, it doesn't feel right to keep this private.**
+**If you spot any features or modifications you would like to see upstream in sunnypilot, let me know and I can open a PR if feasible.**
 
-## Installation
-Next, refer to the sunnypilot community forum for [installation instructions](https://community.sunnypilot.ai/t/read-before-installing-sunnypilot/254), as well as a complete list of [Recommended Branch Installations](https://community.sunnypilot.ai/t/recommended-branch-installations/235).
+Install at your own risk! Feel free to reach out if you have any issues or questions. It may take some time for me to respond, but I will as soon as I can.
 
-## 🎆 Pull Requests
-We welcome both pull requests and issues on GitHub. Bug fixes are encouraged.
 
-Pull requests should be against the most current `master` branch.
+# Licensing
+Just as sunnypilot is a heavily modified version of openpilot, cloudypilot is a...moderately modified version of sunnypilot. Credit for the vast majority of the codebase goes to the openpilot and sunnypilot developers.
 
-## 📊 User Data
+> "This project uses software from Haibin Wen and SUNNYPILOT LLC and is licensed under a custom license requiring permission for use."
 
-By default, sunnypilot uploads the driving data to comma servers. You can also access your data through [comma connect](https://connect.comma.ai/).
-
-sunnypilot is open source software. The user is free to disable data collection if they wish to do so.
-
-sunnypilot logs the road-facing camera, CAN, GPS, IMU, magnetometer, thermal sensors, crashes, and operating system logs.
-The driver-facing camera and microphone are only logged if you explicitly opt-in in settings.
-
-By using this software, you understand that use of this software or its related services will generate certain types of user data, which may be logged and stored at the sole discretion of comma. By accepting this agreement, you grant an irrevocable, perpetual, worldwide right to comma for the use of this data.
-
-## Licensing
-
-sunnypilot is released under the [MIT License](LICENSE). This repository includes original work as well as significant portions of code derived from [openpilot by comma.ai](https://github.com/commaai/openpilot), which is also released under the MIT license with additional disclaimers.
+> sunnypilot is released under the MIT License. This repository includes original work as well as significant portions of code derived from openpilot by comma.ai, which is also released under the MIT license with additional disclaimers.
 
 The original openpilot license notice, including comma.ai’s indemnification and alpha software disclaimer, is reproduced below as required:
 
@@ -45,30 +51,3 @@ The original openpilot license notice, including comma.ai’s indemnification an
 > **THIS IS ALPHA QUALITY SOFTWARE FOR RESEARCH PURPOSES ONLY. THIS IS NOT A PRODUCT.
 > YOU ARE RESPONSIBLE FOR COMPLYING WITH LOCAL LAWS AND REGULATIONS.
 > NO WARRANTY EXPRESSED OR IMPLIED.**
-
-For full license terms, please see the [`LICENSE`](LICENSE) file.
-
-## 💰 Support sunnypilot
-If you find any of the features useful, consider becoming a [sponsor on GitHub](https://github.com/sponsors/sunnyhaibin) to support future feature development and improvements.
-
-
-By becoming a sponsor, you will gain access to exclusive content, early access to new features, and the opportunity to directly influence the project's development.
-
-
-<h3>GitHub Sponsor</h3>
-
-<a href="https://github.com/sponsors/sunnyhaibin">
-  <img src="https://user-images.githubusercontent.com/47793918/244135584-9800acbd-69fd-4b2b-bec9-e5fa2d85c817.png" alt="Become a Sponsor" width="300" style="max-width: 100%; height: auto;">
-</a>
-<br>
-
-<h3>PayPal</h3>
-
-<a href="https://paypal.me/sunnyhaibin0850" target="_blank">
-<img src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" alt="PayPal this" title="PayPal - The safer, easier way to pay online!" border="0" />
-</a>
-<br></br>
-
-Your continuous love and support are greatly appreciated! Enjoy 🥰
-
-<span>-</span> Jason, Founder of sunnypilot
