@@ -5,7 +5,7 @@ set -e
 DEFAULT_REPO_URL="https://github.com/cloudypilot"
 START_AT_BOOT=false
 RESTORE_MODE=false
-RUNNER_VERSION="2.325.0"
+RUNNER_VERSION="2.334.0"
 
 # Parse command line arguments
 while [[ $# -gt 0 ]]; do
