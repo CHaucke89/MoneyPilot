@@ -14,26 +14,23 @@ DESCRIPTIONS |= {
 class TogglesLayoutCP(TogglesLayout):
   def __init__(self):
     super().__init__()
-
-    self._toggle_defs |= {
-      "AlwaysOffDM": (lambda: tr("Always-Off Driver Monitoring"), DESCRIPTIONS["AlwaysOffDM"], "monitoring.png", False),
-    }
-
-    # Create a dict to indicate where to insert the new toggle
-    # Syntax: {NewParam: InsertBelowThisParam}
-    insert_after = {
-      "AlwaysOffDM": "AlwaysOnDM",
-    }
-
+    insert_below = {}
     self._toggles = {}
-    for param, after in insert_after.items():
-      for param, (title, desc, icon, needs_restart) in self._toggle_defs.items():
+    self._toggle_defs |= {}
+
+    # New toggles go here. Syntax:
+    # self._toggle_defs["NewParam"] = (title, desc, needs_restart)
+    # insert_below["NewParam"] = "InsertBelowThisParam"
+    self._toggle_defs["AlwaysOffDM"] = (lambda: tr("Always-Off Driver Monitoring"), DESCRIPTIONS["AlwaysOffDM"], False)
+    insert_below["AlwaysOffDM"] = "AlwaysOnDM"
+
+    for param, after in insert_below.items():
+      for param, (title, desc, needs_restart) in self._toggle_defs.items():
         toggle = toggle_item_sp(
           title=title,
           description=desc,
           param=param,
           initial_state=self._params.get_bool(param),
-          icon=icon,
           callback=lambda state, p=param: self._toggle_callback(state, p),
         )
         self._toggles[param] = toggle
