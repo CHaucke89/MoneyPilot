@@ -1,6 +1,5 @@
 from openpilot.common.params import UnknownKeyName
 from openpilot.selfdrive.ui.ui_state import ui_state
-from openpilot.system.ui.widgets.scroller_tici import Scroller
 from openpilot.system.ui.sunnypilot.widgets.list_view import toggle_item_sp
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.visuals import VisualsLayout
 from openpilot.system.ui.lib.multilang import tr
@@ -9,29 +8,34 @@ from openpilot.system.ui.lib.multilang import tr
 
 class VisualsLayoutCP(VisualsLayout):
   def __init__(self):
+    self._toggles = {}
+    self._toggle_defs = {}
     super().__init__()
 
-    self._toggle_defs |= {"TorqueBarFade": (lambda: tr("Steering Arc Fade"),
+  def _initialize_items(self):
+    items = super()._initialize_items()
+    _insert_below = {}
+
+    # Add new toggle syntax:
+    # self._toggle_defs["NewParam"] = (title, desc, icon, needs_restart)
+    # _insert_below["NewParam"] = "InsertBelowThisParam"
+
+    self._toggle_defs["TorqueBarFade"] = (lambda: tr("Steering Arc Fade"),
         tr("Enable or disable the fade at the bottom of the onroad screen with Steering Arc enabled."),
-        None,
-      ),
-    }
+        None, False, None)
+    _insert_below["TorqueBarFade"] = "TorqueBar"
 
-    insert_after = {
-      "TorqueBarFade": "TorqueBar",
-    }
-
-    self._toggles = {}
-    for param, after in insert_after.items():
-      for param, (title, desc, callback) in self._toggle_defs.items():
-        toggle = toggle_item_sp(
-          title=title,
-          description=desc,
-          param=param,
-          initial_state=ui_state.params.get_bool(param),
-          callback=callback,
-        )
-        self._toggles[param] = toggle
+    for param, after in _insert_below.items():
+      title, desc, icon, callback, _ = self._toggle_defs[param]
+      toggle = toggle_item_sp(
+        title=title,
+        description=desc,
+        param=param,
+        initial_state=ui_state.params.get_bool(param),
+        icon=icon,
+        callback=callback,
+      )
+      self._toggles[param] = toggle
 
       try:
         locked = self._params.get_bool(param + "Lock")
@@ -42,15 +46,11 @@ class VisualsLayoutCP(VisualsLayout):
       if locked:
         self._locked_toggles.add(param)
 
-      # Rebuild the dict and insert the new toggle(s) at the position specified by insert_after
-      new_toggles = {}
-      for key, value in self._toggles.items():
-        new_toggles[key] = value
-        if key == after:
-          new_toggles[param] = toggle
-      self._toggles = new_toggles
+      # Insert toggle in items list at the desired position
+      insert_index = next(i for i, item in enumerate(items) if item is self._toggles[after])
+      items = items[:insert_index + 1] + [toggle] + items[insert_index + 1:]
 
-    self._scroller = Scroller(list(self._toggles.values()), line_separator=True, spacing=0)
+    return items
 
   def _update_state(self):
     super()._update_state()
