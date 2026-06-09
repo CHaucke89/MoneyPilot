@@ -2,7 +2,7 @@
 set -e
 
 # Default values
-DEFAULT_REPO_URL="https://github.com/sunnypilot"
+DEFAULT_REPO_URL="https://github.com/cloudypilot"
 START_AT_BOOT=false
 RESTORE_MODE=false
 RUNNER_VERSION="2.325.0"
@@ -156,7 +156,7 @@ install_service() {
     else
         service_name="actions.runner.sunnypilot.$(uname -n)"
     fi
-  
+
     create_service_template
     remount_rw
     local service_path="/etc/systemd/system/${service_name}"
@@ -165,7 +165,7 @@ install_service() {
         echo "Service ${service_path} found in systemd, we will delete it"
         sudo rm -f "${service_path}"
     fi
-    
+
     cd "$RUNNER_DIR"
     sudo ./svc.sh install $RUNNER_USER
 
