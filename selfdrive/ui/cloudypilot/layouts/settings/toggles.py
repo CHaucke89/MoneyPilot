@@ -21,7 +21,7 @@ class TogglesLayoutCP(TogglesLayout):
   def _initialize_items(self):
     _insert_below = {}
 
-    # New toggles go here. Syntax:
+    # Add new toggle syntax:
     # self._toggle_defs["NewParam"] = (title, desc, icon, needs_restart)
     # _insert_below["NewParam"] = "InsertBelowThisParam"
 
@@ -55,12 +55,12 @@ class TogglesLayoutCP(TogglesLayout):
           self._locked_toggles.add(param)
 
       # Rebuild dict and insert new toggle at the desired position
-      new_toggles = {}
+      _new_toggles = {}
       for key, value in self._toggles.items():
-        new_toggles[key] = value
+        _new_toggles[key] = value
         if key == after:
-          new_toggles[param] = toggle
-      self._toggles = new_toggles
+          _new_toggles[param] = toggle
+      self._toggles = _new_toggles
 
     self._scroller = Scroller(list(self._toggles.values()), line_separator=True, spacing=0)
 
