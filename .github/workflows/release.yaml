@@ -1,14 +1,14 @@
 name: release
 on:
-  schedule:
-    - cron: '0 9 * * *'
+ # schedule:
+ #   - cron: '0 9 * * *'
   workflow_dispatch:
 
 jobs:
   build___nightly:
     name: build __nightly
     runs-on: ubuntu-latest
-    if: github.repository == 'sunnypilot/sunnypilot'
+    if: github.repository == 'CHaucke89/cloudypilot'
     permissions:
       checks: read
       contents: write
