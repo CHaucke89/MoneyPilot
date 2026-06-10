@@ -1,4 +1,4 @@
-name: build on device
+name: build minimal
 
 env:
   BUILD_DIR: "/data/cloudypilot"
