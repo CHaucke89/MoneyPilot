@@ -18,6 +18,12 @@ class SafetyLayout(Widget):
         "monitoring.png",
         False,
       ),
+      "PermaLatch": (
+        lambda: tr("Permanent Seatbelt Latch"),
+        tr_noop("Allows engaging while the driver's seatbelt is unlatched."),
+        "seatbelt.png",
+        False,
+      ),
     }
 
     self._toggles = {}
