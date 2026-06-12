@@ -52,3 +52,9 @@ class SafetyLayout(Widget):
       self._params.put_bool("AlwaysOnDM", False)
       if "AlwaysOnDM" in self._toggles:
         self._toggles["AlwaysOnDM"].action_item.set_state(False)
+
+  def _render(self, rect):
+    self._scroller.render(rect)
+
+  def show_event(self):
+    self._scroller.show_event()
