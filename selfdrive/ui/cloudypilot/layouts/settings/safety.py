@@ -15,13 +15,11 @@ class SafetyLayout(Widget):
       "AlwaysOffDM": (
         lambda: tr("Always-Off Driver Monitoring"),
         tr_noop("Disable driver monitoring even when cloudypilot is engaged."),
-        "monitoring.png",
         False,
       ),
       "PermaLatch": (
         lambda: tr("Permanent Seatbelt Latch"),
         tr_noop("Allows engaging while the driver's seatbelt is unlatched."),
-        "seatbelt.png",
         False,
       ),
     }
@@ -32,13 +30,12 @@ class SafetyLayout(Widget):
 
   def _initialize_items(self):
     items = []
-    for param, (title, desc, icon, needs_restart) in self._toggle_defs.items():
+    for param, (title, desc, needs_restart) in self._toggle_defs.items():
       toggle = toggle_item_sp(
         title=title,
         description=desc,
         param=param,
         initial_state=self._params.get_bool(param),
-        icon=icon,
         callback=lambda state, p=param: self._toggle_callback(state, p),
       )
       self._toggles[param] = toggle
