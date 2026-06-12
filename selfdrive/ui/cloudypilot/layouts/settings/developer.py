@@ -35,5 +35,6 @@ class DeveloperLayoutCP(DeveloperLayoutSP):
     gui_app.push_widget(dialog)
 
   def _update_state(self):
+    super()._update_state()
     show_advanced = ui_state.params.get_bool("ShowAdvancedControls")
     self.konik_toggle.set_visible(show_advanced)
