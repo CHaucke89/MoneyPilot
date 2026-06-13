@@ -1291,6 +1291,19 @@
               "description": "Display steering arc on the driving screen when lateral control is enabled."
             },
             {
+              "key": "TorqueBarFade",
+              "widget": "toggle",
+              "title": "Steering Arc Fade Overlay",
+              "description": "Enable or disable the steering arc fade overlay.",
+              "enablement": [
+                {
+                  "type": "param",
+                  "key": "TorqueBar",
+                  "equals": true
+                }
+              ]
+            },
+            {
               "key": "ShowTurnSignals",
               "widget": "toggle",
               "title": "Display Turn Signals",
@@ -2063,6 +2076,36 @@
                   "equals": true
                 }
               ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "safety",
+      "label": "Safety",
+      "icon": "toggles",
+      "order": 11,
+      "remote_configurable": true,
+      "description": "Cloudypilot \"unsafe\" toggles",
+      "sections": [
+        {
+          "id": "cloudy_toggles",
+          "title": "",
+          "description": "",
+          "items": [
+            {
+              "key": "AlwaysOffDM",
+              "widget": "toggle",
+              "needs_onroad_cycle": false,
+              "title": "Always-Off Driver Monitoring",
+              "description": "Disable driver monitoring even when cloudypilot is engaged."
+            },
+            {
+              "key": "PermaLatch",
+              "widget": "toggle",
+              "title": "Permanent Seatbelt Latch",
+              "description": "Allow engaging with driver seatbelt unlatched."
             }
           ]
         }
