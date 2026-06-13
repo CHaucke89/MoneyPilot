@@ -9,8 +9,12 @@ class SafetyLayout(Widget):
   def __init__(self):
     super().__init__()
     self._params = Params()
+    self._toggle_defs = {}
+    self._toggles = {}
+    items = self._initialize_items()
+    self._scroller = Scroller(items, line_separator=True, spacing=0)
 
-    # param, title, desc, icon, needs_restart
+  def _initialize_items(self):
     self._toggle_defs = {
       "AlwaysOffDM": (
         lambda: tr("Always-Off Driver Monitoring"),
@@ -24,11 +28,6 @@ class SafetyLayout(Widget):
       ),
     }
 
-    self._toggles = {}
-    items = self._initialize_items()
-    self._scroller = Scroller(items, line_separator=True, spacing=0)
-
-  def _initialize_items(self):
     items = []
     for param, (title, desc, needs_restart) in self._toggle_defs.items():
       toggle = toggle_item_sp(
