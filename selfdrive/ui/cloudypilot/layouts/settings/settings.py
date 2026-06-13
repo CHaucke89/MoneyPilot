@@ -1,5 +1,5 @@
 from openpilot.selfdrive.ui.layouts.settings import settings as OP
-from openpilot.selfdrive.ui.cloudypilot.layouts.settings.toggles import TogglesLayoutCP
+from openpilot.selfdrive.ui.layouts.settings.toggles import TogglesLayout
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings import settings as SP
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.cruise import CruiseLayout
 from openpilot.selfdrive.ui.cloudypilot.layouts.settings.developer import DeveloperLayoutCP
@@ -15,6 +15,7 @@ from openpilot.selfdrive.ui.sunnypilot.layouts.settings.sunnylink import Sunnyli
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.trips import TripsLayout
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.vehicle import VehicleLayout
 from openpilot.selfdrive.ui.cloudypilot.layouts.settings.visuals import VisualsLayoutCP
+from openpilot.selfdrive.ui.cloudypilot.layouts.settings.safety import SafetyLayout
 from openpilot.system.ui.lib.multilang import tr_noop
 from openpilot.system.ui.widgets import Widget
 
@@ -36,7 +37,8 @@ class SettingsLayoutCP(SettingsLayoutSP):
       OP.PanelType.STEERING: PanelInfo(tr_noop("Steering"), SteeringLayout(), icon="../../sunnypilot/selfdrive/assets/offroad/icon_lateral.png"),
       OP.PanelType.CRUISE: PanelInfo(tr_noop("Cruise"), CruiseLayout(), icon="icons/speed_limit.png"),
       OP.PanelType.NETWORK: PanelInfo(tr_noop("Network"), NetworkUISP(wifi_manager), icon="icons/network.png"),
-      OP.PanelType.TOGGLES: PanelInfo(tr_noop("Toggles"), TogglesLayoutCP(), icon="../../sunnypilot/selfdrive/assets/offroad/icon_toggle.png"),
+      OP.PanelType.TOGGLES: PanelInfo(tr_noop("Toggles"), TogglesLayout(), icon="../../sunnypilot/selfdrive/assets/offroad/icon_toggle.png"),
+      "SAFETY": PanelInfo(tr_noop("Safety"), SafetyLayout(), icon="../../sunnypilot/selfdrive/assets/offroad/icon_toggle.png"),
       OP.PanelType.VISUALS: PanelInfo(tr_noop("Visuals"), VisualsLayoutCP(), icon="../../sunnypilot/selfdrive/assets/offroad/icon_visuals.png"),
       OP.PanelType.DISPLAY: PanelInfo(tr_noop("Display"), DisplayLayout(), icon="../../sunnypilot/selfdrive/assets/offroad/icon_display.png"),
       OP.PanelType.OSM: PanelInfo(tr_noop("OSM"), OSMLayout(), icon="../../sunnypilot/selfdrive/assets/offroad/icon_map.png"),

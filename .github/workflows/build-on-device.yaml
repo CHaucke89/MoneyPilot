@@ -170,6 +170,10 @@ jobs:
           echo '${{ toJSON(needs.build.outputs) }}'
           ls -la ${{ env.OUTPUT_DIR }}
 
+          git config --global http.postBuffer 524288000  # 500MB
+          git config --global http.lowSpeedLimit 1000
+          git config --global http.lowSpeedTime 60
+
           ${{ env.CI_DIR }}/publish.sh \
             "${{ github.workspace }}" \
             "${{ env.OUTPUT_DIR }}" \
