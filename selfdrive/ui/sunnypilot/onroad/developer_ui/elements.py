@@ -4,6 +4,7 @@ Copyright (c) 2021-, Haibin Wen, sunnypilot, and a number of other contributors.
 This file is part of sunnypilot and is licensed under the MIT License.
 See the LICENSE.md file in the root directory for more details.
 """
+import numpy as np
 import pyray as rl
 from dataclasses import dataclass
 
@@ -265,8 +266,20 @@ class LatAccelFactorElement:
       return UiElement(f"{ui_state.torque_override_lat_accel_factor:.3f}", "L.A.F.", self.unit, rl.WHITE)
 
     ltp = sm['liveTorqueParameters']
-    value = f"{ltp.latAccelFactorFiltered:.3f}"
-    color = rl.Color(0, 255, 0, 255) if ltp.liveValid else rl.WHITE
+
+    # Show the LAF value currently being used by the torque controller with speed-dependent self-tune enabled
+    centers = ltp.speedBinCenters
+    if centers:
+      v_ego = sm['carState'].vEgo
+      factors = ltp.speedBinLatAccelFactors
+      value = f"{np.interp(v_ego, centers, factors):.3f}"
+      active_bin = int(np.argmin([abs(v_ego - c) for c in centers]))
+      live_valid = ltp.speedBinValid[active_bin]
+    else:
+      value = f"{ltp.latAccelFactorFiltered:.3f}"
+      live_valid = ltp.liveValid
+
+    color = rl.Color(0, 255, 0, 255) if live_valid else rl.WHITE
     return UiElement(value, "L.A.F.", self.unit, color)
 
 
