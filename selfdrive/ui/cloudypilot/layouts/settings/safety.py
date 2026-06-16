@@ -45,9 +45,13 @@ class SafetyLayout(Widget):
     self._params.put_bool(param, state)
     # Mutual exclusion to keep DM out of superposition if both are toggled on
     if param == "AlwaysOffDM" and state:
-      self._params.put_bool("AlwaysOnDM", False)
+      self._params.put_bool("AlwaysOnDM", not state)
       if "AlwaysOnDM" in self._toggles:
         self._toggles["AlwaysOnDM"].action_item.set_state(False)
+    elif param == "AlwaysOnDM" and state:
+      self._params.put_bool("AlwaysOffDM", not state)
+      if "AlwaysOffDM" in self._toggles:
+        self._toggles["AlwaysOffDM"].action_item.set_state(False)
 
   def _render(self, rect):
     self._scroller.render(rect)
