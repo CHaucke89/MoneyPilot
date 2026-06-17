@@ -252,8 +252,19 @@ class FrictionCoefficientElement:
       return UiElement(f"{ui_state.torque_override_friction:.3f}", "FRIC.", self.unit, rl.WHITE)
 
     ltp = sm['liveTorqueParameters']
-    value = f"{ltp.frictionCoefficientFiltered:.3f}"
-    color = rl.Color(0, 255, 0, 255) if ltp.liveValid else rl.WHITE
+
+    centers = ltp.speedBinCenters
+    if centers:
+      v_ego = sm['carState'].vEgo
+      frictions = ltp.speedBinFrictions
+      value = f"{np.interp(v_ego, centers, frictions):.3f}"
+      active_bin = int(np.argmin([abs(v_ego - c) for c in centers]))
+      live_valid = ltp.speedBinValid[active_bin]
+    else:
+      value = f"{ltp.frictionCoefficientFiltered:.3f}"
+      live_valid = ltp.liveValid
+
+    color = rl.Color(0, 255, 0, 255) if live_valid else rl.WHITE
     return UiElement(value, "FRIC.", self.unit, color)
 
 
