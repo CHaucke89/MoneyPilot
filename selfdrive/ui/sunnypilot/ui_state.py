@@ -12,6 +12,8 @@ from openpilot.selfdrive.ui.sunnypilot.layouts.settings.display import OnroadBri
 from openpilot.sunnypilot.sunnylink.sunnylink_state import SunnylinkState
 from openpilot.system.ui.lib.application import gui_app
 
+from openpilot.selfdrive.ui.cloudypilot.ui_state import UIStateCP
+
 OpenpilotState = log.SelfdriveState.OpenpilotState
 MADSState = custom.ModularAssistiveDrivingSystem.ModularAssistiveDrivingSystemState
 
@@ -24,7 +26,7 @@ class OnroadTimerStatus(Enum):
   RESUME = 2
 
 
-class UIStateSP:
+class UIStateSP(UIStateCP):
   def __init__(self):
     self.params = Params()
     self.CP_SP: custom.CarParamsSP | None = None
@@ -57,6 +59,8 @@ class UIStateSP:
     self.custom_torque_params: bool = False
     self.torque_override_enabled: bool = False
     self._sp_initialized: bool = False
+
+    UIStateCP.__init__(self)
 
   def update(self) -> None:
     if self.sunnylink_enabled:
@@ -174,6 +178,8 @@ class UIStateSP:
     if not self._sp_initialized:
       self._sp_initialized = True
       self.reset_onroad_sleep_timer()
+
+    UIStateCP.update_params(self)
 
   def _enforce_constraints(self) -> None:
     has_long = self.has_longitudinal_control
