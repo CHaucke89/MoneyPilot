@@ -19,17 +19,15 @@ class SafetyLayout(Widget):
       "AlwaysOffDM": (
         lambda: tr("Always-Off Driver Monitoring"),
         tr_noop("Disable driver monitoring even when cloudypilot is engaged."),
-        False,
       ),
       "PermaLatch": (
         lambda: tr("Permanent Seatbelt Latch"),
         tr_noop("Allows engaging while the driver's seatbelt is unlatched."),
-        False,
       ),
     }
 
     items = []
-    for param, (title, desc, needs_restart) in self._toggle_defs.items():
+    for param, (title, desc) in self._toggle_defs.items():
       toggle = toggle_item_sp(
         title=title,
         description=desc,
