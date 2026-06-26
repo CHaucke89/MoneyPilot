@@ -353,10 +353,11 @@ class BearingDegElement(GpsInfoElement):
 
 class AltitudeElement(GpsInfoElement):
   def __init__(self):
-    self.unit = "m" if not ui_state.use_imperial else "ft"
+    self.unit = ""
 
   def update(self, sm, is_metric: bool) -> UiElement:
     gps_data, valid = self.get_gps_data(sm)
+    self.unit = "ft" if ui_state.use_imperial else "m"
 
     gps_accuracy = 0.0
     altitude = 0.0
