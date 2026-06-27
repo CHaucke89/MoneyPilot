@@ -214,14 +214,14 @@ class Uploader:
     return success
 
 
-  def step(self, network_type: int, metered: bool) -> bool | None:
+  def step(self, network_type: int, metered: bool, onroad: bool) -> bool | None:
     d = self.next_file_to_upload(metered)
     if d is None:
       return None
 
     name, key, fn = d
 
-    if key.endswith(('qlog', 'rlog')) and self.disable_log_uploads:
+    if key.endswith(('qlog', 'rlog')) and onroad and self.disable_log_uploads:
       return None
 
     # qlogs and bootlogs need to be compressed before uploading
@@ -262,7 +262,7 @@ def main(exit_event: threading.Event | None = None) -> None:
         time.sleep(60 if offroad else 5)
       continue
 
-    success = uploader.step(sm['deviceState'].networkType.raw, sm['deviceState'].networkMetered)
+    success = uploader.step(sm['deviceState'].networkType.raw, sm['deviceState'].networkMetered, not offroad)
     if success is None:
       backoff = 60 if offroad else 5
     elif success:
