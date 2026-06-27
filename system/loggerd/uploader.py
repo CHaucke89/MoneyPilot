@@ -87,6 +87,8 @@ class Uploader:
     self.immediate_folders = ["crash/", "boot/"]
     self.immediate_priority = {"qlog": 0, "qlog.zst": 0, "qcamera.ts": 1}
 
+    self.disable_log_uploads = self.params.get_bool("DisableLogUploads")
+
   def list_upload_files(self, metered: bool) -> Iterator[tuple[str, str, str]]:
     r = self.params.get("AthenadRecentlyViewedRoutes")
     requested_routes = [] if r is None else [route for route in r.split(",") if route]
@@ -218,6 +220,9 @@ class Uploader:
       return None
 
     name, key, fn = d
+
+    if key.endswith(('qlog', 'rlog')) and self.disable_log_uploads:
+      return None
 
     # qlogs and bootlogs need to be compressed before uploading
     if key.endswith(('qlog', 'rlog')) or (key.startswith('boot/') and not key.endswith('.zst')):

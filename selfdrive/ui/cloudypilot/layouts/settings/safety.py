@@ -24,6 +24,10 @@ class SafetyLayout(Widget):
         lambda: tr("Permanent Seatbelt Latch"),
         tr_noop("Allows engaging while the driver's seatbelt is unlatched."),
       ),
+      "DisableLogUploads": (
+        lambda: tr("Disable Log Uploads"),
+        tr_noop("Disable uploading of rlogs/qlogs completely. Video is unaffected."),
+      ),
     }
 
     items = []
