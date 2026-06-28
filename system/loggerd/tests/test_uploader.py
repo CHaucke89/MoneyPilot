@@ -182,3 +182,55 @@ class TestUploader(UploaderTestCase):
     for f_path in f_paths:
       lock_path = f_path.with_suffix(f_path.suffix + ".lock")
       assert not lock_path.is_file(), "File lock not cleared on startup"
+
+  def test_disable_log_uploads_onroad(self):
+    # When onroad and disable_log_uploads=True, logs should not upload but videos should
+    self.params.put("DisableLogUploads", True, block=True)
+    self.params.put("IsOffroad", False, block=True)  # False = onroad
+    self.gen_files(lock=False, boot=False)
+
+    self.start_thread()
+    time.sleep(1)
+    self.join_thread()
+
+    # Videos should be uploaded
+    assert any("dcamera.hevc" in key for key in log_handler.upload_order), "dcamera.hevc not uploaded"
+    assert any("fcamera.hevc" in key for key in log_handler.upload_order), "fcamera.hevc not uploaded"
+
+    # Logs should not be uploaded
+    assert not any("qlog" in key for key in log_handler.upload_order), "qlog was uploaded when disabled onroad"
+    assert not any("rlog" in key for key in log_handler.upload_order), "rlog was uploaded when disabled onroad"
+
+  def test_disable_log_uploads_offroad(self):
+    # When offroad, logs should upload even if disable_log_uploads=True
+    self.params.put("DisableLogUploads", True, block=True)
+    self.params.put("IsOffroad", True, block=True)  # True = offroad
+    self.gen_files(lock=False, boot=False)
+
+    self.start_thread()
+    time.sleep(1)
+    self.join_thread()
+
+    exp_order = self.gen_order([self.seg_num], [], boot=False)
+
+    assert len(log_handler.upload_ignored) == 0, "Some files were ignored"
+    assert len(log_handler.upload_order) >= len(exp_order), "Not all log files were uploaded offroad"
+    for f_path in exp_order:
+      assert os.getxattr((Path(Paths.log_root()) / f_path).with_suffix(""), UPLOAD_ATTR_NAME) == UPLOAD_ATTR_VALUE, "Log file not uploaded offroad"
+
+  def test_disable_log_uploads_disabled(self):
+    # When disable_log_uploads=False, all files should upload regardless of onroad state
+    self.params.put("DisableLogUploads", False, block=True)
+    self.params.put("IsOffroad", False, block=True)  # False = onroad
+    self.gen_files(lock=False, boot=False)
+
+    self.start_thread()
+    time.sleep(1)
+    self.join_thread()
+
+    exp_order = self.gen_order([self.seg_num], [], boot=False)
+
+    assert len(log_handler.upload_ignored) == 0, "Some files were ignored"
+    assert not len(log_handler.upload_order) < len(exp_order), "Some files failed to upload"
+    for f_path in exp_order:
+      assert os.getxattr((Path(Paths.log_root()) / f_path).with_suffix(""), UPLOAD_ATTR_NAME) == UPLOAD_ATTR_VALUE, "All files not uploaded"
