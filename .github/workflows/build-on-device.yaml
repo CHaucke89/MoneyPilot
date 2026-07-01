@@ -7,7 +7,7 @@ env:
   SCONS_CACHE_DIR: ${{ github.workspace }}/release/ci/scons_cache
   PUBLIC_REPO_URL: "https://github.com/CHaucke89/cloudypilot"
 
-  STAGING_SOURCE_BRANCH: 'master'
+  STAGING_SOURCE_BRANCH: 'ch-dev'
   SOURCE_BRANCH: "${{ github.ref_name }}"
 
 on:
