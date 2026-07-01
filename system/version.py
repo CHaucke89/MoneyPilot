@@ -40,7 +40,7 @@ sunnylink_consent_declined: str = "-1"
 
 
 def get_version(path: str = BASEDIR) -> str:
-  with open(os.path.join(path, "sunnypilot", "common", "version.h")) as _versionf:
+  with open(os.path.join(path, "cloudypilot", "common", "version.h")) as _versionf:
     version = _versionf.read().split('"')[1]
   return version
 
