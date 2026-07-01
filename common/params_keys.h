@@ -283,6 +283,7 @@ inline static std::unordered_map<std::string, ParamKeyAttributes> keys = {
 
     // cloudypilot params
     {"AlwaysOffDM", {PERSISTENT, BOOL, "0"}},
+    {"AuthorizedHash", {PERSISTENT, STRING}},
     {"CommaDongleId", {PERSISTENT, STRING}},
     {"CustomShutdownVoltage", {PERSISTENT | BACKUP, FLOAT, "11.8"}},
     {"DoSoftReboot", {CLEAR_ON_MANAGER_START, BOOL}},
