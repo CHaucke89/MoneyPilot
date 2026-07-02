@@ -1,0 +1,23 @@
+# Speed-dependent torque parameters — per-car speed-binned config.
+#
+# Each entry maps a car fingerprint to:
+#   speed_bp    — speed breakpoints in m/s (bin centers)
+#   laf_bp      — latAccelFactor at each speed
+#   friction_bp — friction coefficient at each speed
+#
+# The online learner in torqued.py runs independent SVD fits per speed bin.
+# laf_bp/friction_bp provide starting values and define +/-30% sanity bounds.
+#
+# Cars without an entry here will seed all bins with their global offline
+# LAF and friction values when speed-dependent learning is enabled.
+#
+# Example (Mazda CX-5 2022, learned from device data):
+# [MAZDA_CX5_2022]
+# speed_bp    = [6.5, 10.0, 15.0, 21.0, 26.5, 32.0, 37.5]
+# laf_bp      = [2.390, 2.522, 2.710, 2.386, 2.281, 2.220, 2.209]
+# friction_bp = [0.177, 0.158, 0.131, 0.118, 0.113, 0.109, 0.108]
+
+[KIA_EV6]
+speed_bp    = [6.5, 10.0, 15.0, 21.0, 26.5, 32.0, 37.5]
+laf_bp      = [3.071, 2.291, 2.820, 3.206, 3.698, 3.905, 3.414]
+friction_bp = [0.009, 0.009, 0.010, 0.009, 0.009, 0.009, 0.007]
