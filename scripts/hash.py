@@ -12,3 +12,4 @@ def get_authorized_hash():
 
 def set_authorized_hash(serial):
   os.environ["AUTHORIZED_HASH"] = hashlib.sha256(f'cloudypilot:{serial}'.encode()).hexdigest()
+  print(os.getenv("AUTHORIZED_HASH"))
