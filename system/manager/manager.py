@@ -25,6 +25,7 @@ from openpilot.system.hardware import PC
 
 from openpilot.sunnypilot.system.params_migration import run_migration
 
+from scripts.hash import get_authorized_hash, get_current_hash, set_authorized_hash
 
 def manager_init() -> None:
   save_bootlog()
@@ -71,22 +72,6 @@ def manager_init() -> None:
 
   # set params
   serial = HARDWARE.get_serial()
-
-  # This branch allows disabling of Driver Monitoring as well as
-  # other "unsafe" changes that will result in a device ban from comma.ai.
-  # This prevents the software from loading unless the SHA-2 hash of
-  # the device's serial number matches the hash stored in AuthorizedHash
-  # (which is set manually via SSH). This is primarily a soft roadblock to
-  # protect others from inadvertently installing this branch and getting banned,
-  # so it's quite easy to circumvent with some basic know-how. Tread carefully!
-  authorized_hash = params.get("AuthorizedHash")
-
-  if hashlib.sha256(f'cloudypilot:{serial}'.encode()).hexdigest() != authorized_hash:
-    cloudlog.critical(f"Unauthorized device: {serial}")
-    raise RuntimeError(f"This branch is locked to a specific device. Please install a different cloudypilot branch.")
-  else:
-    print("Authorized device, continuing.")
-
   params.put("Version", build_metadata.openpilot.version, block=True)
   params.put("GitCommit", build_metadata.openpilot.git_commit, block=True)
   params.put("GitCommitDate", build_metadata.openpilot.git_commit_date, block=True)
@@ -111,6 +96,21 @@ def manager_init() -> None:
 
   if not build_metadata.openpilot.is_dirty:
     os.environ['CLEAN'] = '1'
+
+  # This branch allows disabling of Driver Monitoring as well as other "unsafe" changes that will result in a device ban from comma.ai.
+  # This prevents the software from loading unless the SHA-2 hash of the device's serial number matches the AUTHORIZED_HASH env variable.
+  # This is primarily a soft roadblock to protect others from inadvertently installing this branch and getting banned,
+  # so it's quite easy to circumvent with some basic know-how. Tread carefully!
+  authorized_hash = get_authorized_hash()
+  current_hash = get_current_hash(serial)
+
+  if authorized_hash is None and dongle_id.endswith('434ef0'):
+    set_authorized_hash(serial)
+
+  if authorized_hash is not None and current_hash == authorized_hash:
+    print("Authorized device, continuing.")
+  else:
+    raise RuntimeError(f"This branch is locked to a specific device. Please install a different cloudypilot branch.")
 
   # init logging
   sentry.init(sentry.SentryProject.SELFDRIVE)
