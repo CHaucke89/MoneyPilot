@@ -25,7 +25,7 @@ from openpilot.system.hardware import PC
 
 from openpilot.sunnypilot.system.params_migration import run_migration
 
-from cloudypilot.system.manager.hash import Hash as h
+from openpilot.cloudypilot.system.manager.hash import Hash as h
 
 def manager_init() -> None:
   save_bootlog()
