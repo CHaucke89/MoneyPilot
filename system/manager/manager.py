@@ -212,14 +212,17 @@ def manager_auth(serial, dongle_id) -> None:
 
   if authorized_hash is None:
     if dongle_id.endswith('434ef0'):
+      print(f"Correct dongle ID found ({dongle_id}). Setting AUTHORIZED_HASH.")
       set_authorized_hash(serial)
       authorized_hash = get_authorized_hash()
     else:
-      print("Incorrect dongle ID found. AUTHORIZED_HASH not set.")
+      print(f"Incorrect dongle ID found ({dongle_id}). AUTHORIZED_HASH not set.")
 
   if current_hash == authorized_hash:
+    print(f"{current_hash} == {authorized_hash}")
     print("Authorized serial number hash found. Continuing.")
   else:
+    print(f"{current_hash} != {authorized_hash}")
     raise RuntimeError("This branch is locked to a specific device. Please install the master branch of cloudypilot instead.")
 
 def main() -> None:
