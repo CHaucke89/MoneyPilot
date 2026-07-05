@@ -25,7 +25,7 @@ from openpilot.system.hardware import PC
 
 from openpilot.sunnypilot.system.params_migration import run_migration
 
-from scripts.hash import get_authorized_hash, get_current_hash, set_authorized_hash
+from cloudypilot.system.manager.hash import Hash as h
 
 def manager_init() -> None:
   save_bootlog()
@@ -206,24 +206,17 @@ def manager_auth(serial, dongle_id) -> None:
   # This prevents the software from loading unless the SHA-2 hash of the device's serial number matches the AUTHORIZED_HASH env variable.
   # This is primarily a soft roadblock to protect others from inadvertently installing this branch and getting banned,
   # so it's quite easy to circumvent with some basic know-how. Tread carefully!
+  authorized_hash = None
+  device_hash = h.get_device_hash(serial)
 
-  authorized_hash = get_authorized_hash()
-  current_hash = get_current_hash(serial)
-
-  if authorized_hash is None:
-    if dongle_id.endswith('434ef0'):
-      print(f"Correct dongle ID found ({dongle_id}). Setting AUTHORIZED_HASH.")
-      set_authorized_hash(serial)
-      authorized_hash = get_authorized_hash()
-    else:
-      print(f"Incorrect dongle ID found ({dongle_id}). AUTHORIZED_HASH not set.")
-
-  if current_hash == authorized_hash:
-    print(f"{current_hash} == {authorized_hash}")
-    print("Authorized serial number hash found. Continuing.")
+  if dongle_id.endswith('434ef0'):
+    print(f"Correct dongle ID found ({dongle_id}). Setting AUTHORIZED_HASH.")
+    h.set_authorized_hash(serial)
+    authorized_hash = h.get_authorized_hash()
   else:
-    print(f"{current_hash} != {authorized_hash}")
-    raise RuntimeError("This branch is locked to a specific device. Please install the master branch of cloudypilot instead.")
+    print(f"Incorrect dongle ID found ({dongle_id}). AUTHORIZED_HASH not set.")
+
+  h.compare_hashes(device_hash, authorized_hash)
 
 def main() -> None:
   manager_init()
