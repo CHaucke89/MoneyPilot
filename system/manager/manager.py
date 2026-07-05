@@ -213,8 +213,6 @@ def manager_auth(serial, dongle_id) -> None:
     print(f"Correct dongle ID found ({dongle_id}). Setting AUTHORIZED_HASH.")
     h.set_authorized_hash(serial)
     authorized_hash = h.get_authorized_hash()
-  else:
-    print(f"Incorrect dongle ID found ({dongle_id}). AUTHORIZED_HASH not set.")
 
   h.compare_hashes(device_hash, authorized_hash)
 
