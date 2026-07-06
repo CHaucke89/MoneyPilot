@@ -202,17 +202,19 @@ def manager_thread() -> None:
       break
 
 def manager_auth(serial, dongle_id) -> None:
-  # This branch allows disabling of Driver Monitoring as well as other "unsafe" changes that will result in a device ban from comma.ai.
-  # This prevents the software from loading unless the SHA-2 hash of the device's serial number matches the AUTHORIZED_HASH env variable.
-  # This is primarily a soft roadblock to protect others from inadvertently installing this branch and getting banned,
-  # so it's quite easy to circumvent with some basic know-how. Tread carefully!
-  authorized_hash = None
+  """This branch allows disabling of Driver Monitoring as well as other "unsafe" changes that will result in a device ban from
+  comma.ai. This prevents the software from loading unless the SHA-2 hash of the device's serial matches the value stored in the
+  AuthorizedHash param. This is primarily a soft roadblock to protect others from inadvertently installing this branch and getting banned,
+  so it's quite easy to circumvent with some basic know-how. Tread carefully!"""
+
+  params = Params()
+  authorized_hash = params.get("AuthorizedHash")
   device_hash = h.get_device_hash(serial)
 
-  if dongle_id.endswith('434ef0'):
-    print(f"Correct dongle ID found ({dongle_id}). Setting AUTHORIZED_HASH.")
-    h.set_authorized_hash(serial)
-    authorized_hash = h.get_authorized_hash()
+  if authorized_hash is None and device_hash.split('9')[3].endswith("65a5b8f02a"):
+    print("AuthorizedHash not set.")
+    print(f"Correct partial hash found. Setting AuthorizedHash with device serial hash.")
+    params.put("AuthorizedHash", device_hash, block=True)
 
   h.compare_hashes(device_hash, authorized_hash)
 
