@@ -24,7 +24,7 @@ from openpilot.common.hardware.hw import Paths
 
 from openpilot.sunnypilot.system.params_migration import run_migration
 
-from openpilot.cloudypilot.system.manager.hash import Hash as h
+from openpilot.cloudypilot.system.manager.hash import get_device_hash, compare_hashes
 
 def manager_init() -> None:
   save_bootlog()
@@ -208,7 +208,7 @@ def manager_auth(serial, dongle_id) -> None:
 
   params = Params()
   authorized_hash = params.get("AuthorizedHash")
-  device_hash = h.get_device_hash(serial)
+  device_hash = get_device_hash(serial)
 
   if authorized_hash is None and device_hash.split('9')[3].endswith("65a5b8f02a"):
     print("AuthorizedHash not set.")
@@ -216,7 +216,7 @@ def manager_auth(serial, dongle_id) -> None:
     params.put("AuthorizedHash", device_hash, block=True)
     authorized_hash = params.get("AuthorizedHash")
 
-  h.compare_hashes(device_hash, authorized_hash)
+  compare_hashes(device_hash, authorized_hash)
 
 def main() -> None:
   manager_init()
