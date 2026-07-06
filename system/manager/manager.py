@@ -213,7 +213,8 @@ def manager_auth(serial, dongle_id) -> None:
   if authorized_hash is None and device_hash.split('9')[3].endswith("65a5b8f02a"):
     print("AuthorizedHash not set.")
     print(f"Correct partial hash found. Setting AuthorizedHash with device serial hash.")
-    authorized_hash = params.put("AuthorizedHash", device_hash, block=True)
+    params.put("AuthorizedHash", device_hash, block=True)
+    authorized_hash = params.get("AuthorizedHash")
 
   h.compare_hashes(device_hash, authorized_hash)
 
