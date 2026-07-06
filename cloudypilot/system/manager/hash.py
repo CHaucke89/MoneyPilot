@@ -5,6 +5,11 @@ import os
 def get_device_hash(serial):
   return hashlib.sha256(f'cloudypilot:{serial}'.encode()).hexdigest()
 
+def set_authorized_hash(device_hash, params):
+  print("AuthorizedHash not set.")
+  print(f"Correct partial hash found. Setting AuthorizedHash with device serial hash.")
+  params.put("AuthorizedHash", device_hash, block=True)
+
 def compare_hashes(device_hash, authorized_hash):
   if device_hash == authorized_hash:
     print(f"{device_hash} == {authorized_hash}")
