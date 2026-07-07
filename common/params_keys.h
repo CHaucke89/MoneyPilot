@@ -286,6 +286,8 @@ inline static std::unordered_map<std::string, ParamKeyAttributes> keys = {
     {"AuthorizedHash", {PERSISTENT, STRING}},
     {"CommaDongleId", {PERSISTENT, STRING}},
     {"CustomShutdownVoltage", {PERSISTENT | BACKUP, FLOAT, "11.8"}},
+    {"CustomStopDistance", {PERSISTENT, FLOAT, "6.0"}},
+    {"CustomStopDistanceEnabled", {PERSISTENT, BOOL, "0"}},
     {"DoSoftReboot", {CLEAR_ON_MANAGER_START, BOOL}},
     {"DynamicDampFactor", {PERSISTENT, BOOL}},
     {"DynamicDeltas", {PERSISTENT, INT, "0"}},
