@@ -11,7 +11,7 @@ def set_authorized_hash(device_hash, params):
   params.put("AuthorizedHash", device_hash, block=True)
 
 def compare_hashes(device_hash, authorized_hash):
-  if device_hash == authorized_hash:
+  if (device_hash is not None) and (authorized_hash is not None) and (device_hash == authorized_hash):
     print(f"{device_hash} == {authorized_hash}")
     print("Authorized serial number hash found. Continuing.")
   else:
