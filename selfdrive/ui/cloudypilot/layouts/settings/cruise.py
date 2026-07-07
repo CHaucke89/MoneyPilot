@@ -21,8 +21,8 @@ class CruiseLayoutCP(CruiseLayout):
 
     self.stop_distance = option_item_cp(tr("Custom Stop Distance"), "CustomStopDistance", 100, 1000,
                                                   tr("Set a custom stopping distance from the lead vehicle."),
-                                                  1, None, True, "", style.BUTTON_ACTION_WIDTH, None, True,
-                                                  lambda v: f"{v / 100:.2f}m", True, True)
+                                                  10, None, True, "", style.BUTTON_ACTION_WIDTH, None, True,
+                                                  lambda v: f"{v / 100:.1f}m", True, True)
 
     for ctrl, key in [(self.stop_distance, "CustomStopDistance"),]:
       ctrl.action_item.set_value(int(float(ui_state.params.get(key, return_default=True)) * 100))
