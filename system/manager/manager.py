@@ -93,6 +93,8 @@ def manager_init() -> None:
   os.environ['GIT_BRANCH'] = build_metadata.channel # Needed for swaglog
   os.environ['GIT_COMMIT'] = build_metadata.openpilot.git_commit # Needed for swaglog
 
+  manager_auth(serial, dongle_id)
+
   if not build_metadata.openpilot.is_dirty:
     os.environ['CLEAN'] = '1'
 
@@ -109,8 +111,6 @@ def manager_init() -> None:
   # preimport all processes
   for p in managed_processes.values():
     p.prepare()
-
-  manager_auth(serial, dongle_id)
 
 
 def manager_cleanup() -> None:
