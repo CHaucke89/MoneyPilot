@@ -28,7 +28,7 @@ class VisualsLayoutCP(VisualsLayout):
     self._toggle_defs["UseImperial"] = (lambda: tr("Use Imperial"),
         tr("Use imperial units (ft) for altitude."),
         None, False, None)
-    _insert_below["UseImperial"] = "RocketFuel"
+    _insert_below["UseImperial"] = "RainbowMode"
 
     for param, after in _insert_below.items():
       title, desc, icon, callback, _ = self._toggle_defs[param]
