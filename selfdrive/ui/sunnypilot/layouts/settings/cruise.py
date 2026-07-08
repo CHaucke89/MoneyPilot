@@ -13,6 +13,7 @@ from openpilot.system.ui.sunnypilot.widgets.list_view import toggle_item_sp, opt
 from openpilot.system.ui.widgets import Widget
 from openpilot.system.ui.widgets.scroller_tici import Scroller
 
+from openpilot.system.ui.cloudypilot.widgets.list_view import option_item_cp
 
 class PanelType(IntEnum):
   CRUISE = 0
@@ -93,7 +94,7 @@ class CruiseLayout(Widget):
       param="CustomStopDistanceEnabled",
       callback=self._on_custom_stop_distance_toggle)
 
-    self.stop_distance = option_item_sp(
+    self.stop_distance = option_item_cp(
       title=tr("Custom Stop Distance"),
       param="CustomStopDistance",
       min_value=100,
@@ -101,7 +102,8 @@ class CruiseLayout(Widget):
       value_change_step=50,
       use_float_scaling=True,
       label_callback=lambda v: f"{v / 100:.1f}m",
-      inline=True)
+      inline=True,
+      reset_enabled=True)
 
     items = [
       self.icbm_toggle,
