@@ -87,6 +87,22 @@ class CruiseLayout(Widget):
       description=tr("Enable toggle to allow the model to determine when to use sunnypilot ACC or sunnypilot End to End Longitudinal."),
       param="DynamicExperimentalControl")
 
+    self.stop_distance_toggle = toggle_item_sp(
+      title=tr("Use Custom Stop Distance"),
+      description=tr("Enable toggle to allow setting a custom stopping distance from the lead vehicle."),
+      param="CustomStopDistanceEnabled",
+      callback=self._on_custom_stop_distance_toggle)
+
+    self.stop_distance = option_item_sp(
+      title=tr("Custom Stop Distance"),
+      param="CustomStopDistance",
+      min_value=100,
+      max_value=1000,
+      value_change_step=50,
+      use_float_scaling=True,
+      label_callback=lambda v: f"{v / 100:.1f}m",
+      inline=True)
+
     items = [
       self.icbm_toggle,
       self.dec_toggle,
@@ -95,6 +111,8 @@ class CruiseLayout(Widget):
       self.custom_acc_toggle,
       self.custom_acc_short_increment,
       self.custom_acc_long_increment,
+      self.stop_distance_toggle,
+      self.stop_distance,
       self.sla_settings_button,
     ]
     return items
@@ -144,15 +162,18 @@ class CruiseLayout(Widget):
 
       if has_long or has_icbm:
         self.custom_acc_toggle.action_item.set_enabled(((has_long and not ui_state.CP.pcmCruise) or has_icbm) and ui_state.is_offroad())
+        self.stop_distance_toggle.action_item.set_enabled(not ui_state.CP.pcmCruise)
         self.dec_toggle.action_item.set_enabled(has_long)
         self.scc_v_toggle.action_item.set_enabled(True)
         self.scc_m_toggle.action_item.set_enabled(True)
       else:
         ui_state.params.remove("CustomAccIncrementsEnabled")
+        ui_state.params.remove("CustomStopDistanceEnabled")
         ui_state.params.remove("DynamicExperimentalControl")
         ui_state.params.remove("SmartCruiseControlVision")
         ui_state.params.remove("SmartCruiseControlMap")
         self.custom_acc_toggle.action_item.set_enabled(False)
+        self.stop_distance_toggle.action_item.set_enabled(False)
         self.dec_toggle.action_item.set_enabled(False)
         self.scc_v_toggle.action_item.set_enabled(False)
         self.scc_m_toggle.action_item.set_enabled(False)
@@ -185,9 +206,14 @@ class CruiseLayout(Widget):
         self.custom_acc_toggle.show_description(True)
 
     self._on_custom_acc_toggle(self.custom_acc_toggle.action_item.get_state())
+    self._on_custom_stop_distance_toggle(self.stop_distance_toggle.action_item.get_state())
 
   def _on_custom_acc_toggle(self, state):
     self.custom_acc_short_increment.set_visible(state)
     self.custom_acc_long_increment.set_visible(state)
     self.custom_acc_short_increment.action_item.set_enabled(self.custom_acc_toggle.action_item.enabled)
     self.custom_acc_long_increment.action_item.set_enabled(self.custom_acc_toggle.action_item.enabled)
+
+  def _on_custom_stop_distance_toggle(self, state):
+    self.stop_distance.set_visible(state)
+    self.stop_distance.action_item.set_enabled(self.stop_distance_toggle.action_item.enabled)
