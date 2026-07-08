@@ -162,7 +162,7 @@ class CruiseLayout(Widget):
 
       if has_long or has_icbm:
         self.custom_acc_toggle.action_item.set_enabled(((has_long and not ui_state.CP.pcmCruise) or has_icbm) and ui_state.is_offroad())
-        self.stop_distance_toggle.action_item.set_enabled(not ui_state.CP.pcmCruise)
+        self.stop_distance_toggle.action_item.set_enabled(True)
         self.dec_toggle.action_item.set_enabled(has_long)
         self.scc_v_toggle.action_item.set_enabled(True)
         self.scc_m_toggle.action_item.set_enabled(True)
