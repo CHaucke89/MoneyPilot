@@ -10,6 +10,8 @@ from openpilot.selfdrive.ui.layouts.main import MainLayout
 from openpilot.selfdrive.ui.mici.layouts.main import MiciMainLayout
 from openpilot.selfdrive.ui.ui_state import ui_state
 
+from openpilot.selfdrive.ui.remote_ui import RemoteUI
+
 BIG_UI = gui_app.big_ui()
 
 
@@ -19,6 +21,8 @@ def main():
   config_realtime_process(0, Priority.CTRL_HIGH)
 
   gui_app.init_window("UI")
+  remote = RemoteUI()
+
   if BIG_UI:
     MainLayout()
   else:
@@ -43,6 +47,9 @@ def main():
       msg.uiDebug.frameTimeMillis = frame_time * 1000
       pm.send('uiDebug', msg)
 
+      remote.stream_frame()
+
+  remote.close()
 
 if __name__ == "__main__":
   main()
