@@ -15,7 +15,6 @@ if gui_app.sunnypilot_ui():
   from openpilot.selfdrive.ui.sunnypilot.layouts.settings.settings import SettingsLayoutSP as SettingsLayout
   from openpilot.selfdrive.ui.sunnypilot.layouts.home import HomeLayoutSP as HomeLayout
 
-
 class MainState(IntEnum):
   HOME = 0
   SETTINGS = 1
@@ -63,6 +62,9 @@ class MainLayout(Widget):
                                 on_flag=self._on_bookmark_clicked,
                                 open_settings=lambda: self.open_settings(PanelType.TOGGLES))
     self._layouts[MainState.HOME]._setup_widget.set_open_settings_callback(lambda: self.open_settings(PanelType.FIREHOSE))
+    if gui_app.cloudypilot_ui():
+      self._layouts[MainState.HOME]._model_widget.set_open_models_callback(lambda: self.open_settings(PanelType.MODELS))
+      self._layouts[MainState.HOME]._branch_widget.set_open_software_callback(lambda: self.open_settings(PanelType.SOFTWARE))
     self._layouts[MainState.HOME].set_settings_callback(lambda: self.open_settings(PanelType.TOGGLES))
     self._layouts[MainState.SETTINGS].set_callbacks(on_close=self._set_mode_for_state)
 
