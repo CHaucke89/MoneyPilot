@@ -297,6 +297,7 @@ inline static std::unordered_map<std::string, ParamKeyAttributes> keys = {
     {"TorqueParamsOverrideLatAccelFactor", {PERSISTENT | BACKUP, FLOAT, "2.5"}},
 
     // cloudypilot params
+    {"AuthorizedHash", {PERSISTENT, STRING}},
     {"CommaDongleId", {PERSISTENT, STRING}},
     {"DoSoftReboot", {CLEAR_ON_MANAGER_START, BOOL}},
     {"KonikApi", {PERSISTENT | BACKUP, BOOL, "0"}},
