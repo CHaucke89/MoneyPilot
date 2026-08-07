@@ -3,6 +3,7 @@
 #include <string>
 #include <unordered_map>
 
+#include "common/params.h"
 #include "openpilot/cereal/gen/cpp/log.capnp.h"
 
 inline static std::unordered_map<std::string, ParamKeyAttributes> keys = {
@@ -292,4 +293,5 @@ inline static std::unordered_map<std::string, ParamKeyAttributes> keys = {
     {"DoSoftReboot", {CLEAR_ON_MANAGER_START, BOOL}},
     {"KonikApi", {PERSISTENT | BACKUP, BOOL, "0"}},
     {"KonikDongleId", {PERSISTENT, STRING}},
+    {"PermaLatch", {PERSISTENT, BOOL}},
 };
