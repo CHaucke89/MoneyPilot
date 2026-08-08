@@ -23,6 +23,7 @@ class CarEvents:
     self.low_speed_alert = False
     self.no_steer_warning = False
     self.silent_steer_warning = True
+    self.params = Params()
 
   def update(self, CS: car.CarState, CS_prev: car.CarState, CC: car.CarControl):
     if self.CP.brand in ('body', 'mock'):
@@ -100,8 +101,7 @@ class CarEvents:
 
   def create_common_events(self, CS: structs.CarState, CS_prev: car.CarState):
     events = Events()
-    params = Params()
-    permalatch = params.get_bool("PermaLatch")
+    permalatch = self.params.get_bool("PermaLatch")
 
     CI = interfaces[self.CP.carFingerprint]
     # TODO: cleanup the honda-specific logic
