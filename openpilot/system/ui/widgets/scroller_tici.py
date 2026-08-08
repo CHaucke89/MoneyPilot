@@ -2,8 +2,6 @@ import pyray as rl
 from collections.abc import Sequence
 from openpilot.system.ui.lib.scroll_panel import GuiScrollPanel
 from openpilot.system.ui.widgets import Widget
-from openpilot.system.ui.lib.application import gui_app
-from openpilot.system.ui.cloudypilot.widgets.list_view import LineSeparatorCP
 
 ITEM_SPACING = 40
 LINE_COLOR = rl.GRAY
@@ -30,7 +28,7 @@ class Scroller(Widget):
     super().__init__()
     self._items: list[Widget] = []
     self._spacing = spacing
-    self._line_separator = (LineSeparator() if not gui_app.cloudypilot_ui() else LineSeparatorCP()) if line_separator else None
+    self._line_separator = LineSeparator() if line_separator else None
     self._pad_end = pad_end
 
     self.scroll_panel = GuiScrollPanel()
