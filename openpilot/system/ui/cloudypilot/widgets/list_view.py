@@ -1,9 +1,12 @@
+import pyray as rl
 from collections.abc import Callable
 
-from openpilot.system.ui.sunnypilot.widgets.list_view import ListItemSP
+from openpilot.system.ui.sunnypilot.widgets.list_view import ListItemSP, LineSeparatorSP
 from openpilot.system.ui.sunnypilot.widgets.option_control import LABEL_WIDTH
 from openpilot.system.ui.cloudypilot.widgets.option_control import OptionControlCP
 
+LINE_PADDING_CP = 35
+LINE_COLOR_CP = rl.DARKGRAY
 
 def option_item_cp(title: str | Callable[[], str], param: str,
                    min_value: int, max_value: int, description: str | Callable[[], str] | None = None,
@@ -18,3 +21,14 @@ def option_item_cp(title: str | Callable[[], str], param: str,
     reset_enabled=reset_enabled
   )
   return ListItemSP(title=title, description=description, action_item=action, icon=icon, inline=inline)
+
+class LineSeparatorCP(LineSeparatorSP):
+  def __init__(self, height: int = 1):
+    super().__init__()
+    self._rect = rl.Rectangle(0, 0, 0, height)
+
+  def _render(self, _):
+    line_y = int(self._rect.y + self._rect.height // 2)
+    rl.draw_line(int(self._rect.x) + LINE_PADDING_CP, line_y,
+                 int(self._rect.x + self._rect.width) - LINE_PADDING_CP, line_y,
+                 LINE_COLOR_CP)
