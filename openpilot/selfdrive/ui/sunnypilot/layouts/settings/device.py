@@ -17,6 +17,8 @@ from openpilot.system.ui.widgets.button import ButtonStyle
 from openpilot.system.ui.widgets.confirm_dialog import alert_dialog, ConfirmDialog
 from openpilot.system.ui.widgets.list_view import text_item
 from openpilot.system.ui.widgets.scroller_tici import LineSeparator
+if gui_app.cloudypilot_ui():
+  from openpilot.system.ui.cloudypilot.widgets.list_view import LineSeparatorCP as LineSeparator
 
 offroad_time_options = {
   0: 0,
