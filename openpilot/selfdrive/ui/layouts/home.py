@@ -13,10 +13,6 @@ from openpilot.system.ui.lib.multilang import tr, trn
 from openpilot.system.ui.widgets.label import gui_label
 from openpilot.system.ui.widgets import Widget
 
-if gui_app.cloudypilot_ui():
-  from openpilot.selfdrive.ui.cloudypilot.widgets.current_model import ModelWidget
-  from openpilot.selfdrive.ui.cloudypilot.widgets.current_branch import BranchWidget
-
 HEADER_HEIGHT = 80
 HEAD_BUTTON_FONT_SIZE = 40
 CONTENT_MARGIN = 40
@@ -61,8 +57,6 @@ class HomeLayout(Widget):
 
     self._prime_widget = PrimeWidget()
     self._setup_widget = SetupWidget()
-    self._model_widget = ModelWidget()
-    self._branch_widget = BranchWidget()
 
     self._exp_mode_button = ExperimentalModeButton()
     self._setup_callbacks()
@@ -184,7 +178,7 @@ class HomeLayout(Widget):
 
     version_rect = rl.Rectangle(self.header_rect.x + self.header_rect.width - version_text_width, self.header_rect.y,
                                 version_text_width, self.header_rect.height)
-    gui_label(version_rect, self._version_text, 48, rl.LIGHTGRAY, alignment=rl.GuiTextAlignment.TEXT_ALIGN_RIGHT)
+    gui_label(version_rect, self._version_text, 48, rl.WHITE, alignment=rl.GuiTextAlignment.TEXT_ALIGN_RIGHT)
 
   def _render_home_content(self):
     self._render_left_column()
@@ -197,15 +191,7 @@ class HomeLayout(Widget):
     self.offroad_alert.render(self.content_rect)
 
   def _render_left_column(self):
-    self._model_widget.render(self.left_column_rect)
-
-    branch_rect = rl.Rectangle(
-      self.left_column_rect.x,
-      self.left_column_rect.y + 400 + SPACING,
-      self.left_column_rect.width,
-      self.left_column_rect.height
-    )
-    self._branch_widget.render(branch_rect)
+    self._prime_widget.render(self.left_column_rect)
 
   def _render_right_column(self):
     exp_height = 125
@@ -242,6 +228,6 @@ class HomeLayout(Widget):
     self._prev_alerts_present = alerts_present
 
   def _get_version_text(self) -> str:
-    brand = "cloudypilot"
+    brand = "sunnypilot"
     description = self.params.get("UpdaterCurrentDescription")
     return f"{brand} {description}" if description else brand
