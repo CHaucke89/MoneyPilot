@@ -88,13 +88,13 @@ class DeveloperLayoutSP(DeveloperLayout):
     dialog = HtmlModalSP(text=text, callback=lambda result: self._on_error_log_closed(result, os.path.exists(self.error_log_path)))
     gui_app.push_widget(dialog)
 
-  def _perform_reboot(self, result):
+  def _perform_soft_reboot(self, result):
     if result == DialogResult.CONFIRM:
-      ui_state.params.put_bool("DoReboot", True)
+      ui_state.params.put_bool("DoSoftReboot", True)
 
   def _on_konik_toggled(self, result):
-    dialog = ConfirmDialog(tr("Soft reboot required for changes to take effect. Soft reboot now?"), tr("Soft Reboot"))
-    gui_app.set_modal_overlay(dialog, callback=self._perform_reboot)
+    dialog = ConfirmDialog(tr("Soft reboot required for changes to take effect. Soft reboot now?"), tr("Soft Reboot"), callback=self._perform_soft_reboot)
+    gui_app.push_widget(dialog)
 
   def _update_state(self):
     disable_updates = ui_state.params.get_bool("DisableUpdates")
