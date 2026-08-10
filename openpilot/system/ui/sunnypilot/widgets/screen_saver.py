@@ -31,7 +31,7 @@ class ScreenSaverSP(Widget):
     self.color = rl.color_from_hsv(self._hue, 1, 1)
 
     self.text = "cloudypilot"
-    self.font_size = 50 if self._is_mici else 150
+    self.font_size = 50 if self._is_mici else 100
     self._start_time = None
     self._dismiss = False
     self._screensaver_timeout = 300
