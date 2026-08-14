@@ -98,7 +98,7 @@ class SelfdriveD(CruiseHelper):
     # TODO: de-couple selfdrived with card/conflate on carState without introducing controls mismatches
     self.car_state_sock = messaging.sub_sock('carState', timeout=20)
 
-    disable_dm = self.params.get_bool("AlwaysOffDm")
+    disable_dm = self.params.get_bool("AlwaysOffDM")
     ignore = self.sensor_packets + self.gps_packets + ['alertDebug', 'lateralManeuverPlan'] + ['modelDataV2SP', 'longitudinalPlanSP']
     if SIMULATION:
       ignore += ['cabinCameraState', 'managerState']
