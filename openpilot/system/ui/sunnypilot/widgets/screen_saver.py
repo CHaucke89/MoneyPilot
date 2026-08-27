@@ -26,8 +26,7 @@ class ScreenSaverSP(Widget):
     self.x = 0.0
     self.y = -100.0
     self.vy = 70.0 if self._is_mici else 200.0
-    self._hue = 255
-    self.color = rl.color_from_hsv(self._hue, 1, 1)
+    self.color = rl.color_from_hsv(30, 1, 1)
 
     self.text = "cloudypilot"
     self.font_size = 50 if self._is_mici else 100
@@ -78,10 +77,10 @@ class ScreenSaverSP(Widget):
       self.x = float(rl.get_random_value(0, max_x))
       self.y = -self.logo_height
 
-      while self._hue_dist((new_hue := rl.get_random_value(0, 360)), self._hue) < 120:
-        pass
-      self._hue = new_hue
-      self.color = rl.color_from_hsv(self._hue, 1, 1)
+      hue = rl.get_random_value(20, 40)
+      saturation = rl.get_random_value(70, 100) / 100.0
+      value = rl.get_random_value(70, 100) / 100.0
+      self.color = rl.color_from_hsv(hue, saturation, value)
       self._needs_new_drop = False
 
     dt = rl.get_frame_time()
@@ -89,11 +88,6 @@ class ScreenSaverSP(Widget):
 
     if self.y > self.rect.height:
       self._needs_new_drop = True
-
-  @staticmethod
-  def _hue_dist(a, b):
-    d = abs(a - b)
-    return min(d, 360 - d)
 
   def _render(self, rect: rl.Rectangle):
     self.set_rect(rect)
