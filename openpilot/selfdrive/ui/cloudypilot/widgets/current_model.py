@@ -1,3 +1,5 @@
+import re
+
 import pyray as rl
 from openpilot.selfdrive.ui.ui_state import ui_state
 from openpilot.system.ui.lib.application import gui_app, FontWeight, FONT_SCALE
@@ -21,7 +23,7 @@ class ModelWidget(Widget):
     self._open_models_callback = callback
 
   def _render(self, rect: rl.Rectangle):
-    rl.draw_rectangle_rounded(rl.Rectangle(rect.x, rect.y, rect.width, 420), 0.04, 20, rl.Color(51, 51, 51, 255))
+    rl.draw_rectangle_rounded(rl.Rectangle(rect.x, rect.y, rect.width, 400), 0.04, 20, rl.Color(51, 51, 51, 255))
 
     x = rect.x + 56
     y = rect.y + 40
@@ -33,7 +35,7 @@ class ModelWidget(Widget):
 
     model_manager = ui_state.sm["modelManagerSP"] if "modelManagerSP" in ui_state.sm.services else None
     if model_manager and model_manager.activeBundle.ref:
-      active_name = model_manager.activeBundle.displayName
+      active_name = re.sub(r"\s*\([^)]*\)\s*$", "", model_manager.activeBundle.displayName)
     else:
       active_name = tr("Default Model")
 
