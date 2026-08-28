@@ -1,3 +1,5 @@
+import re
+
 import pyray as rl
 from openpilot.selfdrive.ui.ui_state import ui_state
 from openpilot.system.ui.lib.application import gui_app, FontWeight, FONT_SCALE
@@ -33,7 +35,7 @@ class ModelWidget(Widget):
 
     model_manager = ui_state.sm["modelManagerSP"] if "modelManagerSP" in ui_state.sm.services else None
     if model_manager and model_manager.activeBundle.ref:
-      active_name = model_manager.activeBundle.displayName
+      active_name = re.sub(r"\s*\([^)]*\)\s*$", "", model_manager.activeBundle.displayName)
     else:
       active_name = tr("Default Model")
 
