@@ -2,10 +2,11 @@
 from openpilot.selfdrive.ui.ui_state import ui_state
 from openpilot.system.ui.lib.multilang import tr
 from openpilot.system.ui.lib.application import gui_app
-from openpilot.system.ui.sunnypilot.widgets.list_view import option_item_sp, toggle_item_sp, LineSeparatorSP
+from openpilot.system.ui.sunnypilot.widgets.list_view import toggle_item_sp, LineSeparatorSP
 from openpilot.selfdrive.ui.sunnypilot.layouts.settings.steering import SteeringLayout
 if gui_app.cloudypilot_ui():
   from openpilot.system.ui.cloudypilot.widgets.list_view import LineSeparatorCP as LineSeparatorSP
+  from openpilot.system.ui.cloudypilot.widgets.list_view import option_item_cp
 
 
 
@@ -22,7 +23,7 @@ class SteeringLayoutCP(SteeringLayout):
       description="",
     )
 
-    self._custom_sr = option_item_sp(
+    self._custom_sr = option_item_cp(
       param="CustomSR",
       title=lambda: tr("Custom Steer Ratio"),
       min_value=1000,
@@ -30,7 +31,8 @@ class SteeringLayoutCP(SteeringLayout):
       value_change_step=10,
       use_float_scaling=True,
       description=lambda: tr("Set a custom steer ratio value."),
-      label_callback=lambda sr: f'{sr / 100.0:.2f}'
+      label_callback=lambda sr: f'{sr / 100.0:.2f}',
+      reset_enabled=True,
     )
 
     items += [
@@ -41,7 +43,7 @@ class SteeringLayoutCP(SteeringLayout):
     ]
     return items
 
-def _update_state(self):
+  def _update_state(self):
     super()._update_state()
 
     self._sr_toggle.action_item.set_enabled(True)
