@@ -2,13 +2,13 @@
 from openpilot.system.ui.lib.multilang import tr
 from openpilot.system.ui.lib.application import gui_app
 from openpilot.system.ui.sunnypilot.widgets.list_view import option_item_sp, LineSeparatorSP
-from openpilot.selfdrive.ui.sunnypilot.layouts.settings.steering import SteeringLayoutSP
+from openpilot.selfdrive.ui.sunnypilot.layouts.settings.steering import SteeringLayout
 if gui_app.cloudypilot_ui():
   from openpilot.system.ui.cloudypilot.widgets.list_view import LineSeparatorCP as LineSeparatorSP
 
 
 
-class SteeringLayoutCP(SteeringLayoutSP):
+class SteeringLayoutCP(SteeringLayout):
   def __init__(self):
     super().__init__()
 
