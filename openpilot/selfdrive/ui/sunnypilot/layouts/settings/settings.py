@@ -31,6 +31,7 @@ from openpilot.system.ui.lib.wifi_manager import WifiManager
 from openpilot.system.ui.sunnypilot.lib.styles import style
 if gui_app.cloudypilot_ui():
   from openpilot.system.ui.cloudypilot.lib.styles import style
+  from openpilot.selfdrive.ui.cloudypilot.layouts.settings.steering import SteeringLayoutCP as SteeringLayout
 from openpilot.system.ui.widgets import Widget
 from openpilot.system.ui.widgets.scroller_tici import Scroller
 
