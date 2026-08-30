@@ -239,17 +239,7 @@ sections:
     widget: toggle
     title: Enable Custom Steer Ratio
     description: Enable custom steering ratio tuning to override default vehicle steering ratio.
-    enablement:
-    - $ref: '#/macros/offroad'
-  sub_panels:
-  - id: steer_ratio_settings
-    label: Steer Ratio Settings
-    trigger_key: CustomSteerRatioEnabled
-    trigger_condition:
-      type: param
-      key: CustomSteerRatioEnabled
-      equals: true
-    items:
+    sub_items:
     - key: SteerRatioValue
       widget: option
       title: Steer Ratio
@@ -257,24 +247,6 @@ sections:
       min: 10.0
       max: 20.0
       step: 0.1
-      enablement:
-      - $ref: '#/macros/offroad'
-      - type: param
-        key: CustomSteerRatioEnabled
-        equals: true
-    - key: SteerRatioPreset
-      widget: multiple_button
-      title: Steer Ratio Preset
-      description: Quick preset options for common steer ratio configurations.
-      options:
-      - value: stock
-        label: Stock
-      - value: responsive
-        label: Responsive
-      - value: smooth
-        label: Smooth
-      - value: custom
-        label: Custom
       enablement:
       - $ref: '#/macros/offroad'
       - type: param
