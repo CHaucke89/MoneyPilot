@@ -6,6 +6,7 @@ See the LICENSE.md file in the root directory for more details.
 """
 import os
 import time
+from enum import IntEnum
 
 import pyray as rl
 
@@ -16,6 +17,11 @@ from openpilot.system.ui.lib.text_measure import measure_text_cached
 from openpilot.system.ui.widgets import Widget
 
 
+class ScreenSaverAnimation(IntEnum):
+  BOUNCE = 0
+  DROP = 1
+
+
 class ScreenSaverSP(Widget):
   def __init__(self, params: Params | None = None):
     super().__init__()
@@ -24,15 +30,19 @@ class ScreenSaverSP(Widget):
     self._is_mici = HARDWARE.get_device_type() == 'mici' or (HARDWARE.get_device_type() == "pc" and os.getenv("BIG") != "1")
 
     self.x = 0.0
-    self.y = -100.0
+    self.y = 100.0
+    self.vx = 120.0 if self._is_mici else 300.0
     self.vy = 70.0 if self._is_mici else 200.0
-    self.color = rl.color_from_hsv(30, 1, 1)
+    self._hue = 255
+    self.color = rl.color_from_hsv(self._hue, 1, 1)
 
     self.text = "cloudypilot"
     self.font_size = 50 if self._is_mici else 100
     self._start_time = None
     self._dismiss = False
     self._screensaver_timeout = 300
+    self._animation = ScreenSaverAnimation.BOUNCE
+    self._hit_last_frame = False
     self._needs_new_drop = True
 
   @property
@@ -45,6 +55,7 @@ class ScreenSaverSP(Widget):
 
   def initialize(self):
     self._screensaver_timeout = self._params.get("ScreenSaverTimeout", return_default=True)
+    self._animation = int(self._params.get("ScreenSaverAnimation", return_default=True))
     if self._start_time is None:
       self._start_time = time.monotonic()
     self._dismiss = False
@@ -72,6 +83,45 @@ class ScreenSaverSP(Widget):
       self._dismiss = True
       self._start_time = None
 
+    dt = rl.get_frame_time()
+
+    if self._animation == ScreenSaverAnimation.BOUNCE:
+      self._update_bounce(dt)
+    else:
+      self._update_drop(dt)
+
+  def _update_bounce(self, dt: float):
+    self.x += self.vx * dt
+    self.y += self.vy * dt
+
+    hit_x = hit_y = False
+    if self.x + self.logo_width > self.rect.width:
+      self.vx *= -1
+      self.x = self.rect.width - self.logo_width
+      hit_x = True
+    elif self.x < 0:
+      self.vx *= -1
+      self.x = 0
+      hit_x = True
+
+    if self.y + self.logo_height > self.rect.height:
+      self.vy *= -1
+      self.y = self.rect.height - self.logo_height
+      hit_y = True
+    elif self.y < 0:
+      self.vy *= -1
+      self.y = 0
+      hit_y = True
+
+    hit = hit_x or hit_y
+    if hit and not self._hit_last_frame:
+      while self._hue_dist((new_hue := rl.get_random_value(0, 360)), self._hue) < 120:
+        pass
+      self._hue = new_hue
+      self.color = rl.color_from_hsv(self._hue, 1, 1)
+    self._hit_last_frame = hit
+
+  def _update_drop(self, dt: float):
     if self._needs_new_drop:
       max_x = max(int(self.rect.width - self.logo_width), 0)
       self.x = float(rl.get_random_value(0, max_x))
@@ -83,11 +133,15 @@ class ScreenSaverSP(Widget):
       self.color = rl.color_from_hsv(hue, saturation, value)
       self._needs_new_drop = False
 
-    dt = rl.get_frame_time()
     self.y += self.vy * dt
 
     if self.y > self.rect.height:
       self._needs_new_drop = True
+
+  @staticmethod
+  def _hue_dist(a, b):
+    d = abs(a - b)
+    return min(d, 360 - d)
 
   def _render(self, rect: rl.Rectangle):
     self.set_rect(rect)
