@@ -28,7 +28,7 @@ class SteeringLayoutCP(SteeringLayout):
       title=lambda: tr("Custom Steer Ratio"),
       min_value=1000,
       max_value=2000,
-      value_change_step=10,
+      value_change_step=5,
       use_float_scaling=True,
       description=lambda: tr("Set a custom steer ratio value."),
       label_callback=lambda sr: f'{sr / 100.0:.2f}',
