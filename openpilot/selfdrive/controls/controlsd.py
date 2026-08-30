@@ -80,13 +80,11 @@ class Controls(ControlsExt):
 
   def state_control(self):
     CS = self.sm['carState']
-    use_custom_sr = self.params.get_bool("UseCustomSR")
-    sr_custom = self.params.get("CustomSR", return_default=True)
 
     # Update VehicleModel
     lp = self.sm['vehicleParameters']
     x = max(lp.stiffnessFactor, 0.1)
-    sr = max(lp.steerRatio, 0.1) if not use_custom_sr else max(sr_custom, 0.1)
+    sr = self.get_steer_ratio(lp)
     self.VM.update_params(x, sr)
 
     steer_angle_without_offset = math.radians(CS.steeringAngleDeg - lp.angleOffsetDeg)
