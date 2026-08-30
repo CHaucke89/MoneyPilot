@@ -81,7 +81,7 @@ class DisplayLayout(Widget):
       param="ScreenSaverAnimation",
       buttons=[lambda: tr("Bounce"), lambda: tr("Drop"), lambda: tr("Bounce (Rotating)")],
       button_width=364,
-      inline=True,
+      inline=False,
     )
     items = [
       self._onroad_brightness,
