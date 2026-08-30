@@ -79,7 +79,7 @@ class DisplayLayout(Widget):
       title=lambda: tr("Screen Saver Animation"),
       description=lambda: tr("Choose how the screen saver text moves: bouncing around the screen, or dropping from the top."),
       param="ScreenSaverAnimation",
-      buttons=[lambda: tr("Bounce"), lambda: tr("Drop")],
+      buttons=[lambda: tr("Bounce"), lambda: tr("Drop"), lambda: tr("Bounce (Rotating)")],
       button_width=364,
       inline=True,
     )

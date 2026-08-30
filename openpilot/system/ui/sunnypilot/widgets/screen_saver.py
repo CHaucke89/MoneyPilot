@@ -20,6 +20,7 @@ from openpilot.system.ui.widgets import Widget
 class ScreenSaverAnimation(IntEnum):
   BOUNCE = 0
   DROP = 1
+  BOUNCE_ROTATE = 2
 
 
 class ScreenSaverSP(Widget):
@@ -44,6 +45,8 @@ class ScreenSaverSP(Widget):
     self._animation = ScreenSaverAnimation.BOUNCE
     self._hit_last_frame = False
     self._needs_new_drop = True
+    self.rotation = 0.0
+    self._rotation_speed = 45.0 if self._is_mici else 90.0
 
   @property
   def is_active(self) -> bool:
@@ -85,8 +88,10 @@ class ScreenSaverSP(Widget):
 
     dt = rl.get_frame_time()
 
-    if self._animation == ScreenSaverAnimation.BOUNCE:
+    if self._animation in (ScreenSaverAnimation.BOUNCE, ScreenSaverAnimation.BOUNCE_ROTATE):
       self._update_bounce(dt)
+      if self._animation == ScreenSaverAnimation.BOUNCE_ROTATE:
+        self.rotation = (self.rotation + self._rotation_speed * dt) % 360
     else:
       self._update_drop(dt)
 
@@ -146,5 +151,11 @@ class ScreenSaverSP(Widget):
   def _render(self, rect: rl.Rectangle):
     self.set_rect(rect)
     rl.clear_background(rl.BLACK)
-    rl.draw_text_ex(self.font, self.text, rl.Vector2(int(self.x), int(self.y)), self.font_size, 0, self.color)
+
+    if self._animation == ScreenSaverAnimation.BOUNCE_ROTATE:
+      origin = rl.Vector2(self.logo_width / 2, self.logo_height / 2)
+      center = rl.Vector2(int(self.x) + self.logo_width / 2, int(self.y) + self.logo_height / 2)
+      rl.draw_text_pro(self.font, self.text, center, origin, self.rotation, self.font_size, 0, self.color)
+    else:
+      rl.draw_text_ex(self.font, self.text, rl.Vector2(int(self.x), int(self.y)), self.font_size, 0, self.color)
     return -1
