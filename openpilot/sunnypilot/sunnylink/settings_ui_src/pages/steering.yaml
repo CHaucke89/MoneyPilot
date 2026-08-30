@@ -231,6 +231,55 @@ sections:
         label: v0.0
       enablement:
       - $ref: '#/macros/offroad'
+- id: steer_ratio
+  title: Steer Ratio
+  description: Custom steering ratio tuning and presets
+  items:
+  - key: CustomSteerRatioEnabled
+    widget: toggle
+    title: Enable Custom Steer Ratio
+    description: Enable custom steering ratio tuning to override default vehicle steering ratio.
+    enablement:
+    - $ref: '#/macros/offroad'
+  sub_panels:
+  - id: steer_ratio_settings
+    label: Steer Ratio Settings
+    trigger_key: CustomSteerRatioEnabled
+    trigger_condition:
+      type: param
+      key: CustomSteerRatioEnabled
+      equals: true
+    items:
+    - key: SteerRatioValue
+      widget: option
+      title: Steer Ratio
+      description: Adjust the steering ratio. Lower values make steering more responsive, higher values make it less responsive.
+      min: 10.0
+      max: 20.0
+      step: 0.1
+      enablement:
+      - $ref: '#/macros/offroad'
+      - type: param
+        key: CustomSteerRatioEnabled
+        equals: true
+    - key: SteerRatioPreset
+      widget: multiple_button
+      title: Steer Ratio Preset
+      description: Quick preset options for common steer ratio configurations.
+      options:
+      - value: stock
+        label: Stock
+      - value: responsive
+        label: Responsive
+      - value: smooth
+        label: Smooth
+      - value: custom
+        label: Custom
+      enablement:
+      - $ref: '#/macros/offroad'
+      - type: param
+        key: CustomSteerRatioEnabled
+        equals: true
 - id: lane_change
   title: Lane Change
   description: Automatic lane change timing and behavior
