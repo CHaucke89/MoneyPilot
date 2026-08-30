@@ -243,7 +243,7 @@ sections:
     - key: CustomSR
       widget: option
       title: Steer Ratio
-      description: Adjust the steering ratio. Lower values make steering more responsive, higher values make it less responsive.
+      description: Adjust the steering ratio.
       min: 10.0
       max: 20.0
       step: 0.1
