@@ -509,16 +509,16 @@
           "description": "Custom steering ratio tuning and presets",
           "items": [
             {
-              "key": "CustomSteerRatioEnabled",
+              "key": "UseCustomSR",
               "widget": "toggle",
               "title": "Enable Custom Steer Ratio",
               "description": "Enable custom steering ratio tuning to override default vehicle steering ratio.",
               "sub_items": [
                 {
-                  "key": "SteerRatioValue",
+                  "key": "CustomSR",
                   "widget": "option",
                   "title": "Steer Ratio",
-                  "description": "Adjust the steering ratio. Lower values make steering more responsive, higher values make it less responsive.",
+                  "description": "Adjust the steering ratio.",
                   "min": 10.0,
                   "max": 20.0,
                   "step": 0.1,
@@ -528,7 +528,7 @@
                     },
                     {
                       "type": "param",
-                      "key": "CustomSteerRatioEnabled",
+                      "key": "UseCustomSR",
                       "equals": true
                     }
                   ]
