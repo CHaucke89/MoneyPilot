@@ -35,8 +35,7 @@ class ScreenSaverSP(Widget):
     self.y = 100.0
     self.vx = 120.0 if self._is_mici else 300.0
     self.vy = 70.0 if self._is_mici else 200.0
-    self._hue = 255
-    self.color = rl.color_from_hsv(self._hue, 1, 1)
+    self.color = self._pick_orange_shade()
 
     self.text = "cloudypilot"
     self.font_size = 50 if self._is_mici else 100
@@ -74,6 +73,12 @@ class ScreenSaverSP(Widget):
     self._start_time = None
     gui_app.pop_widget()
     return super()._handle_mouse_release(mouse_pos)
+
+  def _pick_orange_shade(self):
+    hue = rl.get_random_value(20, 40)
+    saturation = rl.get_random_value(70, 100) / 100.0
+    value = rl.get_random_value(70, 100) / 100.0
+    return rl.color_from_hsv(hue, saturation, value)
 
   def _update_state(self):
     super()._update_state()
@@ -151,10 +156,7 @@ class ScreenSaverSP(Widget):
 
     hit = hit_x or hit_y
     if hit and not self._hit_last_frame:
-      while self._hue_dist((new_hue := rl.get_random_value(0, 360)), self._hue) < 120:
-        pass
-      self._hue = new_hue
-      self.color = rl.color_from_hsv(self._hue, 1, 1)
+      self.color = self._pick_orange_shade()
     self._hit_last_frame = hit
 
   def _update_drop(self, dt: float):
@@ -162,22 +164,13 @@ class ScreenSaverSP(Widget):
       max_x = max(int(self.rect.width - self.logo_width), 0)
       self.x = float(rl.get_random_value(0, max_x))
       self.y = -self.logo_height
-
-      hue = rl.get_random_value(20, 40)
-      saturation = rl.get_random_value(70, 100) / 100.0
-      value = rl.get_random_value(70, 100) / 100.0
-      self.color = rl.color_from_hsv(hue, saturation, value)
+      self.color = self._pick_orange_shade()
       self._needs_new_drop = False
 
     self.y += self.vy * dt
 
     if self.y > self.rect.height:
       self._needs_new_drop = True
-
-  @staticmethod
-  def _hue_dist(a, b):
-    d = abs(a - b)
-    return min(d, 360 - d)
 
   def _render(self, rect: rl.Rectangle):
     self.set_rect(rect)
