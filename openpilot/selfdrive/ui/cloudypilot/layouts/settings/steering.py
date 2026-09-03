@@ -37,7 +37,6 @@ class SteeringLayoutCP(SteeringLayout):
 
     items += [
       self._sr_toggle,
-      LineSeparatorSP(40),
       self._custom_sr,
       LineSeparatorSP(40),
     ]
