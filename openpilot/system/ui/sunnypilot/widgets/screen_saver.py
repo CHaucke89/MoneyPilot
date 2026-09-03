@@ -4,6 +4,7 @@ Copyright (c) 2021-, Haibin Wen, sunnypilot, and a number of other contributors.
 This file is part of sunnypilot and is licensed under the MIT License.
 See the LICENSE.md file in the root directory for more details.
 """
+import math
 import os
 import time
 from enum import IntEnum
@@ -100,23 +101,53 @@ class ScreenSaverSP(Widget):
     self.y += self.vy * dt
 
     hit_x = hit_y = False
-    if self.x + self.logo_width > self.rect.width:
-      self.vx *= -1
-      self.x = self.rect.width - self.logo_width
-      hit_x = True
-    elif self.x < 0:
-      self.vx *= -1
-      self.x = 0
-      hit_x = True
 
-    if self.y + self.logo_height > self.rect.height:
-      self.vy *= -1
-      self.y = self.rect.height - self.logo_height
-      hit_y = True
-    elif self.y < 0:
-      self.vy *= -1
-      self.y = 0
-      hit_y = True
+    if self._animation == ScreenSaverAnimation.BOUNCE_ROTATE:
+      # For rotating text, use diagonal distance from center to corner to keep it fully on-screen
+      half_diagonal = math.sqrt((self.logo_width / 2) ** 2 + (self.logo_height / 2) ** 2)
+      center_x = self.x + self.logo_width / 2
+      center_y = self.y + self.logo_height / 2
+
+      if center_x + half_diagonal > self.rect.width:
+        self.vx *= -1
+        center_x = self.rect.width - half_diagonal
+        hit_x = True
+      elif center_x - half_diagonal < 0:
+        self.vx *= -1
+        center_x = half_diagonal
+        hit_x = True
+
+      if center_y + half_diagonal > self.rect.height:
+        self.vy *= -1
+        center_y = self.rect.height - half_diagonal
+        hit_y = True
+      elif center_y - half_diagonal < 0:
+        self.vy *= -1
+        center_y = half_diagonal
+        hit_y = True
+
+      # Convert back to top-left corner position
+      self.x = center_x - self.logo_width / 2
+      self.y = center_y - self.logo_height / 2
+    else:
+      # Regular bounce for non-rotating animations
+      if self.x + self.logo_width > self.rect.width:
+        self.vx *= -1
+        self.x = self.rect.width - self.logo_width
+        hit_x = True
+      elif self.x < 0:
+        self.vx *= -1
+        self.x = 0
+        hit_x = True
+
+      if self.y + self.logo_height > self.rect.height:
+        self.vy *= -1
+        self.y = self.rect.height - self.logo_height
+        hit_y = True
+      elif self.y < 0:
+        self.vy *= -1
+        self.y = 0
+        hit_y = True
 
     hit = hit_x or hit_y
     if hit and not self._hit_last_frame:
