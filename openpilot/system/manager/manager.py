@@ -30,7 +30,7 @@ def manager_auth(serial, build_metadata) -> None:
   # Dev branches allow disabling of Driver Monitoring as well as other "unsafe" changes that will result in a device ban from comma.ai.
   # This function prevents dev branches from loading unless the SHA-2 hash of the device's serial matches the value stored in the
   # AuthorizedHash param. This is primarily a soft roadblock to protect others from inadvertently installing an unsafe branch and getting banned,
-  # so it's quite easy to circumvent with some basic know-how. Tread carefully!
+  # so it's quite easy to circumvent with some basic know-how. Be safe!
 
   params = Params()
   authorized_hash = params.get("AuthorizedHash")
