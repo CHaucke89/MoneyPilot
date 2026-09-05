@@ -28,10 +28,10 @@ from openpilot.cloudypilot.system.manager.hash import get_device_hash, set_autho
 
 
 def manager_auth(serial, build_metadata) -> None:
-  """This branch allows disabling of Driver Monitoring as well as other "unsafe" changes that will result in a device ban from
-  comma.ai. This prevents the software from loading unless the SHA-2 hash of the device's serial matches the value stored in the
-  AuthorizedHash param. This is primarily a soft roadblock to protect others from inadvertently installing this branch and getting banned,
-  so it's quite easy to circumvent with some basic know-how. Tread carefully!"""
+  # This branch allows disabling of Driver Monitoring as well as other "unsafe" changes that will result in a device ban from
+  # comma.ai. This prevents the software from loading unless the SHA-2 hash of the device's serial matches the value stored in the
+  # AuthorizedHash param. This is primarily a soft roadblock to protect others from inadvertently installing this branch and getting banned,
+  # so it's quite easy to circumvent with some basic know-how. Tread carefully!
 
   params = Params()
   authorized_hash = params.get("AuthorizedHash")
