@@ -1,5 +1,4 @@
 from unittest import mock
-import pytest
 from openpilot.common.test import OpenpilotTestCase
 from openpilot.cereal import log
 from opendbc.car.structs import car
@@ -58,8 +57,8 @@ class TestStateControlSteerRatio(OpenpilotTestCase):
     sr = max(lp.steerRatio, 0.1) if not use_custom_sr else 999  # Should use learned
 
     # Verify
-    assert sr == 12.5
-    assert sr != 999
+    self.assertEqual(sr, 12.5)
+    self.assertNotEqual(sr, 999)
 
   def test_custom_steer_ratio_used_when_enabled(self):
     """When UseCustomSR is True, custom steer ratio should be used."""
@@ -79,38 +78,38 @@ class TestStateControlSteerRatio(OpenpilotTestCase):
     sr = max(lp.steerRatio, 0.1) if not use_custom_sr else max(sr_custom_val, 0.1)
 
     # Verify
-    assert sr == 14.0
-    assert sr != 12.5
+    self.assertEqual(sr, 14.0)
+    self.assertNotEqual(sr, 12.5)
 
   def test_steer_ratio_clamping_below_min(self):
     """Steer ratio below 0.1 should be clamped to 0.1."""
     sr = max(0.05, 0.1)
-    assert sr == pytest.approx(0.1, abs=1e-6)
+    self.assertAlmostEqual(sr, 0.1, places=6)
 
   def test_steer_ratio_clamping_at_min(self):
     """Steer ratio at 0.1 should remain at 0.1."""
     sr = max(0.1, 0.1)
-    assert sr == pytest.approx(0.1, abs=1e-6)
+    self.assertAlmostEqual(sr, 0.1, places=6)
 
   def test_steer_ratio_clamping_above_min(self):
     """Steer ratio above 0.1 should not be clamped."""
     sr = max(0.15, 0.1)
-    assert sr == pytest.approx(0.15, abs=1e-6)
+    self.assertAlmostEqual(sr, 0.15, places=6)
 
   def test_steer_ratio_clamping_zero(self):
     """Zero steer ratio should be clamped to 0.1."""
     sr = max(0.0, 0.1)
-    assert sr == pytest.approx(0.1, abs=1e-6)
+    self.assertAlmostEqual(sr, 0.1, places=6)
 
   def test_steer_ratio_clamping_negative(self):
     """Negative steer ratio should be clamped to 0.1."""
     sr = max(-5.0, 0.1)
-    assert sr == pytest.approx(0.1, abs=1e-6)
+    self.assertAlmostEqual(sr, 0.1, places=6)
 
   def test_steer_ratio_clamping_high_value(self):
     """High steer ratio value should not be clamped."""
     sr = max(20.0, 0.1)
-    assert sr == pytest.approx(20.0, abs=1e-6)
+    self.assertAlmostEqual(sr, 20.0, places=6)
 
   def test_stiffness_factor_clamped_to_min(self):
     """Stiffness factor below 0.1 should be clamped to 0.1."""
@@ -126,7 +125,7 @@ class TestStateControlSteerRatio(OpenpilotTestCase):
     x = max(lp.stiffnessFactor, 0.1)
 
     # Verify
-    assert x == 0.1
+    self.assertEqual(x, 0.1)
 
   def test_vm_update_params_called_with_correct_values(self):
     """VehicleModel.update_params should be called with clamped values."""
@@ -150,26 +149,26 @@ class TestStateControlSteerRatio(OpenpilotTestCase):
     # Verify (use approx for floating point comparison)
     self.mock_vm.update_params.assert_called_once()
     args, _ = self.mock_vm.update_params.call_args
-    assert args[0] == pytest.approx(0.8, abs=1e-6)
-    assert args[1] == pytest.approx(11.5, abs=1e-6)
+    self.assertAlmostEqual(args[0], 0.8, places=6)
+    self.assertAlmostEqual(args[1], 11.5, places=6)
 
   def test_mode_selection_learned_when_custom_disabled(self):
     """Learned ratio selected when custom disabled."""
     sr = self._simulate_state_control_sr_logic(False, 12.0, 13.0)
-    assert sr == pytest.approx(12.0, abs=1e-6)
+    self.assertAlmostEqual(sr, 12.0, places=6)
 
   def test_mode_selection_custom_when_custom_enabled(self):
     """Custom ratio selected when custom enabled."""
     sr = self._simulate_state_control_sr_logic(True, 12.0, 13.0)
-    assert sr == pytest.approx(13.0, abs=1e-6)
+    self.assertAlmostEqual(sr, 13.0, places=6)
 
   def test_mode_selection_learned_clamped_when_disabled(self):
     """Learned ratio clamped when custom disabled."""
     sr = self._simulate_state_control_sr_logic(False, 0.05, 13.0)
-    assert sr == pytest.approx(0.1, abs=1e-6)
+    self.assertAlmostEqual(sr, 0.1, places=6)
 
   def test_mode_selection_custom_clamped_when_enabled(self):
     """Custom ratio clamped when custom enabled."""
     sr = self._simulate_state_control_sr_logic(True, 12.0, 0.05)
-    assert sr == pytest.approx(0.1, abs=1e-6)
+    self.assertAlmostEqual(sr, 0.1, places=6)
 
