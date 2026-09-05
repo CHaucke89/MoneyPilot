@@ -12,7 +12,7 @@ class DeveloperLayoutCP(DeveloperLayoutSP):
 
   def _initialize_items(self):
     super()._initialize_items()
-    self.permalatch = toggle_item_sp(tr("PermaLatch"), tr("Permanantly latch the driver seatbelt."), param="PermaLatch")
+    self.permalatch = toggle_item_sp(tr("PermaLatch"), tr("Permanently latch the driver seatbelt."), param="PermaLatch")
     self.items.append(self.permalatch)
 
   def _update_state(self):
