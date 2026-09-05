@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import datetime
-import hashlib
 import os
 import signal
 import sys
