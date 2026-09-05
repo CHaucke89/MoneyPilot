@@ -27,7 +27,7 @@ from openpilot.sunnypilot.system.params_migration import run_migration
 from openpilot.cloudypilot.system.manager.hash import get_device_hash, set_authorized_hash, compare_hashes
 
 
-def manager_auth(serial) -> None:
+def manager_auth(serial, build_metadata) -> None:
   """This branch allows disabling of Driver Monitoring as well as other "unsafe" changes that will result in a device ban from
   comma.ai. This prevents the software from loading unless the SHA-2 hash of the device's serial matches the value stored in the
   AuthorizedHash param. This is primarily a soft roadblock to protect others from inadvertently installing this branch and getting banned,
@@ -41,7 +41,8 @@ def manager_auth(serial) -> None:
     set_authorized_hash(device_hash, params)
     authorized_hash = params.get("AuthorizedHash")
 
-  compare_hashes(device_hash, authorized_hash)
+  if build_metadata.channel_type == "development":
+    compare_hashes(device_hash, authorized_hash)
 
 
 def manager_init() -> None:
@@ -89,7 +90,7 @@ def manager_init() -> None:
 
   # set params
   serial = HARDWARE.get_serial()
-  manager_auth(serial)
+  manager_auth(serial, build_metadata)
   params.put("Version", build_metadata.openpilot.version, block=True)
   params.put("GitCommit", build_metadata.openpilot.git_commit, block=True)
   params.put("GitCommitDate", build_metadata.openpilot.git_commit_date, block=True)
