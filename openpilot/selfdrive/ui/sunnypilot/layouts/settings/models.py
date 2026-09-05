@@ -23,8 +23,6 @@ from openpilot.system.ui.widgets.toggle import ON_COLOR
 
 from openpilot.sunnypilot.models.runners.constants import CUSTOM_MODEL_PATH
 from openpilot.system.ui.sunnypilot.lib.styles import style
-if gui_app.cloudypilot_ui():
-  from openpilot.system.ui.cloudypilot.lib.styles import style
 from openpilot.system.ui.sunnypilot.lib.utils import NoElideButtonAction, ScrollingButtonAction
 from openpilot.system.ui.sunnypilot.widgets.list_view import ListItemSP, toggle_item_sp, option_item_sp
 from openpilot.system.ui.sunnypilot.widgets.download_status import download_status_item
@@ -33,7 +31,9 @@ from openpilot.system.ui.sunnypilot.widgets.tree_dialog import TreeOptionDialog,
 if gui_app.sunnypilot_ui():
   from openpilot.system.ui.sunnypilot.widgets.list_view import button_item_sp as button_item
 
-from openpilot.system.ui.cloudypilot.widgets.list_view import option_item_cp as option_item_sp
+if gui_app.cloudypilot_ui():
+  from openpilot.system.ui.cloudypilot.lib.styles import style
+  from openpilot.system.ui.cloudypilot.widgets.list_view import option_item_cp as option_item_sp
 
 
 class ModelsLayout(Widget):
