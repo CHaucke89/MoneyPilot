@@ -42,6 +42,7 @@ def manager_auth(serial, build_metadata) -> None:
     authorized_hash = params.get("AuthorizedHash")
 
   if build_metadata.channel_type == "development":
+    print("Development branch found. Comparing serial number hashes.")
     compare_hashes(device_hash, authorized_hash)
 
 
